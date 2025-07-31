@@ -218,11 +218,29 @@
   z-index: 999;
 }
 
-.modal iframe {
-  width: 80%;
-  height: 90%;
-  background-color: white;
-  pointer-events: none; /* bloqueia botão direito */
-  user-select: none;
+.modal img {
+  max-height: 70vh;
+  max-width: 80vw;   
+  border-radius: 8px; 
+  box-shadow: 0 0 20px rgba(0,0,0,0.3); 
+  object-fit: contain; 
 }
+.view-cert {
+    background-color: #4c6faf;
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.view-cert:hover {
+    background-color: #425f96;
+    transform: translateY(-2px);
+}
+
 
