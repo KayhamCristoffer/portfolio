@@ -7,13 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfólio Kayham Cristoffer</title>
     <link rel="stylesheet" href="css/styles.css">
-    <!-- Google Fonts - Roboto -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
 
-    <nav>
+    <nav class="sticky-nav">
         <ul>
             <li><a href="#sobre">Sobre Mim</a></li>
             <li><a href="#formacao">Formação</a></li>
@@ -24,24 +23,34 @@
         </ul>
     </nav>
 </head>
+
 <body>
-
-    <section id="sobre">
-        <h2>Sobre Mim</h2>
-        <p>Sou estudante de Ciência da Computação pela Faculdade UniDrummond e atualmente estagiário no Tribunal de
-            Contas do Estado de São Paulo (TCESP), atuando na área de Tecnologia da Informação. Contribuo ativamente em
-            setores como o Gabinete de Tecnologia (GDTEC) e a Seção Técnica de Operações de TI (DTEC-1), participando da
-            análise e documentação de equipamentos, pesquisa de novas soluções tecnológicas, desenvolvimento de
-            ferramentas integradas com Microsoft 365, além de oferecer suporte técnico a diversas áreas institucionais.
-        </p>
-
-        <p>Estou em constante processo de evolução profissional e acadêmica, investindo na prática de tecnologias
-            voltadas à infraestrutura, segurança da informação e automação. Complemento minha formação com estudos
-            linguísticos voltados para o inglês técnico na Wise Up, buscando ampliar minha comunicação no contexto
-            global de TI.</p>
-
-        <p>Possuo deficiência visual no olho direito (CID H54-4), o que nunca limitou minha atuação ou
-            desempenho profissional. Encaro essa condição com resiliência e foco.</p>
+    <section id="sobre" class="sobre-container">
+        <div class="sobre-conteudo">
+            <div class="imagem-sobre">
+                <img src="fotos/kayham-perfil.jpg" alt="Foto de Kayham" class="foto-sobre">
+            </div>
+            <div class="texto-sobre">
+                <h2>Sobre Mim - Kayham Cristoffer Guilhermino de Oliveira</h2>
+                <p>Sou estudante de Ciência da Computação pela Faculdade UniDRUMMOND C. Univ. Carlos Drummond de Andrade
+                    e atualmente estagiário no Tribunal de Contas do Estado de São Paulo (TCESP), na área de Tecnologia
+                    da Informação. Contribuo
+                    ativamente na seção DTI / D.Tec (Diretoria de Tecnologia) nos departamentos Gabinete de Tecnologia
+                    (GDTEC) e a Seção Técnica de Operações de TI (DTEC-1),
+                    participando da análise e documentação de equipamentos, pesquisa de novas soluções tecnológicas,
+                    desenvolvimento de
+                    ferramentas integradas com Microsoft 365, além de oferecer suporte técnico a diversas áreas
+                    institucionais.
+                </p>
+                <p>Estou em constante processo de evolução profissional e acadêmica, investindo na prática de
+                    tecnologias
+                    voltadas à infraestrutura, gestão e segurança da informação e automação. Complemento minha formação
+                    com estudos
+                    linguísticos voltados para o inglês técnico na Wise Up, buscando ampliar minha comunicação no
+                    contexto global de TI.</p>
+                <p>Possuo deficiência visual no olho direito (CID H54-4), o que nunca limitou minha atuação ou
+                    desempenho profissional. Encaro essa condição com resiliência e foco.</p>
+            </div>
     </section>
 
     <section id="formacao">
@@ -63,42 +72,304 @@
     <section id="experiencias">
         <h2>Experiências Profissionais</h2>
         <article>
-            <h3>Tribunal de Contas do Estado de São Paulo (TCESP)</h3>
-            <p>Estágio em TI – Agosto 2024 a Julho 2026</p>
-            <p>Atuação multifuncional em redes, suporte, automações e compras públicas.</p>
+            <h3>Tribunal de Contas do Estado de São Paulo (TCE-SP)</h3>
+            <p><b>Estágio em TI</b> – Agosto 2024 a Julho 2026</p>
+            <p>Durante o estágio realizado no TCE-SP, foram desempenhadas atividades multifuncionais voltadas à área de
+                tecnologia da informação, com foco em infraestrutura, gestão de equipamentos, suporte técnico e
+                administração de redes. No setor GDTEC, houve atuação na elaboração de relatórios técnicos, organização
+                de ativos e acompanhamento de editais de aquisição, com participação ativa na criação de Termos de
+                Referência e validação de conformidade técnica nos processos licitatórios. Foram implantadas e
+                documentadas imagens de sistemas operacionais (Windows 10/11) utilizando Clonezilla, com apoio de
+                scripts em VBScript e PowerShell para automação de instalação, remoção de softwares e configuração de
+                máquinas. O estágio incluiu também a consolidação de relatórios mensais de impressão via Excel,
+                Microsoft Access e SimpressUX, contribuindo para o controle de custos e otimização de recursos.
+                Posteriormente, ocorreu a transferência para o departamento DTEC-01, com aprofundamento nos estudos de
+                licenciamento de softwares, infraestrutura hiperconvergente, e pesquisas voltadas à aquisição e
+                manutenção de soluções como Windows Server, Oracle, MySQL e Storage NetApp. Além disso, foram
+                desenvolvidas e aplicadas soluções de backup utilizando Bareos em ambientes virtuais com Ubuntu. O
+                estágio proporcionou ainda o estudo prático de hardware, segurança da informação e processos de compras
+                públicas, com contribuição técnica e estratégica para os setores envolvidos.</p>
         </article>
-        <!-- Adicionar outras experiências como Analista de Infraestrutura, Web Designer -->
+        <article>
+            <h3>Inter Produções</h3>
+            <p>Freelancer – Auxiliar de Rede/Internet – Novembro 2024 a Fevereiro 2025</p>
+            <p>Durante o trabalho freelance desenvolvido na Inter Produções, foram realizadas atividades voltadas à
+                implementação e otimização da infraestrutura de rede em um galpão industrial. A atuação envolveu desde a
+                análise técnica do ambiente até a instalação física de cabeamentos e equipamentos. Foi elaborado um
+                planejamento estratégico completo, contemplando a localização de servidores, switches, roteadores,
+                pontos de acesso e sistemas de armazenamento. A infraestrutura física incluiu a montagem de cabeamento
+                estruturado (CAT5) em todo o galpão, conectando computadores, impressoras e access points, garantindo
+                ampla cobertura Wi-Fi. Adicionalmente, foram configurados dispositivos de rede da marca TP-Link
+                (roteadores, switches e access points), promovendo melhorias no desempenho e na estabilidade da rede
+                instalada. Para assegurar disponibilidade contínua e minimizar falhas de conexão, também foi
+                implementado um roteador balanceador de carga, permitindo redundância de links de internet e o
+                gerenciamento inteligente do tráfego entre múltiplas conexões.</p>
     </section>
 
     <section id="projetos">
-        <h2>Projetos</h2>
+        <h2>Experiências em Trabalho e Projetos</h2>
+        <article>
+            <h3>Analista de Infraestrutura</h3>
+            <p>Projetos Acadêmicos - Janeiro 2019 a Hoje</p>
+            <p>Responsável pelo planejamento, implementação e manutenção de sistemas de rede e servidores, garantindo a
+                operação eficiente da infraestrutura tecnológica. Experiência em diagnóstico de problemas de rede,
+                configuração de dispositivos e garantia de segurança cibernética. Meu papel assegura que a
+                infraestrutura da empresa seja robusta e confiável, minimizando riscos e maximizando a continuidade dos
+                serviços.</p>
+        </article>
+        <article>
+            <h3>Web Designer</h3>
+            <p>Projetos Acadêmicos - Janeiro 2019 a Hoje</p>
+            <p>Criação de sites cooperativos e pessoais, com foco na experiência do usuário. Desenvolvo designs
+                intuitivos e com conteúdo relevante, sempre buscando proporcionar uma experiência online envolvente e
+                acessível. Tenho experiência com plataformas como WordPress e Wix, bem como com as linguagens HTML, CSS,
+                e design visual usando Canva e outras ferramentas de design.</p>
+        </article>
+        <article>
+            <h3>Gestão em TI</h3>
+            <p>Projetos Acadêmicos - Janeiro 2022 a Hoje</p>
+            <p>Desenvolvimento e implementação de modelos de segurança da informação, adotando uma abordagem proativa
+                para identificar e mitigar riscos. Asseguro a integridade, confidencialidade e disponibilidade dos
+                dados, em conformidade com as melhores práticas de segurança cibernética e com os padrões da indústria.
+                Trabalho com equipes multifuncionais para garantir a robustez das soluções tecnológicas.</p>
+        </article>
+        <article>
+            <h3>Gestão e Administração em TI</h3>
+            <p>Projetos Acadêmicos - Janeiro 2024 a Hoje</p>
+            <p>Durante meu estágio, estou envolvido em relatórios gerenciais, comunicação com outros departamentos e
+                levantamento de requisitos de hardware/software para a criação de editais de compras e contratação de
+                serviços. Minha função administrativa contribui para o planejamento eficiente e a execução de projetos
+                de TI, além de apoiar o processo de tomada de decisões estratégicas para a infraestrutura tecnológica.
+            </p>
+        </article>
+    </section>
+
+    <section id="voluntario">
+        <h2>Projetos Voluntario</h2>
         <ul>
-            <li><strong>Projeto Hiper Infra:</strong> Website informativo sobre infraestrutura hiperconvergente.</li>
             <li><strong>BSidesSP 2025:</strong> Apoio operacional e participação em palestras de cibersegurança.</li>
         </ul>
     </section>
 
     <section id="habilidades">
-        <h2>Habilidades Técnicas</h2>
-        <ul>
-            <li>Administração de servidores Windows/Linux</li>
-            <li>Programação em Python, Java, HTML, CSS</li>
-            <li>Automação com PowerShell e VBScript</li>
-            <li>Microsoft 365, VMware, Cisco Packet Tracer</li>
-            <li>Web design com WordPress e Wix</li>
-        </ul>
+        <h2>Habilidades e Competências</h2>
+        <div class="grid-container">
+
+            <div class="card">
+                <h3>💼 Comportamentais</h3>
+                <ul>
+                    <li>Proatividade e iniciativa</li>
+                    <li>Liderança e comunicação</li>
+                    <li>Comprometimento e pontualidade</li>
+                    <li>Organização e disciplina</li>
+                    <li>Criatividade e flexibilidade</li>
+                    <li>Colaboração multidisciplinar</li>
+                    <li>Foco em resultados</li>
+                    <li>Ética profissional</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>🧰 Redes & Infraestrutura</h3>
+                <ul>
+                    <li>Administração Windows/Linux Server</li>
+                    <li>Configuração de redes cabeadas e sem fio</li>
+                    <li>VirtualBox e VMware</li>
+                    <li>Packet Tracer e Visio</li>
+                    <li>Suporte e diagnóstico técnico</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>💻 Programação & Design</h3>
+                <ul>
+                    <li>Python, Java, HTML, CSS</li>
+                    <li>Visual Studio, Eclipse</li>
+                    <li>WordPress e Wix</li>
+                    <li>Canva e FilmoraPro</li>
+                    <li>Integrações com Microsoft 365</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>⚙️ Automação & Sistemas</h3>
+                <ul>
+                    <li>VBScript e PowerShell</li>
+                    <li>Gerenciamento de usuários e permissões</li>
+                    <li>Noções de Cloud (AWS)</li>
+                    <li>Automação com IA</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>📦 Softwares</h3>
+                <ul>
+                    <li>Microsoft 365, AutoCAD</li>
+                    <li>Packet Tracer, Visio</li>
+                    <li>VMware, VirtualBox</li>
+                    <li>Wix, WordPress, Canva</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>🌍 Idiomas</h3>
+                <ul>
+                    <li>Português – Nativo</li>
+                    <li>Inglês técnico – Intermediário (TI)</li>
+                </ul>
+            </div>
+
+        </div>
     </section>
 
-    <section id="contato">
+    <section id="conquistas">
+        <h2>Conquistas / Certificados: "Ajustar"</h2>
+        <div class="grid-container">
+            <div class="card">
+                <h3 class="toggle">🔽 Curso para Cadista para a Construção Civil</h3>
+                <ul class="content">
+                    <li>Total de horas: 160h</li>
+                    <li>Senac Penha (2018)</li>
+                    <li>AutoCAD</li>
+                    <li>Desenho Técnico</li>
+                    <li><button class="view-cert"
+                            data-image="C:\Users\e-koliveira\Downloads\Teste\img\certificados\Cabos submarinos como a internet atravessa oceanos.pdf">📄
+                            Ver Certificado</button></li>
+                </ul>
+
+            </div>
+            <div class="card">
+                <h3 class="toggle">🔽 Curso em Técnico em Informática</h3>
+                <ul class="content">
+                    <li>Total de horas: 1200h</li>
+                    <li>Senac Santo André (2018-2019)</li>
+                    <li>Assistente de Suporte e Manutenção de Computadores</li>
+                    <li>Assistente de Operação de Redes de Computadores</li>
+                    <li>Assistente de Operação de Redes de Computadores</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3 class="toggle">🔽 Curso em Técnico em Redes de Computadores</h3>
+                <ul class="content">
+                    <li>Total de horas: 1000h</li>
+                    <li>Senac São Miguel Paulista (2022-2023)</li>
+                    <li>Assistente de Operação de Redes de Computadores</li>
+                    <li>Assistente de Implantação e Administração de Infraestrutura de Redes de Computadores</li>
+                    <li>Assistente de Segurança em Redes de Computadores</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3 class="toggle">🔽 Curso para Certificação da Cisco</h3>
+                <ul class="content">
+                    <li>Total de horas: 216h</li>
+                    <li>Senac São Miguel Paulista (2022-2023)</li>
+                    <li>CCNAv7: Introduction to Networks - CCNA 1</li>
+                    <li>CCNAv7: Switching, Routing and Wireless Essentials - CCNA 2</li>
+                    <li>CCNAv7: Enterprise Networking, Security and Automation - CCNA 3</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3 class="toggle">🔽 Curso IPv6 Básico ao Avançado</h3>
+                <ul class="content">
+                    <li>Total de horas: 40h</li>
+                    <li>Nic.br (2023)</li>
+                    <li>IPv4</li>
+                    <li>IPv6</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3 class="toggle">🔽 Curso de Inteligência Artificial</h3>
+                <ul class="content">
+                    <li>Total de horas: 30h</li>
+                    <li>Conquer Bunisses School (2024)</li>
+                    <li>ChatGPT</li>
+                    <li>Copilot</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3 class="toggle">🔽 Curso de Inglês</h3>
+                <ul class="content">
+                    <li>WiseUp Online (2025-hoje)</li>
+                    <li>Modulo 1: Complemento</li>
+                    <li>Modulo 2: Complemento</li>
+                    <li>Modulo 3: Andamento</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3 class="toggle">🔽 Bacharelado em Ciência da Computação</h3>
+                <ul class="content">
+                    <li>WiseUp Online (2023-hoje)</li>
+                    <li>1º Semestre: Completo</li>
+                    <li>2º Semestre: Completo</li>
+                    <li>3º Semestre: Completo</li>
+                    <li>4º Semestre: Completo</li>
+                    <li>5º Semestre: Andamento</li>
+                </ul>
+            </div>
+            <script>
+                document.querySelectorAll('.toggle').forEach(function (title) {
+                    title.addEventListener('click', function () {
+                        this.parentElement.classList.toggle('open');
+                    });
+                });
+            </script>
+            <div id="pdfModal" class="modal">
+            <iframe id="pdfViewer" src="" frameborder="0"></iframe>
+        </div>
+        <script>
+            const modal = document.getElementById("pdfModal");
+            const viewer = document.getElementById("pdfViewer");
+
+            document.querySelectorAll(".view-cert").forEach(button => {
+                button.addEventListener("click", () => {
+                    const file = button.getAttribute("data-pdf");
+                    viewer.src = `https://docs.google.com/gview?url=${file}&embedded=true`; // alternativa sem baixar
+                    modal.style.display = "flex";
+                });
+            });
+
+            modal.addEventListener("click", () => {
+                modal.style.display = "none";
+                viewer.src = "";
+            });
+        </script>
+        </div>
+
+        
+
+
+    </section>
+
+    <footer id="contato">
         <h2>Contato</h2>
-        <p>Email: <a href="mailto:kayham98.1@hotmail.com">kayham98.1@hotmail.com</a></p>
-        <p>LinkedIn: <a href="https://www.linkedin.com/in/kayhamcristoffer">/in/kayhamcristoffer</a></p>
-        <p>Portfólio: <a href="https://kayhamoliveira98.wixsite.com/my-site">Wix Portfolio</a></p>
-    </section>
-
-    <footer>
-        <p>&copy; Criado por Kayham Oliveira - 2025</p>
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h4>Endereço</h4>
+                <p>Jd. Rodolfo Pirani, São Paulo – SP</p>
+                <h4>📞 Telefone</h4>
+                <p>+55 11 99454-6931</p>
+            </div>
+            <div class="footer-column">
+                <h4>📧 Email</h4>
+                <p><a href="mailto:kayham98.1@hotmail.com">kayham98.1@hotmail.com</a></p>
+            </div>
+            <div class="footer-column">
+                <h4>🔗 LinkedIn</h4>
+                <p><a href="https://www.linkedin.com/in/kayhamcristoffer">/in/kayhamcristoffer</a></p>
+            </div>
+            <div class="footer-column">
+                <h4>🌐 Portfólios</h4>
+                <p><a href="https://kayhamoliveira98.wixsite.com/my-site">Wix</a></p>
+                <p><a href="https://kayhamcristoffer.github.io/portfolio/">GitHub</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; Criado por <strong>Kayham Oliveira</strong> – 2025</p>
+        </div>
     </footer>
+
+
 
 </body>
 
