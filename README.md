@@ -13,7 +13,7 @@ Repositório destinado à organização e exposição dos meus projetos pessoais
 
 ## 🛠️ Tecnologias utilizadas
 - HTML, CSS, JavaScript, TypeScript
-= React, Node.js, Python
+- React, Node.js, Python
 - SQL, MongoDB
 - Git, GitHub Actions, Docker
 - Bash, PowerShell, etc.

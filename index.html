@@ -5,27 +5,60 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfólio Kayham Cristoffer</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>Kayham Cristoffer | Portfólio - Desenvolvedor & Analista de TI</title>
+    <meta name="description" content="Portfólio de Kayham Cristoffer - Estudante de Ciência da Computação, Estagiário em TI no TCE-SP, especializado em infraestrutura, redes e desenvolvimento web.">
+    <meta name="keywords" content="Kayham Cristoffer, Portfólio, Desenvolvedor, TI, Infraestrutura, Redes, Web Designer, TCE-SP">
+    <meta name="author" content="Kayham Cristoffer Guilhermino de Oliveira">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Kayham Cristoffer | Portfólio">
+    <meta property="og:description" content="Estudante de Ciência da Computação e Estagiário em TI no TCE-SP">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kayhamcristoffer.github.io/portfolio/">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
-
-    <nav class="sticky-nav">
-        <ul>
-            <li><a href="#sobre">Sobre Mim</a></li>
-            <li><a href="#formacao">Formação</a></li>
-            <li><a href="#experiencias">Trabalhos</a></li>
-            <li><a href="#projetos">Projetos</a></li>
-            <li><a href="#habilidades">Habilidades</a></li>
-            <li><a href="#certificados">Certificados</a></li>
-            <li><a href="#contato">Contato</a></li>
-        </ul>
-    </nav>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 
 <body>
+    <!-- Progress Bar -->
+    <div id="progressBar"></div>
+    
+    <!-- Navigation -->
+    <nav class="sticky-nav">
+        <div class="nav-container">
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul>
+                <li><a href="#sobre">Sobre Mim</a></li>
+                <li><a href="#formacao">Formação</a></li>
+                <li><a href="#experiencias">Trabalhos</a></li>
+                <li><a href="#projetos">Projetos</a></li>
+                <li><a href="#github">GitHub</a></li>
+                <li><a href="#habilidades">Habilidades</a></li>
+                <li><a href="#certificados">Certificados</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+            <div class="dark-mode-toggle">
+                <label class="switch">
+                    <input type="checkbox" id="darkModeToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+    </nav>
+
     <section id="sobre" class="sobre-container">
         <div class="sobre-conteudo">
             <div class="imagem-sobre">
@@ -33,6 +66,7 @@
             </div>
             <div class="texto-sobre">
                 <h2>Sobre Mim - Kayham Cristoffer Guilhermino de Oliveira</h2>
+                <p id="typing-text"></p>
                 <p>Sou estudante de Ciência da Computação pela Faculdade UniDRUMMOND C. Univ. Carlos Drummond de Andrade
                     e atualmente estagiário no Tribunal de Contas do Estado de São Paulo (TCESP), na área de Tecnologia
                     da Informação. Contribuo
@@ -123,7 +157,7 @@
                         continuidade dos
                         serviços.</p>
                     <br>
-                    <button class="view-cert" data-image=".\projetos\#">📄 Ver Documentação</button>
+                    <button class="view-cert" data-image="/projetos/#">📄 Ver Documentação</button>
                 </ul>
             </div>
         </article>
@@ -135,7 +169,7 @@
                     <p>Criação de sites cooperativos e pessoais, com foco na experiência do usuário. Desenvolvo designs
                         intuitivos e com conteúdo relevante, sempre buscando proporcionar uma experiência online
                         envolvente e
-                        acessível. Tenho experiência com plataformas como GitHub PAges, WordPress e Wix, bem como com as linguagens
+                        acessível. Tenho experiência com plataformas como GitHub Pages, WordPress e Wix, bem como com as linguagens
                         HTML, CSS,
                         e design visual usando Canva e outras ferramentas de design.</p>
                     <br>
@@ -156,7 +190,7 @@
                                     e design visual usando Canva e outras ferramentas de design. <a
                                         href="https://consultmrodontolog.wixsite.com/home">Site</a></p>
                                 <br>
-                                <button class="view-cert" data-image=".\projetos\#">📄 Ver Documentação</button>
+                                <button class="view-cert" data-image="/projetos/#">📄 Ver Documentação</button>
                             </ul>
                         </div>
                         <div class="card">
@@ -170,7 +204,7 @@
                                     e empresas possam aprofundar seus conhecimentos sobre este tema relevante. <a
                                         href="https://kayhamcristoffer.github.io/Hiper-Infra/">Site</a></p>
                                 <br>
-                                <button class="view-cert" data-image=".\projetos\#">📄 Ver Documentação</button>
+                                <button class="view-cert" data-image="/projetos/#">📄 Ver Documentação</button>
                             </ul>
                         </div>
                     </div>
@@ -191,7 +225,7 @@
                         indústria.
                         Trabalho com equipes multifuncionais para garantir a robustez das soluções tecnológicas.</p>
                     <br>
-                    <button class="view-cert" data-image=".\projetos\#">📄 Ver Documentação</button>
+                    <button class="view-cert" data-image="/projetos/#">📄 Ver Documentação</button>
                 </ul>
             </div>
         </article>
@@ -210,10 +244,18 @@
                         tecnológica.
                     </p>
                     <br>
-                    <button class="view-cert" data-image=".\projetos\#">📄 Ver Documentação</button>
+                    <button class="view-cert" data-image="/projetos/#">📄 Ver Documentação</button>
                 </ul>
             </div>
         </article>
+    </section>
+
+    <section id="github">
+        <h2>🚀 Meus Repositórios no GitHub</h2>
+        <p>Confira meus projetos mais recentes no GitHub:</p>
+        <div id="github-repos">
+            <p>Carregando repositórios...</p>
+        </div>
     </section>
 
     <section id="voluntario">
@@ -225,7 +267,7 @@
                     <p><b>Projeto Voluntario - dia X</b></p>
                     <p>Apoio operacional e participação durante o evento</p>
                     <br>
-                    <button class="view-cert" data-image=".\img\certificados\#">📄 Ver Certificado</button>
+                    <button class="view-cert" data-image="/img/certificados/#">📄 Ver Certificado</button>
                 </ul>
             </div>
         </article>
@@ -233,6 +275,11 @@
 
     <section id="habilidades">
         <h2>Habilidades e Competências</h2>
+        <div class="cv-download-container" style="text-align: center; margin: 20px 0;">
+            <a href="#" class="cv-download" onclick="alert('Adicione seu CV em PDF na pasta do projeto!'); return false;">
+                📄 Download CV em PDF
+            </a>
+        </div>
         <div class="grid-container">
 
             <div class="card">
@@ -313,7 +360,7 @@
                     <li>Carga horária: 15h</li>
                     <li>Organização: Centro Universitário Carlos Drummond de Andrade</li>
                     <br>
-                    <button class="view-cert" data-image=".\img\certificados\2.jpg">📄 Ver Certificado</button>
+                    <button class="view-cert" data-image="/img/certificados/2.jpg">📄 Ver Certificado</button>
                 </ul>
             </div>
             <div class="card">
@@ -324,7 +371,7 @@
                     <li>Carga horária: 15h</li>
                     <li>Organização: Centro Universitário Carlos Drummond de Andrade</li>
                     <br>
-                    <button class="view-cert" data-image=".\img\certificados\6.jpg">📄 Ver Certificado</button>
+                    <button class="view-cert" data-image="/img/certificados/6.jpg">📄 Ver Certificado</button>
                 </ul>
             </div>
             <div class="card">
@@ -335,7 +382,7 @@
                     <li>Carga horária: 3h</li>
                     <li>Organização: Centro Universitário Carlos Drummond de Andrade</li>
                     <br>
-                    <button class="view-cert" data-image=".\img\certificados\4.jpg">📄 Ver Certificado</button>
+                    <button class="view-cert" data-image="/img/certificados/4.jpg">📄 Ver Certificado</button>
                 </ul>
             </div>
             <div class="card">
@@ -346,7 +393,7 @@
                     <li>Carga horária: 3h</li>
                     <li>Organização: Centro Universitário Carlos Drummond de Andrade</li>
                     <br>
-                    <button class="view-cert" data-image=".\img\certificados\3.jpg">📄 Ver Certificado</button>
+                    <button class="view-cert" data-image="/img/certificados/3.jpg">📄 Ver Certificado</button>
                 </ul>
             </div>
             <div class="card">
@@ -357,7 +404,7 @@
                     <li>Carga horária: 3h</li>
                     <li>Organização: Centro Universitário Carlos Drummond de Andrade</li>
                     <br>
-                    <button class="view-cert" data-image=".\img\certificados\7.jpg">📄 Ver Certificado</button>
+                    <button class="view-cert" data-image="/img/certificados/7.jpg">📄 Ver Certificado</button>
                 </ul>
             </div>
             <div class="card">
@@ -368,7 +415,7 @@
                     <li>Carga horária: 36h</li>
                     <li>Organização: Núcleo de Informção e Coordenação do Ponto BR (Nic.br)</li>
                     <br>
-                    <button class="view-cert" data-image=".\img\certificados\5.jpg">📄 Ver Certificado</button>
+                    <button class="view-cert" data-image="/img/certificados/5.jpg">📄 Ver Certificado</button>
                 </ul>
             </div>
             <div class="card">
@@ -380,7 +427,7 @@
                     <li>Carga horária: 3h</li>
                     <li>Organização: Núcleo de Informção e Coordenação do Ponto BR (Nic.br)</li>
                     <br>
-                    <button class="view-cert" data-image=".\img\certificados\8.jpg">📄 Ver Certificado</button>
+                    <button class="view-cert" data-image="/img/certificados/8.jpg">📄 Ver Certificado</button>
                 </ul>
             </div>
             <div class="card">
@@ -391,7 +438,7 @@
                     <li>Carga horária: 3h</li>
                     <li>Organização: Núcleo de Informção e Coordenação do Ponto BR (Nic.br)</li>
                     <br>
-                    <button class="view-cert" data-image=".\img\certificados\10.jpg">📄 Ver Certificado</button>
+                    <button class="view-cert" data-image="/img/certificados/10.jpg">📄 Ver Certificado</button>
                 </ul>
             </div>
             <div class="card">
@@ -403,7 +450,7 @@
                     <li>Carga horária: 3h</li>
                     <li>Organização: Núcleo de Informção e Coordenação do Ponto BR (Nic.br)</li>
                     <br>
-                    <button class="view-cert" data-image=".\img\certificados\10.jpg">📄 Ver Certificado</button>
+                    <button class="view-cert" data-image="/img/certificados/10.jpg">📄 Ver Certificado</button>
                 </ul>
             </div>
             <div class="card">
@@ -415,41 +462,19 @@
                     <li>Carga horária: 3h</li>
                     <li>Organização: Núcleo de Informção e Coordenação do Ponto BR (Nic.br)</li>
                     <br>
-                    <button class="view-cert" data-image=".\img\certificados\1.jpg">📄 Ver Certificado</button>
+                    <button class="view-cert" data-image="/img/certificados/1.jpg">📄 Ver Certificado</button>
                 </ul>
             </div>
-            <!--    Script -->
+            
+            <!-- Modal de Certificados -->
             <div id="certModal" class="modal">
                 <img id="certImage" src="" alt="Certificado">
             </div>
-
-            <script>
-                const modal = document.getElementById("certModal");
-                const img = document.getElementById("certImage");
-
-                document.querySelectorAll(".view-cert").forEach(button => {
-                    button.addEventListener("click", () => {
-                        const src = button.getAttribute("data-image");
-                        img.src = src;
-                        modal.style.display = "flex";
-                    });
-                });
-
-                modal.addEventListener("click", () => {
-                    modal.style.display = "none";
-                    img.src = "";
-                });
-            </script>
-
-            <script>
-                document.querySelectorAll('.toggle').forEach(function (title) {
-                    title.addEventListener('click', function () {
-                        this.parentElement.classList.toggle('open');
-                    });
-                });
-            </script>
         </div>
     </section>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" title="Voltar ao topo">↑</button>
 
     <footer id="contato">
         <h2>Contato</h2>
@@ -477,11 +502,12 @@
         </div>
         <div class="footer-bottom">
             <p>&copy; Criado por <strong>Kayham Oliveira</strong> – 2025</p>
+            <p style="margin-top: 10px;">⭐ Feito com HTML, CSS e JavaScript</p>
         </div>
     </footer>
 
-
-
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
 </body>
 
 </html>
