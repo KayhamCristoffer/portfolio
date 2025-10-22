@@ -331,7 +331,7 @@ ul li::before {
     content: "✔️";
     position: absolute;
     left: 0;
-    top: 8px;
+    top: 12px;
 }
 
 /* ===== GRID CONTAINER ===== */
@@ -383,7 +383,6 @@ ul li::before {
 }
 
 .card ul li {
-    padding: 8px 0;
     border-bottom: 1px dotted var(--border-color);
 }
 
