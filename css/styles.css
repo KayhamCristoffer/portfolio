@@ -331,7 +331,7 @@ ul li::before {
     content: "✔️";
     position: absolute;
     left: 0;
-    top: 12px;
+    top: 8px;
 }
 
 /* ===== GRID CONTAINER ===== */
