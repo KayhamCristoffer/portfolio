@@ -63,7 +63,7 @@ async function generateCV() {
     doc.text('Jd. Rodolfo Pirani, São Paulo - SP', marginLeft, 28);
     doc.text('kayham98.1@hotmail.com', marginLeft, 33);
     doc.text('linkedin.com/in/kayhamcristoffer', marginLeft + 80, 33);
-    
+    doc.text('kayhamcristoffer.github.io/portfolio/', marginLeft + 80, 33);
     yPosition = 50;
     
     // ===== PERFIL PROFISSIONAL =====
