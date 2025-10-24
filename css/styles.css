@@ -623,22 +623,44 @@ footer a:hover {
 .cv-download {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     background: var(--gradient-2);
     color: white;
-    padding: 15px 30px;
+    padding: 15px 35px;
     border-radius: 10px;
+    border: none;
     text-decoration: none;
     font-weight: 600;
     font-size: 1.1rem;
     box-shadow: var(--shadow);
     transition: var(--transition);
     margin: 20px 0;
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
 }
 
-.cv-download:hover {
+.cv-download:hover:not(:disabled) {
     transform: translateY(-3px);
     box-shadow: var(--shadow-hover);
+}
+
+.cv-download:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.cv-download:active:not(:disabled) {
+    transform: translateY(-1px);
+}
+
+.cv-download-container {
+    text-align: center;
+    margin: 30px 0;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    border-radius: 12px;
+    border: 2px dashed var(--secondary-color);
 }
 
 /* ===== SCROLL ANIMATIONS ===== */

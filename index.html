@@ -45,7 +45,6 @@
                 <li><a href="#formacao">Formação</a></li>
                 <li><a href="#experiencias">Trabalhos</a></li>
                 <li><a href="#projetos">Projetos</a></li>
-                <li><a href="#github">GitHub</a></li>
                 <li><a href="#habilidades">Habilidades</a></li>
                 <li><a href="#certificados">Certificados</a></li>
                 <li><a href="#contato">Contato</a></li>
@@ -143,6 +142,40 @@
 
     <section id="projetos">
         <h2>Experiências em Trabalhos de Projetos</h2>
+        
+        <!-- Projeto SustAmbiTech -->
+        <article>
+            <div class="card">
+                <h3 class="toggle">🔽 Projeto SustAmbiTech - Web Designer & Desenvolvimento de API's</h3>
+                <ul class="content">
+                    <p><b>Faculdade UniDrummond - Agosto 2025 a Outubro 2025</b></p>
+                    <p><strong>Projeto SustAmbiTech:</strong> Desenvolvimento de website focado em Sustentabilidade, Ambiente e Tecnologia, 
+                    unindo inovação digital e responsabilidade socioambiental. A plataforma tem como objetivo promover educação e 
+                    conscientização ambiental por meio de uma plataforma online interativa.</p>
+                    
+                    <p><strong>Principais Realizações:</strong></p>
+                    <ul>
+                        <li>Desenvolvimento de plataforma interativa focada em veículos elétricos, energia limpa, reciclagem e mobilidade sustentável</li>
+                        <li>Implementação de recursos de monitoramento ambiental e consumo consciente</li>
+                        <li>Mapeamento de Pontos de Interesse (Ecopontos e Eletropostos) com mapa colaborativo</li>
+                        <li>Desenvolvimento de rotas para veículos elétricos e visualizador de clima</li>
+                        <li>Sistema de autenticação de usuários seguro</li>
+                    </ul>
+                    
+                    <p><strong>Tecnologias Utilizadas:</strong></p>
+                    <ul>
+                        <li><strong>Frontend:</strong> HTML5, CSS3, JavaScript</li>
+                        <li><strong>APIs:</strong> OpenWeather API (dados climáticos em tempo real)</li>
+                        <li><strong>Mapas:</strong> OpenStreetMap com Leaflet.js (mapas interativos)</li>
+                        <li><strong>Backend:</strong> Firebase (autenticação e banco de dados em tempo real)</li>
+                        <li><strong>Hospedagem:</strong> GitHub Pages</li>
+                    </ul>
+                    <br>
+                    <a href="https://kayhamcristoffer.github.io/SustAmbiTech/index.html" target="_blank" class="view-cert">🌐 Ver Projeto Online</a>
+                </ul>
+            </div>
+        </article>
+        
         <article>
             <div class="card">
                 <h3 class="toggle">🔽 Analista de Infraestrutura</h3>
@@ -250,13 +283,7 @@
         </article>
     </section>
 
-    <section id="github">
-        <h2>🚀 Meus Repositórios no GitHub</h2>
-        <p>Confira meus projetos mais recentes no GitHub:</p>
-        <div id="github-repos">
-            <p>Carregando repositórios...</p>
-        </div>
-    </section>
+
 
     <section id="voluntario">
         <h2>Projetos Voluntario</h2>
@@ -276,9 +303,9 @@
     <section id="habilidades">
         <h2>Habilidades e Competências</h2>
         <div class="cv-download-container" style="text-align: center; margin: 20px 0;">
-            <a href="#" class="cv-download" onclick="alert('Adicione seu CV em PDF na pasta do projeto!'); return false;">
-                📄 Download CV em PDF
-            </a>
+            <button id="generateCV" class="cv-download">
+                📄 Gerar CV em PDF
+            </button>
         </div>
         <div class="grid-container">
 
@@ -506,8 +533,12 @@
         </div>
     </footer>
 
+    <!-- JavaScript Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
     <!-- JavaScript -->
     <script src="js/main.js"></script>
+    <script src="js/cv-generator.js"></script>
 </body>
 
 </html>

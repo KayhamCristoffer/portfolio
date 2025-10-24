@@ -160,31 +160,7 @@ function initSkillsBars() {
 }
 
 // ===== GITHUB REPOSITORIES =====
-async function loadGitHubRepos() {
-    const reposContainer = document.getElementById('github-repos');
-    if (!reposContainer) return;
-    
-    try {
-        const response = await fetch('https://api.github.com/users/kayhamcristoffer/repos?sort=updated&per_page=6');
-        const repos = await response.json();
-        
-        reposContainer.innerHTML = repos.map(repo => `
-            <div class="repo-card">
-                <h4>${repo.name}</h4>
-                <p>${repo.description || 'Sem descrição'}</p>
-                <div class="repo-stats">
-                    <span>⭐ ${repo.stargazers_count}</span>
-                    <span>🔀 ${repo.forks_count}</span>
-                    ${repo.language ? `<span>💻 ${repo.language}</span>` : ''}
-                </div>
-                <a href="${repo.html_url}" target="_blank" class="repo-link">Ver no GitHub →</a>
-            </div>
-        `).join('');
-    } catch (error) {
-        console.error('Erro ao carregar repositórios:', error);
-        reposContainer.innerHTML = '<p>Não foi possível carregar os repositórios.</p>';
-    }
-}
+// Função removida - seção de repositórios não está mais no portfólio
 
 // ===== SMOOTH SCROLL =====
 function initSmoothScroll() {
@@ -257,7 +233,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initSkillsBars();
     initSmoothScroll();
     initTypingEffect();
-    loadGitHubRepos();
 });
 
 // ===== LAZY LOADING DE IMAGENS =====
