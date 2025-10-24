@@ -61,8 +61,8 @@ async function generateCV() {
     
     doc.setFontSize(9);
     doc.text('Jd. Rodolfo Pirani, São Paulo - SP', marginLeft, 28);
-    doc.text('📧 kayham98.1@hotmail.com', marginLeft, 33);
-    doc.text('🔗 linkedin.com/in/kayhamcristoffer', marginLeft + 80, 33);
+    doc.text('kayham98.1@hotmail.com', marginLeft, 33);
+    doc.text('linkedin.com/in/kayhamcristoffer', marginLeft + 80, 33);
     
     yPosition = 50;
     
@@ -152,7 +152,7 @@ async function generateCV() {
     addText('Plataforma web interativa focada em sustentabilidade. Mapeamento de Ecopontos e Eletropostos, integração com OpenWeather API, OpenStreetMap/Leaflet.js e Firebase para autenticação.', 9);
     doc.setFontSize(8);
     doc.setFont('helvetica', 'italic');
-    doc.text('🌐 https://kayhamcristoffer.github.io/SustAmbiTech/', marginLeft, yPosition);
+    doc.text('https://kayhamcristoffer.github.io/SustAmbiTech/', marginLeft, yPosition);
     yPosition += 6;
     
     // Projeto Hiper Infra
@@ -171,7 +171,7 @@ async function generateCV() {
     addText('Website informativo sobre HCI com quiz interativo. Pesquisa técnica aprofundada e análise de soluções (Nutanix, VMware, Microsoft).', 9);
     doc.setFontSize(8);
     doc.setFont('helvetica', 'italic');
-    doc.text('🌐 https://kayhamcristoffer.github.io/Hiper-Infra/', marginLeft, yPosition);
+    doc.text('https://kayhamcristoffer.github.io/Hiper-Infra/', marginLeft, yPosition);
     yPosition += 8;
     
     // ===== HABILIDADES TÉCNICAS =====
