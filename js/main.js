@@ -103,25 +103,142 @@ function initMobileMenu() {
     });
 }
 
-// ===== MODAL DE CERTIFICADOS =====
+// ===== MODAL DE CERTIFICADOS EM TELA CHEIA =====
 function initCertModal() {
-    const modal = document.getElementById("certModal");
-    const img = document.getElementById("certImage");
+    let currentCertIndex = 0;
+    let allCertificates = [];
     
-    document.querySelectorAll(".view-cert").forEach(button => {
-        button.addEventListener("click", () => {
-            const src = button.getAttribute("data-image");
-            if (img && modal) {
-                img.src = src;
-                modal.style.display = "flex";
+    // Coleta todos os certificados
+    function collectCertificates() {
+        allCertificates = [];
+        document.querySelectorAll(".view-cert").forEach((button, index) => {
+            allCertificates.push({
+                src: button.getAttribute("data-image"),
+                button: button,
+                index: index
+            });
+        });
+    }
+    
+    // Cria modal em tela cheia se não existir
+    function createFullscreenModal() {
+        if (document.getElementById("certModal")) return;
+        
+        const modalHTML = `
+            <div id="certModal" class="cert-modal-fullscreen">
+                <button class="cert-close-btn" title="Fechar">✕</button>
+                <button class="cert-nav-btn cert-prev-btn" title="Certificado Anterior">‹</button>
+                <button class="cert-nav-btn cert-next-btn" title="Próximo Certificado">›</button>
+                <div class="cert-image-container">
+                    <img id="certImage" src="" alt="Certificado">
+                    <div class="cert-counter"></div>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+    }
+    
+    // Exibe certificado no modal
+    function showCertificate(index) {
+        const modal = document.getElementById("certModal");
+        const img = document.getElementById("certImage");
+        const counter = modal.querySelector(".cert-counter");
+        
+        if (index >= 0 && index < allCertificates.length) {
+            currentCertIndex = index;
+            img.src = allCertificates[index].src;
+            counter.textContent = `${index + 1} / ${allCertificates.length}`;
+            modal.style.display = "flex";
+            document.body.style.overflow = "hidden"; // Impede scroll do body
+        }
+    }
+    
+    // Fecha modal
+    function closeModal() {
+        const modal = document.getElementById("certModal");
+        const img = document.getElementById("certImage");
+        modal.style.display = "none";
+        img.src = "";
+        document.body.style.overflow = ""; // Restaura scroll do body
+    }
+    
+    // Navega para próximo certificado
+    function nextCertificate() {
+        if (currentCertIndex < allCertificates.length - 1) {
+            showCertificate(currentCertIndex + 1);
+        } else {
+            showCertificate(0); // Volta ao primeiro
+        }
+    }
+    
+    // Navega para certificado anterior
+    function prevCertificate() {
+        if (currentCertIndex > 0) {
+            showCertificate(currentCertIndex - 1);
+        } else {
+            showCertificate(allCertificates.length - 1); // Vai para o último
+        }
+    }
+    
+    // Inicializa eventos
+    function initEvents() {
+        collectCertificates();
+        createFullscreenModal();
+        
+        const modal = document.getElementById("certModal");
+        const closeBtn = modal.querySelector(".cert-close-btn");
+        const prevBtn = modal.querySelector(".cert-prev-btn");
+        const nextBtn = modal.querySelector(".cert-next-btn");
+        
+        // Botões de visualização
+        document.querySelectorAll(".view-cert").forEach((button, index) => {
+            button.addEventListener("click", (e) => {
+                e.stopPropagation();
+                showCertificate(index);
+            });
+        });
+        
+        // Botão fechar
+        closeBtn?.addEventListener("click", (e) => {
+            e.stopPropagation();
+            closeModal();
+        });
+        
+        // Botões de navegação
+        nextBtn?.addEventListener("click", (e) => {
+            e.stopPropagation();
+            nextCertificate();
+        });
+        
+        prevBtn?.addEventListener("click", (e) => {
+            e.stopPropagation();
+            prevCertificate();
+        });
+        
+        // Fechar ao clicar fora da imagem
+        modal?.addEventListener("click", (e) => {
+            if (e.target === modal) {
+                closeModal();
             }
         });
-    });
+        
+        // Navegação por teclado
+        document.addEventListener("keydown", (e) => {
+            if (modal.style.display === "flex") {
+                if (e.key === "Escape") closeModal();
+                if (e.key === "ArrowRight") nextCertificate();
+                if (e.key === "ArrowLeft") prevCertificate();
+            }
+        });
+    }
     
-    modal?.addEventListener("click", () => {
-        modal.style.display = "none";
-        if (img) img.src = "";
-    });
+    // Aguarda seções serem carregadas
+    if (document.readyState === 'loading') {
+        document.addEventListener('sectionsLoaded', initEvents);
+    } else {
+        // Se já carregou, tenta após timeout
+        setTimeout(initEvents, 1000);
+    }
 }
 
 // ===== TOGGLE CARDS EXPANSÍVEIS =====

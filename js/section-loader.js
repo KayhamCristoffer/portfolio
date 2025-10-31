@@ -3,12 +3,14 @@
 // ========================================
 
 const sections = [
+    { id: 'header', file: 'sections/header.html', target: 'header-section' },
     { id: 'sobre', file: 'sections/sobre.html', target: 'sobre-section' },
     { id: 'formacao', file: 'sections/formacao.html', target: 'formacao-section' },
     { id: 'experiencias', file: 'sections/experiencias.html', target: 'experiencias-section' },
     { id: 'projetos', file: 'sections/projetos.html', target: 'projetos-section' },
     { id: 'habilidades', file: 'sections/habilidades.html', target: 'habilidades-section' },
-    { id: 'certificados', file: 'sections/certificados.html', target: 'certificados-section' }
+    { id: 'certificados', file: 'sections/certificados.html', target: 'certificados-section' },
+    { id: 'footer', file: 'sections/footer.html', target: 'footer-section' }
 ];
 
 // Função para carregar uma seção
