@@ -776,6 +776,43 @@ footer a:hover {
 }
 
 /* ========================================
+   ANIMAÇÃO DO GRADIENTE NOS TÍTULOS
+   ======================================== */
+@keyframes gradient-animation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+h2::before {
+    background: linear-gradient(90deg, 
+        #667eea 0%, 
+        #764ba2 25%, 
+        #f093fb 50%, 
+        #f5576c 75%, 
+        #4facfe 100%
+    );
+    background-size: 300% 300%;
+    animation: gradient-animation 4s ease infinite;
+}
+
+/* ===== MENU DINÂMICO (HIDE/SHOW) ===== */
+.sticky-nav {
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+}
+
+.sticky-nav.hidden {
+    transform: translateY(-100%);
+}
+
+/* ========================================
    MODAL DE CERTIFICADOS EM TELA CHEIA
    ======================================== */
 .cert-modal-fullscreen {

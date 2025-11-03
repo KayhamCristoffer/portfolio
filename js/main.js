@@ -297,42 +297,84 @@ function initSmoothScroll() {
 
 // ===== TYPING EFFECT =====
 function initTypingEffect() {
-    const typingElement = document.getElementById('typing-text');
-    if (!typingElement) return;
-    
-    const texts = [
-        'Estudante de Ciência da Computação',
-        'Estagiário em TI no TCE-SP',
-        'Analista de Infraestrutura',
-        'Web Designer'
-    ];
-    let textIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    
-    function type() {
-        const currentText = texts[textIndex];
+    // Aguarda seções serem carregadas
+    function startTyping() {
+        const typingElement = document.getElementById('typing-text');
+        if (!typingElement) return;
         
-        if (isDeleting) {
-            typingElement.textContent = currentText.substring(0, charIndex - 1);
-            charIndex--;
-        } else {
-            typingElement.textContent = currentText.substring(0, charIndex + 1);
-            charIndex++;
+        const texts = [
+            'Estudante de Ciência da Computação',
+            'Estagiário em TI no TCE-SP',
+            'Analista de Infraestrutura',
+            'Web Designer'
+        ];
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        
+        function type() {
+            const currentText = texts[textIndex];
+            
+            if (isDeleting) {
+                typingElement.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingElement.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+            }
+            
+            if (!isDeleting && charIndex === currentText.length) {
+                setTimeout(() => isDeleting = true, 2000);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+            }
+            
+            const speed = isDeleting ? 50 : 100;
+            setTimeout(type, speed);
         }
         
-        if (!isDeleting && charIndex === currentText.length) {
-            setTimeout(() => isDeleting = true, 2000);
-        } else if (isDeleting && charIndex === 0) {
-            isDeleting = false;
-            textIndex = (textIndex + 1) % texts.length;
-        }
-        
-        const speed = isDeleting ? 50 : 100;
-        setTimeout(type, speed);
+        type();
     }
     
-    type();
+    // Tenta iniciar imediatamente
+    if (document.getElementById('typing-text')) {
+        startTyping();
+    }
+    
+    // Tenta novamente quando seções carregarem
+    document.addEventListener('sectionsLoaded', startTyping);
+}
+
+// ===== MENU DINÂMICO (HIDE ON SCROLL DOWN, SHOW ON SCROLL UP) =====
+function initDynamicMenu() {
+    const nav = document.querySelector('.sticky-nav');
+    if (!nav) return;
+    
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+    
+    function updateNav() {
+        const currentScrollY = window.scrollY;
+        
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+            // Scrolling down & past threshold
+            nav.classList.add('hidden');
+        } else {
+            // Scrolling up or at top
+            nav.classList.remove('hidden');
+        }
+        
+        lastScrollY = currentScrollY;
+        ticking = false;
+    }
+    
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(updateNav);
+            ticking = true;
+        }
+    });
 }
 
 // ===== INICIALIZAÇÃO =====
@@ -345,11 +387,18 @@ document.addEventListener('DOMContentLoaded', () => {
     initProgressBar();
     initBackToTop();
     initMobileMenu();
+    initDynamicMenu();
     initCertModal();
     initToggleCards();
     initSkillsBars();
     initSmoothScroll();
     initTypingEffect();
+});
+
+// Reinicializa toggles quando seções carregam
+document.addEventListener('sectionsLoaded', () => {
+    initToggleCards();
+    initDynamicMenu();
 });
 
 // ===== LAZY LOADING DE IMAGENS =====

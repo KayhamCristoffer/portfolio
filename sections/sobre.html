@@ -1,3 +1,4 @@
+<!-- Seção Sobre: Foto e Perfil -->
 <section id="sobre" class="sobre-container">
     <div class="sobre-conteudo">
         <div class="imagem-sobre">
@@ -5,35 +6,31 @@
         </div>
         <div class="texto-sobre">
             <h2>Sobre Mim - Kayham Cristoffer Guilhermino de Oliveira</h2>
-            <p id="typing-text"></p>
+            <p id="typing-text" class="typing-effect"></p>
             
             <div class="perfil-profissional" data-cv-section="perfil">
                 <h3>Perfil Profissional</h3>
                 <p>Estudante de Ciência da Computação na Faculdade UniDrummond, com experiência prática no Tribunal de Contas do Estado de São Paulo (TCESP), onde atua como estagiário na área de tecnologia. Participa de atividades no Gabinete de Tecnologia (GDTEC) e na Seção Técnica de Operações de TI (DTEC-1), contribuindo com análise de equipamentos, prospecção de novas tecnologias, infraestrutura, desenvolvimento de ferramentas com Microsoft 365 e suporte técnico a diferentes áreas, como o Departamento de Tecnologia da Informação (DTI). Está em constante desenvolvimento profissional e linguístico, cursando inglês na Wise Up. Possui deficiência visual no olho direito (CID H54-4), o que nunca limitou minha atuação ou desempenho profissional. Encaro essa condição com resiliência e foco.</p>
             </div>
-            
-            <!-- Botões Gerar CV -->
-            <div class="cv-download-container" style="margin-top: 30px;">
-                <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
-                    <button id="generateCV" class="cv-download">
-                        📄 Gerar CV Resumido
-                    </button>
-                    <button id="generateCVCompleto" class="cv-download" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                        📄 Gerar CV Completo
-                    </button>
-                </div>
-                <p style="font-size: 0.9rem; color: var(--text-color); margin-top: 10px;">
-                    💡 <strong>CV Resumido:</strong> Versão compacta ideal para recrutadores<br>
-                    💡 <strong>CV Completo:</strong> Todas as experiências e projetos detalhados
-                </p>
-            </div>
-            
-            <div class="contato-links" style="margin-top: 20px;">
-                <p><strong>📧 E-mail:</strong> kayham98.1@hotmail.com</p>
-                <p><strong>🔗 LinkedIn:</strong> <a href="https://www.linkedin.com/in/kayhamcristoffer" target="_blank">linkedin.com/in/kayhamcristoffer</a></p>
-                <p><strong>🌐 Portfólio:</strong> <a href="https://kayhamcristoffer.github.io/portfolio/" target="_blank">kayhamcristoffer.github.io/portfolio</a></p>
-                <p><strong>📍 Localização:</strong> Jd. Rodolfo Pirani, São Paulo - SP</p>
-            </div>
         </div>
+    </div>
+</section>
+
+<!-- Seção Gerar PDF -->
+<section id="gerar-cv" class="cv-section">
+    <h2>Gerar Currículo em PDF</h2>
+    <div class="cv-download-container">
+        <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+            <button id="generateCV" class="cv-download">
+                📄 Gerar CV Resumido
+            </button>
+            <button id="generateCVCompleto" class="cv-download" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                📄 Gerar CV Completo
+            </button>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-color); margin-top: 10px; text-align: center;">
+            💡 <strong>CV Resumido:</strong> Versão compacta ideal para recrutadores<br>
+            💡 <strong>CV Completo:</strong> Todas as experiências e projetos detalhados
+        </p>
     </div>
 </section>

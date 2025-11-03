@@ -8,6 +8,13 @@ const CV_MODES = {
     RESUMIDO: 'resumido'
 };
 
+// Função para remover emojis de um texto
+function removeEmojis(text) {
+    if (!text) return '';
+    // Remove emojis e outros símbolos especiais
+    return text.replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '').trim();
+}
+
 // Função principal para gerar o CV em PDF
 async function generateCV(mode = CV_MODES.RESUMIDO) {
     const { jsPDF } = window.jspdf;
@@ -34,7 +41,10 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
         doc.setFont('helvetica', fontStyle);
         doc.setTextColor(color[0], color[1], color[2]);
         
-        const lines = doc.splitTextToSize(text, contentWidth);
+        // Remove emojis do texto
+        const cleanText = removeEmojis(text);
+        
+        const lines = doc.splitTextToSize(cleanText, contentWidth);
         lines.forEach(line => {
             checkPageBreak();
             doc.text(line, marginLeft, yPosition);
@@ -75,10 +85,10 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
     const col3X = marginLeft + 120;
     const linksY = 34;
     
-    doc.text('📧 kayham98.1@hotmail.com', col1X, linksY);
-    doc.text('🔗 linkedin.com/in/kayhamcristoffer', col2X, linksY);
-    doc.text('🌐 kayhamcristoffer.github.io/portfolio', col3X, linksY);
-    doc.text('📞 +55 11 99454-6931', col1X, linksY + 5);
+    doc.text('Email: kayham98.1@hotmail.com', col1X, linksY);
+    doc.text('LinkedIn: linkedin.com/in/kayhamcristoffer', col2X, linksY);
+    doc.text('Portfolio: kayhamcristoffer.github.io/portfolio', col3X, linksY);
+    doc.text('Telefone: +55 11 99454-6931', col1X, linksY + 5);
     
     yPosition = 52;
     
@@ -108,7 +118,7 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
                 checkPageBreak();
                 doc.setFontSize(10);
                 doc.setFont('helvetica', 'normal');
-                doc.text('• ' + text, marginLeft + 3, yPosition);
+                doc.text('• ' + removeEmojis(text), marginLeft + 3, yPosition);
                 yPosition += 6;
             }
         });
@@ -136,20 +146,20 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
                     doc.setFontSize(11);
                     doc.setFont('helvetica', 'bold');
                     doc.setTextColor(0, 0, 0);
-                    doc.text(titulo.textContent.trim(), marginLeft, yPosition);
+                    doc.text(removeEmojis(titulo.textContent.trim()), marginLeft, yPosition);
                     yPosition += 5;
                 }
                 
                 if (periodo) {
                     doc.setFontSize(10);
                     doc.setFont('helvetica', 'italic');
-                    doc.text(periodo.textContent.trim(), marginLeft, yPosition);
+                    doc.text(removeEmojis(periodo.textContent.trim()), marginLeft, yPosition);
                     yPosition += 6;
                 }
                 
                 if (descricao) {
                     doc.setFont('helvetica', 'normal');
-                    addText(descricao.textContent.trim(), 9);
+                    addText(removeEmojis(descricao.textContent.trim()), 9);
                 }
                 yPosition += 2;
             });
@@ -163,7 +173,7 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
                 if (titulo) {
                     doc.setFontSize(11);
                     doc.setFont('helvetica', 'bold');
-                    doc.text(titulo.textContent.trim(), marginLeft, yPosition);
+                    doc.text(removeEmojis(titulo.textContent.trim()), marginLeft, yPosition);
                     yPosition += 5;
                 }
                 
@@ -175,23 +185,23 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
                 if (cargo) {
                     doc.setFontSize(10);
                     doc.setFont('helvetica', 'italic');
-                    doc.text(cargo.textContent.trim(), marginLeft, yPosition);
+                    doc.text(removeEmojis(cargo.textContent.trim()), marginLeft, yPosition);
                     yPosition += 5;
                 }
                 
                 if (departamento) {
                     doc.setFontSize(9);
-                    doc.text(departamento.textContent.trim(), marginLeft, yPosition);
+                    doc.text(removeEmojis(departamento.textContent.trim()), marginLeft, yPosition);
                     yPosition += 5;
                 }
                 
                 if (localizacao) {
-                    doc.text(localizacao.textContent.trim(), marginLeft, yPosition);
+                    doc.text(removeEmojis(localizacao.textContent.trim()), marginLeft, yPosition);
                     yPosition += 5;
                 }
                 
                 if (periodoTrabalho) {
-                    doc.text(periodoTrabalho.textContent.trim(), marginLeft, yPosition);
+                    doc.text(removeEmojis(periodoTrabalho.textContent.trim()), marginLeft, yPosition);
                     yPosition += 6;
                 }
                 
@@ -216,7 +226,7 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
                             if (text) {
                                 checkPageBreak();
                                 doc.setFontSize(9);
-                                doc.text('• ' + text, marginLeft + 5, yPosition);
+                                doc.text('• ' + removeEmojis(text), marginLeft + 5, yPosition);
                                 yPosition += 5;
                             }
                         });
@@ -235,7 +245,7 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
                 if (titulo) {
                     doc.setFontSize(11);
                     doc.setFont('helvetica', 'bold');
-                    doc.text(titulo.textContent.trim(), marginLeft, yPosition);
+                    doc.text(removeEmojis(titulo.textContent.trim()), marginLeft, yPosition);
                     yPosition += 5;
                 }
                 
@@ -245,13 +255,13 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
                 if (cargo) {
                     doc.setFontSize(10);
                     doc.setFont('helvetica', 'italic');
-                    doc.text(cargo.textContent.trim(), marginLeft, yPosition);
+                    doc.text(removeEmojis(cargo.textContent.trim()), marginLeft, yPosition);
                     yPosition += 5;
                 }
                 
                 if (periodoTrabalho) {
                     doc.setFontSize(9);
-                    doc.text(periodoTrabalho.textContent.trim(), marginLeft, yPosition);
+                    doc.text(removeEmojis(periodoTrabalho.textContent.trim()), marginLeft, yPosition);
                     yPosition += 6;
                 }
                 
@@ -272,7 +282,7 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
                         if (text) {
                             checkPageBreak();
                             doc.setFontSize(9);
-                            doc.text('• ' + text, marginLeft + 5, yPosition);
+                            doc.text('• ' + removeEmojis(text), marginLeft + 5, yPosition);
                             yPosition += 5;
                         }
                     }
@@ -360,7 +370,7 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
                             if (text) {
                                 checkPageBreak();
                                 doc.setFontSize(9);
-                                doc.text('• ' + text, marginLeft + 3, yPosition);
+                                doc.text('• ' + removeEmojis(text), marginLeft + 3, yPosition);
                                 yPosition += 5;
                             }
                         });
@@ -390,7 +400,7 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
                             if (text) {
                                 checkPageBreak();
                                 doc.setFontSize(9);
-                                doc.text('• ' + text, marginLeft + 3, yPosition);
+                                doc.text('• ' + removeEmojis(text), marginLeft + 3, yPosition);
                                 yPosition += 4;
                             }
                         });
@@ -403,7 +413,7 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
                             checkPageBreak(10);
                             doc.setFontSize(10);
                             doc.setFont('helvetica', 'bold');
-                            doc.text(h4.textContent.trim(), marginLeft + 3, yPosition);
+                            doc.text(removeEmojis(h4.textContent.trim()), marginLeft + 3, yPosition);
                             yPosition += 5;
                             
                             // Lista do sub-projeto
@@ -416,7 +426,7 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
                                         checkPageBreak();
                                         doc.setFontSize(9);
                                         doc.setFont('helvetica', 'normal');
-                                        doc.text('• ' + text, marginLeft + 6, yPosition);
+                                        doc.text('• ' + removeEmojis(text), marginLeft + 6, yPosition);
                                         yPosition += 4;
                                     }
                                 });
@@ -444,7 +454,7 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
             if (titulo) {
                 doc.setFontSize(10);
                 doc.setFont('helvetica', 'bold');
-                doc.text(titulo.textContent.trim(), marginLeft, yPosition);
+                doc.text(removeEmojis(titulo.textContent.trim()), marginLeft, yPosition);
                 yPosition += 5;
             }
             
@@ -455,7 +465,7 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
                     checkPageBreak();
                     doc.setFontSize(9);
                     doc.setFont('helvetica', 'normal');
-                    doc.text('• ' + text, marginLeft + 3, yPosition);
+                    doc.text('• ' + removeEmojis(text), marginLeft + 3, yPosition);
                     yPosition += 4;
                 }
             });
