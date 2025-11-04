@@ -11,17 +11,21 @@ function initDarkMode() {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
         body.classList.add('dark-mode');
-        if (darkModeToggle) darkModeToggle.checked = true;
     }
     
-    // Toggle dark mode
+    // Toggle dark mode com botão
     if (darkModeToggle) {
-        darkModeToggle.addEventListener('change', () => {
+        darkModeToggle.addEventListener('click', () => {
             body.classList.toggle('dark-mode');
             localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
         });
     }
 }
+
+// Reinicializa dark mode quando seções carregam
+document.addEventListener('sectionsLoaded', () => {
+    initDarkMode();
+});
 
 // ===== SCROLL ANIMATIONS =====
 function initScrollAnimations() {

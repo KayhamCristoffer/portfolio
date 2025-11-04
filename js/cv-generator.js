@@ -8,11 +8,15 @@ const CV_MODES = {
     RESUMIDO: 'resumido'
 };
 
-// Função para remover emojis de um texto
+// Função para remover emojis e ícones de um texto
 function removeEmojis(text) {
     if (!text) return '';
-    // Remove emojis e outros símbolos especiais
-    return text.replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '').trim();
+    // Remove emojis, símbolos especiais e ícones Bootstrap
+    return text
+        .replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '')
+        .replace(/<i[^>]*>.*?<\/i>/g, '') // Remove tags <i> (ícones)
+        .replace(/\s+/g, ' ') // Remove espaços múltiplos
+        .trim();
 }
 
 // Função principal para gerar o CV em PDF
@@ -35,11 +39,11 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
         }
     }
     
-    // Função para adicionar texto com quebra de linha automática
-    function addText(text, fontSize, fontStyle = 'normal', color = [0, 0, 0], extraSpacing = 0) {
+    // Função para adicionar texto com quebra de linha automática (sempre cor preta)
+    function addText(text, fontSize, fontStyle = 'normal', extraSpacing = 0) {
         doc.setFontSize(fontSize);
         doc.setFont('helvetica', fontStyle);
-        doc.setTextColor(color[0], color[1], color[2]);
+        doc.setTextColor(0, 0, 0); // Sempre preto
         
         // Remove emojis do texto
         const cleanText = removeEmojis(text);
@@ -53,13 +57,24 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
         yPosition += 3 + extraSpacing;
     }
     
-    // Função para adicionar linha horizontal
+    // Função para adicionar título de seção (azul)
+    function addSectionTitle(text) {
+        checkPageBreak(10);
+        doc.setFontSize(14);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(44, 62, 80); // Azul escuro (#2c3e50)
+        doc.text(removeEmojis(text), marginLeft, yPosition);
+        yPosition += 7;
+    }
+    
+    // Função para adicionar linha horizontal separadora
     function addLine() {
-        checkPageBreak(5);
-        doc.setDrawColor(100, 100, 100);
-        doc.setLineWidth(0.5);
+        checkPageBreak(8);
+        yPosition += 2;
+        doc.setDrawColor(44, 62, 80); // Azul escuro
+        doc.setLineWidth(0.8);
         doc.line(marginLeft, yPosition, pageWidth - marginRight, yPosition);
-        yPosition += 5;
+        yPosition += 6;
     }
     
     // ===== CABEÇALHO =====
@@ -95,7 +110,7 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
     // ===== PERFIL PROFISSIONAL =====
     const perfilSection = document.querySelector('.perfil-profissional');
     if (perfilSection) {
-        addText('PERFIL PROFISSIONAL', 14, 'bold', [44, 62, 80], 2);
+        addSectionTitle('PERFIL PROFISSIONAL');
         addLine();
         
         const perfilText = perfilSection.querySelector('p');
@@ -108,7 +123,7 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
     // ===== FORMAÇÃO ACADÊMICA =====
     const formacaoSection = document.getElementById('formacao');
     if (formacaoSection) {
-        addText('FORMAÇÃO ACADÊMICA', 14, 'bold', [44, 62, 80], 2);
+        addSectionTitle('FORMAÇÃO ACADÊMICA');
         addLine();
         
         const formacaoItems = formacaoSection.querySelectorAll('.formacao-lista li');
@@ -128,7 +143,7 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
     // ===== EXPERIÊNCIAS PROFISSIONAIS =====
     const experienciasSection = document.getElementById('experiencias');
     if (experienciasSection) {
-        addText('EXPERIÊNCIAS PROFISSIONAIS', 14, 'bold', [44, 62, 80], 2);
+        addSectionTitle('EXPERIÊNCIAS PROFISSIONAIS');
         addLine();
         
         if (mode === CV_MODES.COMPLETO) {
@@ -296,7 +311,7 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
     const projetosSection = document.getElementById('projetos');
     if (projetosSection) {
         checkPageBreak(20);
-        addText('PROJETOS DESTACADOS', 14, 'bold', [44, 62, 80], 2);
+        addSectionTitle('PROJETOS DESTACADOS');
         addLine();
         
         const projetos = projetosSection.querySelectorAll('.projeto-item');
@@ -443,7 +458,7 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
     const habilidadesSection = document.getElementById('habilidades');
     if (habilidadesSection) {
         checkPageBreak(20);
-        addText('HABILIDADES E COMPETÊNCIAS', 14, 'bold', [44, 62, 80], 2);
+        addSectionTitle('HABILIDADES E COMPETÊNCIAS');
         addLine();
         
         const cards = habilidadesSection.querySelectorAll('.card');
