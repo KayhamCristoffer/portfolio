@@ -752,17 +752,18 @@ footer a:hover {
     }
     
     .sticky-nav ul {
-        position: fixed;
-        left: -100%;
-        top: 60px;
-        flex-direction: column;
-        background-color: var(--card-bg);
-        width: 100%;
-        text-align: center;
-        transition: 0.3s;
-        box-shadow: var(--shadow);
-        padding: 20px 0;
-        z-index: 999;
+       display: flex; /* precisa disso pro flex funcionar */
+       position: fixed;
+       flex-direction: column;
+       left: -100%;
+       top: 60px;
+       background-color: var(--card-bg);
+       width: 100%;
+       text-align: center;
+       transition: left 0.3s ease;
+       box-shadow: var(--shadow);
+       padding: 20px 0;
+       z-index: 999;
     }
     
     .sticky-nav ul.active {
