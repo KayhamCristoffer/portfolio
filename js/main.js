@@ -95,14 +95,14 @@ function initMobileMenu() {
     
     hamburger?.addEventListener('click', () => {
         hamburger.classList.toggle('active');
-        navMenu?.classList.toggle('active');
+        navMenu.classList.toggle('active');
     });
     
     // Fecha menu ao clicar em link
     document.querySelectorAll('.sticky-nav a').forEach(link => {
         link.addEventListener('click', () => {
-            hamburger?.classList.remove('active');
-            navMenu?.classList.remove('active');
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
         });
     });
 }
