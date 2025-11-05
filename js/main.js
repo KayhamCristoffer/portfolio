@@ -106,7 +106,20 @@ function initMobileMenu() {
         });
     });
 }
+document.addEventListener("DOMContentLoaded", () => {
+  const hamburger = document.querySelector(".hamburger");
+  const navMenu = document.querySelector(".sticky-nav ul");
 
+  if (!hamburger || !navMenu) {
+    console.error("Hamburger ou menu não encontrado!");
+    return;
+  }
+
+  hamburger.addEventListener("click", () => {
+    navMenu.classList.toggle("active");
+    console.log("Menu clicado");
+  });
+});
 // ===== MODAL DE CERTIFICADOS EM TELA CHEIA =====
 function initCertModal() {
     let currentCertIndex = 0;
