@@ -134,8 +134,8 @@ body {
 
 .theme-toggle {
     position: relative;
-    width: 30px;
-    height: 60px;
+    width: 60px;
+    height: 30px;
     border-radius: 30px;
     border: none;
     cursor: pointer;
@@ -145,9 +145,9 @@ body {
     display: flex;
     align-items: center;
     align-content: stretch;
-    justify-content: space-around;
+    justify-content: space-between;
     padding: 0 8px;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 .theme-toggle:hover {
