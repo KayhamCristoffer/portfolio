@@ -144,8 +144,9 @@ body {
     display: flex;
     align-items: center;
     align-content: stretch;
-    justify-content: space-between;
+    justify-content: space-around;
     padding: 0 8px;
+    flex-direction: column;
 }
 
 .theme-toggle:hover {
