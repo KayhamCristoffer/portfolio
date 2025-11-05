@@ -127,9 +127,9 @@ body {
 
 /* ===== DARK MODE TOGGLE ===== */
 .dark-mode-toggle {
+    margin-left: auto;
     display: flex;
     align-items: center;
-    margin: auto;
 }
 
 .theme-toggle {
