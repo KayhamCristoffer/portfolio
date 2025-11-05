@@ -130,9 +130,15 @@ function initCertModal() {
         
         const modalHTML = `
             <div id="certModal" class="cert-modal-fullscreen">
-                <button class="cert-close-btn" title="Fechar">✕</button>
-                <button class="cert-nav-btn cert-prev-btn" title="Certificado Anterior">‹</button>
-                <button class="cert-nav-btn cert-next-btn" title="Próximo Certificado">›</button>
+                <button class="cert-close-btn" title="Fechar">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <button class="cert-nav-btn cert-prev-btn" title="Certificado Anterior">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button class="cert-nav-btn cert-next-btn" title="Próximo Certificado">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
                 <div class="cert-image-container">
                     <img id="certImage" src="" alt="Certificado">
                     <div class="cert-counter"></div>

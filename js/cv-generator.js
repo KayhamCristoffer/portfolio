@@ -11,10 +11,12 @@ const CV_MODES = {
 // Função para remover emojis e ícones de um texto
 function removeEmojis(text) {
     if (!text) return '';
-    // Remove emojis, símbolos especiais e ícones Bootstrap
+    // Remove emojis, símbolos especiais, ícones Font Awesome e SVGs
     return text
         .replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '')
-        .replace(/<i[^>]*>.*?<\/i>/g, '') // Remove tags <i> (ícones)
+        .replace(/<i[^>]*class="fa[^"]*"[^>]*>.*?<\/i>/g, '') // Remove Font Awesome icons
+        .replace(/<i[^>]*>.*?<\/i>/g, '') // Remove outras tags <i>
+        .replace(/<svg[^>]*>.*?<\/svg>/gs, '') // Remove SVGs
         .replace(/\s+/g, ' ') // Remove espaços múltiplos
         .trim();
 }
@@ -555,7 +557,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Também escuta quando as seções são carregadas (para o botão no header)
 document.addEventListener('sectionsLoaded', () => {
-    setupCVButton('quickCVBtn', CV_MODES.RESUMIDO);
+    setupCVButton('quickCVBtn', CV_MODES.COMPLETO); // Sempre completo no menu
     setupCVButton('generateCV', CV_MODES.RESUMIDO);
     setupCVButton('generateCVCompleto', CV_MODES.COMPLETO);
 });

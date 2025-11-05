@@ -734,8 +734,19 @@ footer a:hover {
     border-radius: 10px;
 }
 
+/* ===== CV TEXT IN MENU ===== */
+.cv-text {
+    margin-left: 5px;
+}
+
+@media (max-width: 1200px) {
+    .cv-text {
+        display: none;
+    }
+}
+
 /* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .hamburger {
         display: flex;
     }
@@ -751,6 +762,7 @@ footer a:hover {
         transition: 0.3s;
         box-shadow: var(--shadow);
         padding: 20px 0;
+        z-index: 999;
     }
     
     .sticky-nav ul.active {
@@ -759,6 +771,10 @@ footer a:hover {
     
     .sticky-nav ul li {
         margin: 10px 0;
+    }
+    
+    .cv-text {
+        display: inline;
     }
     
     .sobre-conteudo {
@@ -882,7 +898,7 @@ h2::before {
     position: absolute;
     top: 20px;
     right: 30px;
-    font-size: 40px;
+    font-size: 28px;
     color: white;
     background: rgba(255, 255, 255, 0.1);
     border: none;
@@ -895,6 +911,12 @@ h2::before {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0;
+    line-height: 1;
+}
+
+.cert-close-btn i {
+    line-height: 1;
 }
 
 .cert-close-btn:hover {
@@ -906,7 +928,7 @@ h2::before {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 50px;
+    font-size: 32px;
     color: white;
     background: rgba(255, 255, 255, 0.1);
     border: none;
@@ -919,6 +941,12 @@ h2::before {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0;
+    line-height: 1;
+}
+
+.cert-nav-btn i {
+    line-height: 1;
 }
 
 .cert-nav-btn:hover {
