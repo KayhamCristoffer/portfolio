@@ -187,12 +187,12 @@ body.dark-mode .theme-toggle .dark-icon {
     display: none;
     flex-direction: column;
     cursor: pointer;
-    gap: 4px;
+    gap: 7px;
 }
 
 .hamburger span {
-    width: 25px;
-    height: 3px;
+    width: 30px;
+    height: 5px;
     background-color: var(--text-color);
     border-radius: 3px;
     transition: var(--transition);
