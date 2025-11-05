@@ -747,23 +747,28 @@ footer a:hover {
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1200px) {
+    .nav-container {
+        justify-content: space-between; /* distribui o botão e o menu */
+        position: relative;
+    }
+   
     .hamburger {
         display: flex;
+        z-index: 1001; /* acima do menu */
     }
     
     .sticky-nav ul {
-       display: flex; /* precisa disso pro flex funcionar */
-       position: fixed;
-       flex-direction: column;
-       left: -100%;
-       top: 60px;
-       background-color: var(--card-bg);
-       width: 100%;
-       text-align: center;
-       transition: left 0.3s ease;
-       box-shadow: var(--shadow);
-       padding: 20px 0;
-       z-index: 999;
+        position: fixed;
+        left: -100%;
+        top: 70px; /* um pouco abaixo do nav */
+        flex-direction: column;
+        background-color: var(--card-bg);
+        width: 100%;
+        text-align: center;
+        transition: left 0.3s ease;
+        box-shadow: var(--shadow);
+        padding: 20px 0;
+        z-index: 1000;
     }
     
     .sticky-nav ul.active {
@@ -773,7 +778,12 @@ footer a:hover {
     .sticky-nav ul li {
         margin: 10px 0;
     }
-    
+
+   .dark-mode-toggle {
+        margin-left: auto;
+        z-index: 1002; /* acima do menu */
+    }
+   
     .cv-text {
         display: inline;
     }
