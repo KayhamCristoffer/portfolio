@@ -90,21 +90,64 @@ function initBackToTop() {
 
 // ===== MOBILE MENU =====
 function initMobileMenu() {
-    const hamburger = document.querySelector('.hamburger');
-    const navMenu = document.querySelector('.sticky-nav ul');
+    // Remove listeners antigos se existirem
+    const oldHamburger = document.querySelector('.hamburger');
+    if (oldHamburger) {
+        const newHamburger = oldHamburger.cloneNode(true);
+        oldHamburger.parentNode.replaceChild(newHamburger, oldHamburger);
+    }
     
-    hamburger?.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navMenu?.classList.toggle('active');
-    });
-    
-    // Fecha menu ao clicar em link
-    document.querySelectorAll('.sticky-nav a').forEach(link => {
-        link.addEventListener('click', () => {
-            hamburger?.classList.remove('active');
-            navMenu?.classList.remove('active');
+    // Aguarda o carregamento das seções
+    function setupMenu() {
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.sticky-nav ul');
+        
+        if (!hamburger || !navMenu) {
+            console.log('Menu ainda não carregado, aguardando...');
+            return;
+        }
+        
+        console.log('✅ Menu mobile inicializado');
+        
+        // Toggle do menu
+        hamburger.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Hamburger clicado!');
+            
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            
+            console.log('Menu active:', navMenu.classList.contains('active'));
         });
-    });
+        
+        // Fecha menu ao clicar em link
+        const menuLinks = navMenu.querySelectorAll('a');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                console.log('Link clicado, fechando menu');
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+        
+        // Fecha menu ao clicar fora
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                if (navMenu.classList.contains('active')) {
+                    console.log('Clicou fora, fechando menu');
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                }
+            }
+        });
+    }
+    
+    // Tenta inicializar imediatamente
+    setupMenu();
+    
+    // Tenta novamente quando seções carregarem
+    document.addEventListener('sectionsLoaded', setupMenu);
 }
 document.addEventListener("DOMContentLoaded", () => {
   const hamburger = document.querySelector(".hamburger");

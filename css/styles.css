@@ -224,14 +224,24 @@ section {
 }
 
 section:hover {
-    border-color: rgba(102, 126, 234, 0.3);
+    border: 2px solid transparent;
+    background: 
+        linear-gradient(var(--card-bg), var(--card-bg)) padding-box,
+        linear-gradient(90deg, 
+            #667eea 0%, 
+            #764ba2 25%, 
+            #f093fb 50%, 
+            #f5576c 75%, 
+            #4facfe 100%
+        ) border-box;
+    background-size: 100% 100%, 300% 300%;
+    animation: gradient-animation 4s ease infinite;
     box-shadow: 0 0 30px rgba(102, 126, 234, 0.3),
                 0 0 60px rgba(118, 75, 162, 0.2),
                 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 body.dark-mode section:hover {
-    border-color: rgba(102, 126, 234, 0.5);
     box-shadow: 0 0 35px rgba(102, 126, 234, 0.4),
                 0 0 70px rgba(118, 75, 162, 0.3),
                 0 8px 16px rgba(0, 0, 0, 0.5);
@@ -388,7 +398,18 @@ ul li::before {
 }
 
 .card:hover {
-    border-color: transparent;
+    border: 2px solid transparent;
+    background: 
+        linear-gradient(var(--card-bg), var(--card-bg)) padding-box,
+        linear-gradient(90deg, 
+            #667eea 0%, 
+            #764ba2 25%, 
+            #f093fb 50%, 
+            #f5576c 75%, 
+            #4facfe 100%
+        ) border-box;
+    background-size: 100% 100%, 300% 300%;
+    animation: gradient-animation 4s ease infinite;
     box-shadow: 0 0 20px rgba(102, 126, 234, 0.5),
                 0 0 40px rgba(118, 75, 162, 0.3),
                 0 8px 16px rgba(0, 0, 0, 0.2);
