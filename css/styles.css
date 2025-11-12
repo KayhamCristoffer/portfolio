@@ -941,6 +941,14 @@ h2::before {
     box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
 }
 
+.cert-modal-fullscreen iframe {
+    width: 90vw;
+    height: 85vh;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+}
+
 .cert-close-btn {
     position: absolute;
     top: 20px;

@@ -172,8 +172,11 @@ function initCertModal() {
     function collectCertificates() {
         allCertificates = [];
         document.querySelectorAll(".view-cert").forEach((button, index) => {
+            const src = button.getAttribute("data-image");
+            const isPdf = src && src.toLowerCase().endsWith('.pdf');
             allCertificates.push({
-                src: button.getAttribute("data-image"),
+                src: src,
+                isPdf: isPdf,
                 button: button,
                 index: index
             });
@@ -196,7 +199,8 @@ function initCertModal() {
                     <i class="fa-solid fa-chevron-right"></i>
                 </button>
                 <div class="cert-image-container">
-                    <img id="certImage" src="" alt="Certificado">
+                    <img id="certImage" src="" alt="Certificado" style="display: none;">
+                    <iframe id="certPdf" src="" style="display: none;"></iframe>
                     <div class="cert-counter"></div>
                 </div>
             </div>
@@ -208,11 +212,28 @@ function initCertModal() {
     function showCertificate(index) {
         const modal = document.getElementById("certModal");
         const img = document.getElementById("certImage");
+        const pdf = document.getElementById("certPdf");
         const counter = modal.querySelector(".cert-counter");
         
         if (index >= 0 && index < allCertificates.length) {
             currentCertIndex = index;
-            img.src = allCertificates[index].src;
+            const cert = allCertificates[index];
+            
+            // Esconde ambos primeiro
+            img.style.display = "none";
+            pdf.style.display = "none";
+            img.src = "";
+            pdf.src = "";
+            
+            // Mostra o tipo correto
+            if (cert.isPdf) {
+                pdf.src = cert.src;
+                pdf.style.display = "block";
+            } else {
+                img.src = cert.src;
+                img.style.display = "block";
+            }
+            
             counter.textContent = `${index + 1} / ${allCertificates.length}`;
             modal.style.display = "flex";
             document.body.style.overflow = "hidden"; // Impede scroll do body
@@ -223,8 +244,12 @@ function initCertModal() {
     function closeModal() {
         const modal = document.getElementById("certModal");
         const img = document.getElementById("certImage");
+        const pdf = document.getElementById("certPdf");
         modal.style.display = "none";
         img.src = "";
+        pdf.src = "";
+        img.style.display = "none";
+        pdf.style.display = "none";
         document.body.style.overflow = ""; // Restaura scroll do body
     }
     
@@ -311,7 +336,25 @@ function initCertModal() {
 function initToggleCards() {
     document.querySelectorAll('.toggle').forEach(function (title) {
         title.addEventListener('click', function () {
-            this.parentElement.classList.toggle('open');
+            const card = this.parentElement;
+            const isOpen = card.classList.contains('open');
+            
+            // Toggle a classe open
+            card.classList.toggle('open');
+            
+            // Troca o ícone
+            const icon = this.querySelector('i');
+            if (icon) {
+                if (isOpen) {
+                    // Estava aberto, agora vai fechar
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                } else {
+                    // Estava fechado, agora vai abrir
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                }
+            }
         });
     });
 }
