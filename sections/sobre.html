@@ -1,36 +1,80 @@
-<!-- Seção Sobre: Foto e Perfil -->
-<section id="sobre" class="sobre-container">
+<!-- Seção Sobre -->
+<section id="sobre" class="sobre-container" aria-label="Sobre mim">
     <div class="sobre-conteudo">
         <div class="imagem-sobre">
-            <img src="fotos/kayham-perfil.jpg" alt="Foto de Kayham" class="foto-sobre">
+            <img
+                src="fotos/kayham-perfil.jpg"
+                alt="Foto de Kayham Cristoffer, Analista de TI e Desenvolvedor"
+                class="foto-sobre"
+                loading="eager"
+                width="280"
+                height="320"
+            >
         </div>
         <div class="texto-sobre">
-            <h2>Sobre: Kayham Cristoffer Guilhermino de Oliveira</h2>
-            <p id="typing-text" class="typing-effect"></p>
-            
+            <h2>Olá, sou Kayham Cristoffer</h2>
+            <p id="typing-text" class="typing-effect" aria-live="polite"></p>
+
             <div class="perfil-profissional" data-cv-section="perfil">
-                <h3>Perfil Profissional</h3>
-                <p>Estudante de Ciência da Computação na Faculdade UniDrummond, com experiência prática no Tribunal de Contas do Estado de São Paulo (TCESP), onde atua como estagiário na área de tecnologia. Participa de atividades no Gabinete de Tecnologia (GDTEC), Seções Técnicas da Diretoria de Tecnologia (DTEC-1) e na Seção Técnica de Operações de TI (DTEC-1), contribuindo com análise de equipamentos, prospecção de novas tecnologias, infraestrutura, desenvolvimento de ferramentas com Microsoft 365 (Excel, Word e Access) e suporte técnico a diferentes áreas, como o Departamento de Tecnologia da Informação (DTI). Estou em constante desenvolvimento profissional e linguístico, cursando inglês na Wise Up. Possuo deficiência visual no olho direito (CID H54-4), o que nunca limitou minha atuação ou desempenho profissional. Encaro essa condição com resiliência e foco.</p>
+                <p>
+                    Analista de TI em formação, com atuação prática no <strong>Tribunal de Contas do Estado de São Paulo (TCE-SP)</strong>, onde contribuo com projetos de infraestrutura, automação e gestão tecnológica desde agosto de 2024.
+                </p>
+                <p>
+                    Minha trajetória une <strong>infraestrutura de redes</strong> (Cisco CCNA, servidores, virtualização) ao <strong>desenvolvimento web</strong> (HTML, CSS, JavaScript, Python, APIs REST e Firebase), o que me permite atuar de forma transversal em times de TI.
+                </p>
+                <p>
+                    Cursando <strong>Bacharelado em Ciência da Computação</strong> na UniDrummond e aprimorando o inglês na Wise Up, estou em constante evolução técnica e linguística. Encaro desafios com resiliência e foco — qualidades que aplico diariamente, independentemente de qualquer limitação.
+                </p>
+
+                <!-- Stats rápidos -->
+                <div class="sobre-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">6+</span>
+                        <span class="stat-label">Anos de experiência</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">10+</span>
+                        <span class="stat-label">Projetos entregues</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">3</span>
+                        <span class="stat-label">Certificações Cisco</span>
+                    </div>
+                </div>
+
+                <!-- CTAs -->
+                <div class="sobre-ctas">
+                    <a href="https://www.linkedin.com/in/kayhamcristoffer" target="_blank" rel="noopener noreferrer" class="btn btn-primary" aria-label="Conectar no LinkedIn">
+                        <i class="fa-brands fa-linkedin" aria-hidden="true"></i> LinkedIn
+                    </a>
+                    <a href="https://github.com/KayhamCristoffer" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" aria-label="Ver GitHub">
+                        <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
+                    </a>
+                    <a href="mailto:kayhamoliveira98@gmail.com" class="btn btn-outline" aria-label="Enviar e-mail">
+                        <i class="fa-solid fa-envelope" aria-hidden="true"></i> Contato
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Seção Gerar PDF -->
-<section id="gerar-cv" class="cv-section">
-    <h2>Gerar Currículo em PDF</h2>
+<section id="gerar-cv" class="cv-section" aria-label="Download do currículo">
+    <h2>Download do Currículo</h2>
     <div class="cv-download-container">
-        <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
-            <button id="generateCV" class="cv-download">
-                <i class="fa-solid fa-file-lines"></i> Gerar CV Resumido
+        <div class="cv-buttons-row">
+            <button id="generateCV" class="cv-download" aria-label="Gerar currículo resumido em PDF">
+                <i class="fa-solid fa-file-lines" aria-hidden="true"></i> CV Resumido
             </button>
-            <button id="generateCVCompleto" class="cv-download" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                <i class="fa-solid fa-file-pdf"></i> Gerar CV Completo
+            <button id="generateCVCompleto" class="cv-download cv-download-full" aria-label="Gerar currículo completo em PDF">
+                <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> CV Completo
             </button>
         </div>
-        <p style="font-size: 0.9rem; color: var(--text-color); margin-top: 10px; text-align: center;">
-            <i class="fa-solid fa-circle-info"></i> <strong>CV Resumido:</strong> Versão compacta ideal para recrutadores<br>
-            <i class="fa-solid fa-circle-info"></i> <strong>CV Completo:</strong> Todas as experiências e projetos detalhadas
+        <p class="cv-hint">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <strong>Resumido:</strong> versão compacta ideal para recrutadores &nbsp;|&nbsp;
+            <strong>Completo:</strong> todas as experiências e projetos detalhados
         </p>
     </div>
 </section>

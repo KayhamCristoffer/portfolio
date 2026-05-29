@@ -1,31 +1,43 @@
-<!-- Progress Bar -->
-<div id="progressBar"></div>
+<!-- Progress Bar de leitura -->
+<div id="progressBar" role="progressbar" aria-label="Progresso de leitura da página" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
 
-<!-- Navigation -->
-<nav class="sticky-nav">
+<!-- Navegação principal -->
+<nav class="sticky-nav" role="navigation" aria-label="Menu principal">
     <div class="nav-container">
-        <div class="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <ul>
+        <!-- Logo / Nome -->
+        <a href="#sobre" class="nav-logo" aria-label="Kayham Cristoffer - Ir para início">
+            <span class="nav-logo-text">KC</span>
+        </a>
+
+        <!-- Botão hambúrguer (mobile) -->
+        <button class="hamburger" aria-expanded="false" aria-controls="nav-menu" aria-label="Abrir menu de navegação">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </button>
+
+        <!-- Menu de navegação -->
+        <ul id="nav-menu" role="list">
             <li><a href="#sobre">Sobre</a></li>
             <li><a href="#formacao">Formação</a></li>
-            <li><a href="#experiencias">Trabalhos</a></li>
+            <li><a href="#experiencias">Experiências</a></li>
             <li><a href="#projetos">Projetos</a></li>
             <li><a href="#habilidades">Habilidades</a></li>
             <li><a href="#certificados">Certificados</a></li>
             <li><a href="#contato">Contato</a></li>
-            <li><a href="#" id="quickCVBtn" title="Gerar CV Completo">
-                <i class="fa-solid fa-file-pdf"></i>
-                <span class="cv-text">Download CV</span>
-            </a></li>
+            <li>
+                <a href="#" id="quickCVBtn" class="nav-cv-btn" title="Baixar CV Completo" aria-label="Baixar currículo completo em PDF">
+                    <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+                    <span class="cv-text">CV</span>
+                </a>
+            </li>
         </ul>
-        <div class="dark-mode-toggle">
-            <button id="darkModeToggle" class="theme-toggle" title="Alternar tema">
-                <i class="fa-solid fa-sun light-icon"></i>
-                <i class="fa-solid fa-moon dark-icon"></i>
+
+        <!-- Toggle Dark Mode -->
+        <div class="dark-mode-toggle" aria-label="Alternar tema">
+            <button id="darkModeToggle" class="theme-toggle" title="Alternar entre modo claro e escuro" aria-pressed="false">
+                <i class="fa-solid fa-sun light-icon" aria-hidden="true"></i>
+                <i class="fa-solid fa-moon dark-icon" aria-hidden="true"></i>
             </button>
         </div>
     </div>
