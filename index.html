@@ -1,61 +1,99 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- SEO Meta Tags -->
-    <title>Kayham Cristoffer | Portfólio - Desenvolvedor & Analista de TI</title>
-    <meta name="description" content="Portfólio de Kayham Cristoffer - Estudante de Ciência da Computação, Estagiário em TI no TCE-SP, especializado em infraestrutura, redes e desenvolvimento web.">
-    <meta name="keywords" content="Kayham Cristoffer, Portfólio, Desenvolvedor, TI, Infraestrutura, Redes, Web Designer, TCE-SP">
+    <title>Kayham Cristoffer | Desenvolvedor & Analista de TI</title>
+    <meta name="description" content="Portfólio de Kayham Cristoffer — Estudante de Ciência da Computação, Estagiário em TI no TCE-SP. Especialista em infraestrutura de redes, desenvolvimento web e automação.">
+    <meta name="keywords" content="Kayham Cristoffer, Desenvolvedor, Analista de TI, Infraestrutura de Redes, Web Developer, TCE-SP, Ciência da Computação, Python, JavaScript, CCNA">
     <meta name="author" content="Kayham Cristoffer Guilhermino de Oliveira">
-    
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Kayham Cristoffer | Portfólio">
-    <meta property="og:description" content="Estudante de Ciência da Computação e Estagiário em TI no TCE-SP">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#667eea">
+
+    <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://kayhamcristoffer.github.io/portfolio/">
-    
+    <meta property="og:title" content="Kayham Cristoffer | Desenvolvedor & Analista de TI">
+    <meta property="og:description" content="Estudante de Ciência da Computação e Estagiário em TI no TCE-SP. Infraestrutura, redes e desenvolvimento web.">
+    <meta property="og:image" content="https://kayhamcristoffer.github.io/portfolio/fotos/kayham-perfil.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Kayham Cristoffer | Desenvolvedor & Analista de TI">
+    <meta name="twitter:description" content="Portfólio profissional — Infraestrutura, redes e desenvolvimento web.">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://kayhamcristoffer.github.io/portfolio/">
+
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" type="image/png" href="img/logo/logo-test.png">
+    <link rel="apple-touch-icon" href="img/logo/logo-test.png">
+
+    <!-- Preconnect para performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Kayham Cristoffer Guilhermino de Oliveira",
+        "jobTitle": "Analista de TI / Desenvolvedor",
+        "url": "https://kayhamcristoffer.github.io/portfolio/",
+        "sameAs": [
+            "https://www.linkedin.com/in/kayhamcristoffer",
+            "https://github.com/KayhamCristoffer"
+        ],
+        "alumniOf": "Centro Universitário Carlos Drummond de Andrade",
+        "knowsAbout": ["Infraestrutura de Redes", "Desenvolvimento Web", "Segurança da Informação", "Python", "JavaScript"]
+    }
+    </script>
 </head>
 
 <body>
+    <!-- Skip to content para acessibilidade -->
+    <a href="#sobre" class="skip-link">Pular para o conteúdo</a>
+
     <!-- Header e Menu carregados dinamicamente -->
     <div id="header-section"></div>
 
     <!-- Seções carregadas dinamicamente -->
-    <div id="sobre-section"></div>
-    <div id="formacao-section"></div>
-    <div id="experiencias-section"></div>
-    <div id="projetos-section"></div>
-    <div id="habilidades-section"></div>
-    <div id="certificados-section"></div>
+    <main>
+        <div id="sobre-section"></div>
+        <div id="formacao-section"></div>
+        <div id="experiencias-section"></div>
+        <div id="projetos-section"></div>
+        <div id="habilidades-section"></div>
+        <div id="certificados-section"></div>
+    </main>
 
     <!-- Back to Top Button -->
-    <button id="backToTop" title="Voltar ao topo">↑</button>
+    <button id="backToTop" aria-label="Voltar ao topo" title="Voltar ao topo">
+        <i class="fa-solid fa-chevron-up" aria-hidden="true"></i>
+    </button>
 
     <!-- Footer carregado dinamicamente -->
     <div id="footer-section"></div>
 
-    <!-- JavaScript Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    
+    <!-- JavaScript Libraries (defer para não bloquear renderização) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+
     <!-- JavaScript -->
     <script src="js/section-loader.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/cv-generator.js"></script>
+    <script src="js/main.js" defer></script>
+    <script src="js/cv-generator.js" defer></script>
 </body>
 
 </html>

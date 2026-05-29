@@ -1,529 +1,431 @@
 // ========================================
-// Portfolio Kayham Cristoffer - Main JavaScript
+// Portfolio Kayham Cristoffer — main.js
+// Refatorado: Mai/2025
 // ========================================
 
-// ===== DARK MODE =====
+/* ===== DARK MODE ===== */
 function initDarkMode() {
-    const darkModeToggle = document.getElementById('darkModeToggle');
+    const toggle = document.getElementById('darkModeToggle');
+    if (!toggle) return;
+
     const body = document.body;
-    
-    // Verifica preferência salva
     const savedTheme = localStorage.getItem('theme');
+
     if (savedTheme === 'dark') {
         body.classList.add('dark-mode');
+        toggle.setAttribute('aria-pressed', 'true');
     }
-    
-    // Toggle dark mode com botão
-    if (darkModeToggle) {
-        darkModeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-            localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
-        });
-    }
+
+    toggle.addEventListener('click', () => {
+        const isDark = body.classList.toggle('dark-mode');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        toggle.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+    });
 }
 
-// Reinicializa dark mode quando seções carregam
-document.addEventListener('sectionsLoaded', () => {
-    initDarkMode();
-});
-
-// ===== SCROLL ANIMATIONS =====
+/* ===== SCROLL ANIMATIONS (Intersection Observer) ===== */
 function initScrollAnimations() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
-            }
-        });
-    }, observerOptions);
-    
-    // Observa todas as seções
-    document.querySelectorAll('section').forEach(section => {
-        section.classList.add('animate-on-scroll');
-        observer.observe(section);
-    });
-    
-    // Observa cards
-    document.querySelectorAll('.card').forEach(card => {
-        card.classList.add('animate-on-scroll');
-        observer.observe(card);
-    });
-}
-
-// ===== PROGRESS BAR =====
-function initProgressBar() {
-    const progressBar = document.getElementById('progressBar');
-    
-    window.addEventListener('scroll', () => {
-        const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = (window.scrollY / windowHeight) * 100;
-        if (progressBar) {
-            progressBar.style.width = scrolled + '%';
-        }
-    });
-}
-
-// ===== BACK TO TOP BUTTON =====
-function initBackToTop() {
-    const backToTopBtn = document.getElementById('backToTop');
-    
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            backToTopBtn?.classList.add('show');
-        } else {
-            backToTopBtn?.classList.remove('show');
-        }
-    });
-    
-    backToTopBtn?.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-}
-
-// ===== MOBILE MENU =====
-function initMobileMenu() {
-    // Remove listeners antigos se existirem
-    const oldHamburger = document.querySelector('.hamburger');
-    if (oldHamburger) {
-        const newHamburger = oldHamburger.cloneNode(true);
-        oldHamburger.parentNode.replaceChild(newHamburger, oldHamburger);
-    }
-    
-    // Aguarda o carregamento das seções
-    function setupMenu() {
-        const hamburger = document.querySelector('.hamburger');
-        const navMenu = document.querySelector('.sticky-nav ul');
-        
-        if (!hamburger || !navMenu) {
-            console.log('Menu ainda não carregado, aguardando...');
-            return;
-        }
-        
-        console.log('✅ Menu mobile inicializado');
-        
-        // Toggle do menu
-        hamburger.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('Hamburger clicado!');
-            
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
-            
-            console.log('Menu active:', navMenu.classList.contains('active'));
-        });
-        
-        // Fecha menu ao clicar em link
-        const menuLinks = navMenu.querySelectorAll('a');
-        menuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                console.log('Link clicado, fechando menu');
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
-            });
-        });
-        
-        // Fecha menu ao clicar fora
-        document.addEventListener('click', (e) => {
-            if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
-                if (navMenu.classList.contains('active')) {
-                    console.log('Clicou fora, fechando menu');
-                    hamburger.classList.remove('active');
-                    navMenu.classList.remove('active');
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                    observer.unobserve(entry.target);
                 }
-            }
-        });
-    }
-    
-    // Tenta inicializar imediatamente
-    setupMenu();
-    
-    // Tenta novamente quando seções carregarem
-    document.addEventListener('sectionsLoaded', setupMenu);
-}
-document.addEventListener("DOMContentLoaded", () => {
-  const hamburger = document.querySelector(".hamburger");
-  const navMenu = document.querySelector(".sticky-nav ul");
-
-  if (!hamburger || !navMenu) {
-    console.error("Hamburger ou menu não encontrado!");
-    return;
-  }
-
-  hamburger.addEventListener("click", () => {
-    navMenu.classList.toggle("active");
-    console.log("Menu clicado");
-  });
-});
-// ===== MODAL DE CERTIFICADOS EM TELA CHEIA =====
-function initCertModal() {
-    let currentCertIndex = 0;
-    let allCertificates = [];
-    
-    // Coleta todos os certificados
-    function collectCertificates() {
-        allCertificates = [];
-        document.querySelectorAll(".view-cert").forEach((button, index) => {
-            const src = button.getAttribute("data-image");
-            const isPdf = src && src.toLowerCase().endsWith('.pdf');
-            allCertificates.push({
-                src: src,
-                isPdf: isPdf,
-                button: button,
-                index: index
             });
+        },
+        { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+    );
+
+    document.querySelectorAll('section, .card').forEach(el => {
+        el.classList.add('animate-on-scroll');
+        observer.observe(el);
+    });
+}
+
+/* ===== PROGRESS BAR ===== */
+function initProgressBar() {
+    const bar = document.getElementById('progressBar');
+    if (!bar) return;
+
+    let ticking = false;
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                const total = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const pct = total > 0 ? (window.scrollY / total) * 100 : 0;
+                bar.style.width = `${pct}%`;
+                bar.setAttribute('aria-valuenow', Math.round(pct));
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }, { passive: true });
+}
+
+/* ===== BACK TO TOP ===== */
+function initBackToTop() {
+    const btn = document.getElementById('backToTop');
+    if (!btn) return;
+
+    window.addEventListener('scroll', () => {
+        btn.classList.toggle('show', window.scrollY > 300);
+    }, { passive: true });
+
+    btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
+/* ===== MENU MOBILE ===== */
+function initMobileMenu() {
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu   = document.querySelector('.sticky-nav ul');
+    if (!hamburger || !navMenu) return;
+
+    // Evita listeners duplicados
+    if (hamburger.dataset.initialized) return;
+    hamburger.dataset.initialized = 'true';
+
+    const toggleMenu = () => {
+        const isOpen = navMenu.classList.toggle('active');
+        hamburger.classList.toggle('active', isOpen);
+        hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    };
+
+    hamburger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMenu();
+    });
+
+    // Fecha ao clicar em link
+    navMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            hamburger.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
         });
+    });
+
+    // Fecha ao clicar fora
+    document.addEventListener('click', (e) => {
+        if (navMenu.classList.contains('active') &&
+            !navMenu.contains(e.target) &&
+            !hamburger.contains(e.target)) {
+            navMenu.classList.remove('active');
+            hamburger.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
+        }
+    });
+
+    // Fecha com Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+            navMenu.classList.remove('active');
+            hamburger.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
+        }
+    });
+}
+
+/* ===== MODAL DE CERTIFICADOS ===== */
+function initCertModal() {
+    let currentIndex = 0;
+    let certificates = [];
+
+    function collectCerts() {
+        certificates = Array.from(document.querySelectorAll('.view-cert')).map(btn => ({
+            src: btn.getAttribute('data-image'),
+            isPdf: btn.getAttribute('data-image')?.toLowerCase().endsWith('.pdf') ?? false
+        }));
     }
-    
-    // Cria modal em tela cheia se não existir
-    function createFullscreenModal() {
-        if (document.getElementById("certModal")) return;
-        
-        const modalHTML = `
-            <div id="certModal" class="cert-modal-fullscreen">
-                <button class="cert-close-btn" title="Fechar">
-                    <i class="fa-solid fa-xmark"></i>
+
+    function createModal() {
+        if (document.getElementById('certModal')) return;
+        document.body.insertAdjacentHTML('beforeend', `
+            <div id="certModal" class="cert-modal-fullscreen" role="dialog" aria-modal="true" aria-label="Visualizador de certificados">
+                <button class="cert-close-btn" title="Fechar" aria-label="Fechar certificado">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
                 </button>
-                <button class="cert-nav-btn cert-prev-btn" title="Certificado Anterior">
-                    <i class="fa-solid fa-chevron-left"></i>
+                <button class="cert-nav-btn cert-prev-btn" title="Anterior" aria-label="Certificado anterior">
+                    <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
                 </button>
-                <button class="cert-nav-btn cert-next-btn" title="Próximo Certificado">
-                    <i class="fa-solid fa-chevron-right"></i>
+                <button class="cert-nav-btn cert-next-btn" title="Próximo" aria-label="Próximo certificado">
+                    <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
                 </button>
                 <div class="cert-image-container">
-                    <img id="certImage" src="" alt="Certificado" style="display: none;">
-                    <iframe id="certPdf" src="" style="display: none;"></iframe>
-                    <div class="cert-counter"></div>
+                    <img id="certImage" src="" alt="Certificado" style="display:none;">
+                    <iframe id="certPdf" src="" title="Certificado PDF" style="display:none;"></iframe>
+                    <div class="cert-counter" aria-live="polite"></div>
                 </div>
             </div>
-        `;
-        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        `);
     }
-    
-    // Exibe certificado no modal
-    function showCertificate(index) {
-        const modal = document.getElementById("certModal");
-        const img = document.getElementById("certImage");
-        const pdf = document.getElementById("certPdf");
-        const counter = modal.querySelector(".cert-counter");
-        
-        if (index >= 0 && index < allCertificates.length) {
-            currentCertIndex = index;
-            const cert = allCertificates[index];
-            
-            // Esconde ambos primeiro
-            img.style.display = "none";
-            pdf.style.display = "none";
-            img.src = "";
-            pdf.src = "";
-            
-            // Mostra o tipo correto
-            if (cert.isPdf) {
-                pdf.src = cert.src;
-                pdf.style.display = "block";
-            } else {
-                img.src = cert.src;
-                img.style.display = "block";
-            }
-            
-            counter.textContent = `${index + 1} / ${allCertificates.length}`;
-            modal.style.display = "flex";
-            document.body.style.overflow = "hidden"; // Impede scroll do body
-        }
-    }
-    
-    // Fecha modal
-    function closeModal() {
-        const modal = document.getElementById("certModal");
-        const img = document.getElementById("certImage");
-        const pdf = document.getElementById("certPdf");
-        modal.style.display = "none";
-        img.src = "";
-        pdf.src = "";
-        img.style.display = "none";
-        pdf.style.display = "none";
-        document.body.style.overflow = ""; // Restaura scroll do body
-    }
-    
-    // Navega para próximo certificado
-    function nextCertificate() {
-        if (currentCertIndex < allCertificates.length - 1) {
-            showCertificate(currentCertIndex + 1);
+
+    function show(index) {
+        const modal   = document.getElementById('certModal');
+        const img     = document.getElementById('certImage');
+        const pdf     = document.getElementById('certPdf');
+        const counter = modal.querySelector('.cert-counter');
+
+        if (index < 0 || index >= certificates.length) return;
+
+        currentIndex = index;
+        const cert = certificates[index];
+
+        img.style.display = 'none';
+        pdf.style.display = 'none';
+        img.src = '';
+        pdf.src = '';
+
+        if (cert.isPdf) {
+            pdf.src = cert.src;
+            pdf.style.display = 'block';
         } else {
-            showCertificate(0); // Volta ao primeiro
+            img.src = cert.src;
+            img.style.display = 'block';
         }
+
+        counter.textContent = `${index + 1} / ${certificates.length}`;
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
     }
-    
-    // Navega para certificado anterior
-    function prevCertificate() {
-        if (currentCertIndex > 0) {
-            showCertificate(currentCertIndex - 1);
-        } else {
-            showCertificate(allCertificates.length - 1); // Vai para o último
-        }
+
+    function close() {
+        const modal = document.getElementById('certModal');
+        if (!modal) return;
+        modal.style.display = 'none';
+        document.getElementById('certImage').src = '';
+        document.getElementById('certPdf').src  = '';
+        document.body.style.overflow = '';
     }
-    
-    // Inicializa eventos
-    function initEvents() {
-        collectCertificates();
-        createFullscreenModal();
-        
-        const modal = document.getElementById("certModal");
-        const closeBtn = modal.querySelector(".cert-close-btn");
-        const prevBtn = modal.querySelector(".cert-prev-btn");
-        const nextBtn = modal.querySelector(".cert-next-btn");
-        
-        // Botões de visualização
-        document.querySelectorAll(".view-cert").forEach((button, index) => {
-            button.addEventListener("click", (e) => {
+
+    function next() {
+        show((currentIndex + 1) % certificates.length);
+    }
+
+    function prev() {
+        show((currentIndex - 1 + certificates.length) % certificates.length);
+    }
+
+    function setupEvents() {
+        collectCerts();
+        createModal();
+
+        const modal   = document.getElementById('certModal');
+        const closeBtn = modal.querySelector('.cert-close-btn');
+        const prevBtn  = modal.querySelector('.cert-prev-btn');
+        const nextBtn  = modal.querySelector('.cert-next-btn');
+
+        document.querySelectorAll('.view-cert').forEach((btn, i) => {
+            btn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                showCertificate(index);
+                show(i);
             });
         });
-        
-        // Botão fechar
-        closeBtn?.addEventListener("click", (e) => {
-            e.stopPropagation();
-            closeModal();
+
+        closeBtn?.addEventListener('click', close);
+        prevBtn?.addEventListener('click', prev);
+        nextBtn?.addEventListener('click', next);
+
+        modal?.addEventListener('click', (e) => {
+            if (e.target === modal) close();
         });
-        
-        // Botões de navegação
-        nextBtn?.addEventListener("click", (e) => {
-            e.stopPropagation();
-            nextCertificate();
-        });
-        
-        prevBtn?.addEventListener("click", (e) => {
-            e.stopPropagation();
-            prevCertificate();
-        });
-        
-        // Fechar ao clicar fora da imagem
-        modal?.addEventListener("click", (e) => {
-            if (e.target === modal) {
-                closeModal();
-            }
-        });
-        
-        // Navegação por teclado
-        document.addEventListener("keydown", (e) => {
-            if (modal.style.display === "flex") {
-                if (e.key === "Escape") closeModal();
-                if (e.key === "ArrowRight") nextCertificate();
-                if (e.key === "ArrowLeft") prevCertificate();
-            }
+
+        document.addEventListener('keydown', (e) => {
+            if (modal.style.display !== 'flex') return;
+            if (e.key === 'Escape')      close();
+            if (e.key === 'ArrowRight')  next();
+            if (e.key === 'ArrowLeft')   prev();
         });
     }
-    
-    // Aguarda seções serem carregadas
-    if (document.readyState === 'loading') {
-        document.addEventListener('sectionsLoaded', initEvents);
-    } else {
-        // Se já carregou, tenta após timeout
-        setTimeout(initEvents, 1000);
-    }
+
+    // Aguarda seções carregarem
+    document.addEventListener('sectionsLoaded', setupEvents, { once: true });
 }
 
-// ===== TOGGLE CARDS EXPANSÍVEIS =====
+/* ===== TOGGLE CARDS EXPANSÍVEIS ===== */
 function initToggleCards() {
-    document.querySelectorAll('.toggle').forEach(function (title) {
+    document.querySelectorAll('.toggle').forEach(title => {
+        if (title.dataset.initialized) return;
+        title.dataset.initialized = 'true';
+
         title.addEventListener('click', function () {
-            const card = this.parentElement;
-            const isOpen = card.classList.contains('open');
-            
-            // Toggle a classe open
+            const card = this.closest('.card') || this.parentElement;
             card.classList.toggle('open');
-            
-            // Troca o ícone
-            const icon = this.querySelector('i');
-            if (icon) {
-                if (isOpen) {
-                    // Estava aberto, agora vai fechar
-                    icon.classList.remove('fa-chevron-up');
-                    icon.classList.add('fa-chevron-down');
-                } else {
-                    // Estava fechado, agora vai abrir
-                    icon.classList.remove('fa-chevron-down');
-                    icon.classList.add('fa-chevron-up');
-                }
-            }
         });
     });
 }
 
-// ===== SKILLS PROGRESS BARS =====
+/* ===== SKILLS PROGRESS BARS ===== */
 function initSkillsBars() {
-    const skillsSection = document.getElementById('habilidades');
-    
-    const observerOptions = {
-        threshold: 0.5
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const progressBars = entry.target.querySelectorAll('.skill-progress');
-                progressBars.forEach(bar => {
-                    const percentage = bar.getAttribute('data-percentage');
-                    bar.style.width = percentage + '%';
-                });
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-    
-    if (skillsSection) {
-        observer.observe(skillsSection);
-    }
+    const section = document.getElementById('habilidades');
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.querySelectorAll('.skill-progress').forEach(bar => {
+                        bar.style.width = (bar.getAttribute('data-percentage') || 0) + '%';
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        },
+        { threshold: 0.4 }
+    );
+
+    observer.observe(section);
 }
 
-// ===== GITHUB REPOSITORIES =====
-// Função removida - seção de repositórios não está mais no portfólio
-
-// ===== SMOOTH SCROLL =====
+/* ===== SMOOTH SCROLL ===== */
 function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
-            e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
+            if (!target) return;
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
     });
 }
 
-// ===== TYPING EFFECT =====
+/* ===== TYPING EFFECT ===== */
 function initTypingEffect() {
-    // Aguarda seções serem carregadas
-    function startTyping() {
-        const typingElement = document.getElementById('typing-text');
-        if (!typingElement) return;
-        
-        const texts = [
-            'Estudante de Ciência da Computação',
-            'Estagiário em TI no TCE-SP',
-            'Analista de Infraestrutura',
-            'Web Designer'
-        ];
-        let textIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        
-        function type() {
-            const currentText = texts[textIndex];
-            
-            if (isDeleting) {
-                typingElement.textContent = currentText.substring(0, charIndex - 1);
-                charIndex--;
-            } else {
-                typingElement.textContent = currentText.substring(0, charIndex + 1);
-                charIndex++;
-            }
-            
-            if (!isDeleting && charIndex === currentText.length) {
-                setTimeout(() => isDeleting = true, 2000);
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                textIndex = (textIndex + 1) % texts.length;
-            }
-            
-            const speed = isDeleting ? 50 : 100;
-            setTimeout(type, speed);
+    const el = document.getElementById('typing-text');
+    if (!el || el.dataset.initialized) return;
+    el.dataset.initialized = 'true';
+
+    const phrases = [
+        'Analista de TI & Desenvolvedor Web',
+        'Estagiário em TI no TCE-SP',
+        'Especialista em Redes e Infraestrutura',
+        'Estudante de Ciência da Computação'
+    ];
+
+    let phraseIndex = 0;
+    let charIndex   = 0;
+    let deleting    = false;
+
+    function tick() {
+        const current = phrases[phraseIndex];
+
+        if (deleting) {
+            el.textContent = current.slice(0, --charIndex);
+        } else {
+            el.textContent = current.slice(0, ++charIndex);
         }
-        
-        type();
+
+        if (!deleting && charIndex === current.length) {
+            setTimeout(() => { deleting = true; tick(); }, 2200);
+            return;
+        }
+
+        if (deleting && charIndex === 0) {
+            deleting = false;
+            phraseIndex = (phraseIndex + 1) % phrases.length;
+        }
+
+        setTimeout(tick, deleting ? 45 : 90);
     }
-    
-    // Tenta iniciar imediatamente
-    if (document.getElementById('typing-text')) {
-        startTyping();
-    }
-    
-    // Tenta novamente quando seções carregarem
-    document.addEventListener('sectionsLoaded', startTyping);
+
+    tick();
 }
 
-// ===== MENU DINÂMICO (HIDE ON SCROLL DOWN, SHOW ON SCROLL UP) =====
+/* ===== MENU DINÂMICO (esconde ao scroll down) ===== */
 function initDynamicMenu() {
     const nav = document.querySelector('.sticky-nav');
     if (!nav) return;
-    
+
     let lastScrollY = window.scrollY;
-    let ticking = false;
-    
-    function updateNav() {
-        const currentScrollY = window.scrollY;
-        
-        if (currentScrollY > lastScrollY && currentScrollY > 100) {
-            // Scrolling down & past threshold
-            nav.classList.add('hidden');
-        } else {
-            // Scrolling up or at top
-            nav.classList.remove('hidden');
-        }
-        
-        lastScrollY = currentScrollY;
-        ticking = false;
-    }
-    
+    let ticking     = false;
+
     window.addEventListener('scroll', () => {
         if (!ticking) {
-            window.requestAnimationFrame(updateNav);
+            window.requestAnimationFrame(() => {
+                const current = window.scrollY;
+                if (current > lastScrollY && current > 120) {
+                    nav.classList.add('hidden');
+                } else {
+                    nav.classList.remove('hidden');
+                }
+                lastScrollY = current;
+                ticking = false;
+            });
             ticking = true;
         }
-    });
+    }, { passive: true });
 }
 
-// ===== INICIALIZAÇÃO =====
+/* ===== LAZY LOADING DE IMAGENS ===== */
+function initLazyImages() {
+    if (!('IntersectionObserver' in window)) return;
+
+    const observer = new IntersectionObserver(
+        (entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                        img.classList.remove('lazy');
+                    }
+                    obs.unobserve(img);
+                }
+            });
+        },
+        { rootMargin: '200px 0px' }
+    );
+
+    document.querySelectorAll('img[data-src]').forEach(img => observer.observe(img));
+}
+
+/* ===== ACTIVE NAV LINKS (scroll spy) ===== */
+function initScrollSpy() {
+    const sections = document.querySelectorAll('section[id]');
+    const links    = document.querySelectorAll('.sticky-nav ul a[href^="#"]');
+    if (!sections.length || !links.length) return;
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    links.forEach(link => {
+                        link.classList.toggle(
+                            'active-nav',
+                            link.getAttribute('href') === `#${id}`
+                        );
+                    });
+                }
+            });
+        },
+        { rootMargin: '-40% 0px -55% 0px' }
+    );
+
+    sections.forEach(s => observer.observe(s));
+}
+
+/* ===== INICIALIZAÇÃO ===== */
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🚀 Portfolio carregado!');
-    
-    // Inicializa todas as funcionalidades
-    initDarkMode();
-    initScrollAnimations();
     initProgressBar();
     initBackToTop();
-    initMobileMenu();
-    initDynamicMenu();
     initCertModal();
-    initToggleCards();
-    initSkillsBars();
-    initSmoothScroll();
-    initTypingEffect();
-});
 
-// Reinicializa toggles quando seções carregam
-document.addEventListener('sectionsLoaded', () => {
-    initToggleCards();
-    initDynamicMenu();
+    // Aguarda seções dinâmicas
+    document.addEventListener('sectionsLoaded', () => {
+        initDarkMode();
+        initScrollAnimations();
+        initMobileMenu();
+        initDynamicMenu();
+        initToggleCards();
+        initSkillsBars();
+        initSmoothScroll();
+        initTypingEffect();
+        initLazyImages();
+        initScrollSpy();
+    }, { once: true });
 });
-
-// ===== LAZY LOADING DE IMAGENS =====
-if ('IntersectionObserver' in window) {
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.src = img.dataset.src;
-                img.classList.remove('lazy');
-                observer.unobserve(img);
-            }
-        });
-    });
-    
-    document.querySelectorAll('img[data-src]').forEach(img => {
-        imageObserver.observe(img);
-    });
-}
