@@ -709,6 +709,16 @@ body.dark-mode .badge-status {
     color: #a78bfa;
 }
 
+.badge-concluido {
+    background: rgba(16, 185, 129, 0.15);
+    color: #059669;
+    font-weight: 700;
+}
+
+body.dark-mode .badge-concluido {
+    color: #34d399;
+}
+
 .cargo {
     font-size: 0.95rem;
     color: var(--secondary-color);
