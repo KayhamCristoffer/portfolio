@@ -449,6 +449,57 @@ h2::after {
     opacity: 1;
 }
 
+/* WhatsApp button */
+.btn-whatsapp {
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: white;
+}
+
+.btn-whatsapp:hover {
+    background: linear-gradient(135deg, #1ebe58, #0e6e63);
+    opacity: 1;
+}
+
+/* Stat divider — vertical separator between stat columns */
+.stat-divider {
+    width: 1px;
+    align-self: stretch;
+    background: linear-gradient(to bottom, transparent, var(--primary-color), transparent);
+    opacity: 0.35;
+    margin: 4px 4px;
+    flex-shrink: 0;
+}
+
+/* Formação certificates sub-list */
+.formacao-certificacoes {
+    margin: 10px 0 0 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.formacao-certificacoes li {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+    padding: 0 0 0 1.2rem;
+    position: relative;
+    line-height: 1.5;
+}
+
+.formacao-certificacoes li::before {
+    content: "🏅";
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 0.78rem;
+}
+
+/* Responsive: hide dividers on very small screens */
+@media (max-width: 480px) {
+    .stat-divider { display: none; }
+    .sobre-stats { gap: 16px; }
+}
+
 /* Foto de perfil */
 .imagem-sobre {
     flex: 0 0 260px;
