@@ -71,23 +71,6 @@ portfolio/
 
 ---
 
-## Como rodar localmente
-
-```bash
-git clone https://github.com/KayhamCristoffer/portfolio.git
-cd portfolio
-
-# Opção 1 — Node.js
-npx serve .
-
-# Opção 2 — Python
-python3 -m http.server 8080
-```
-
-> **Importante:** As seções são carregadas via `fetch()`, portanto abrir `index.html` diretamente via `file://` não funciona. Use um servidor local.
-
----
-
 ## Features
 
 - **Dark Mode** — toggle persistido em `localStorage`
@@ -98,19 +81,6 @@ python3 -m http.server 8080
 - **Animações de entrada** — via `IntersectionObserver` (sem biblioteca externa)
 - **Responsivo** — breakpoints em 1024px, 768px e 480px
 - **Acessibilidade** — ARIA, skip-link, navegação por teclado, `prefers-reduced-motion`
-
----
-
-## Histórico de versões
-
-| Data | Round | Descrição |
-|---|---|---|
-| Jun 2026 | Round 6 | Vagas desejadas + bloco PCD (CID H54.4) na seção Sobre; seção Voluntário & Liderança (Representante de Turma); README profile GitHub |
-| Jun 2026 | Round 5 | Ensino Fundamental adicionado; AutoCAD 2D e 3D; formação redesenhada em cards (espelha Histórico Profissional) |
-| Jun 2026 | Round 4 | Stats 4 colunas com dividers; botão WhatsApp; certificações Senac; cv-generator.js v2 (seletores corrigidos) |
-| Jun 2026 | Round 3 | Cisco cert fix; semestres corrigidos; card IA & Prompts; badge Concluído Inter Produções; README reescrito |
-| Jun 2026 | Round 2 | Conteúdo real CRM v4.1; BSidesSP 2026; Banco de Dados; validação RH |
-| Jun 2026 | Round 1 | Refatoração completa — design system, SEO, acessibilidade, JS sem duplicações |
 
 ---
 
