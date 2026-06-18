@@ -173,17 +173,17 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
 
     doc.setFontSize(9.5);
     doc.setFont('helvetica', 'normal');
-    doc.text('Analista de TI em Formacao  |  Estagiario TCE-SP  |  Ciencia da Computacao', mLeft, 18);
+    doc.text('Analista de TI em Formação  |  Estagiario no TCE-SP  | Universitário em Ciência da Computacão', mLeft, 18);
 
     doc.setFontSize(8.5);
-    doc.text('Sao Paulo - SP  |  +55 (11) 99454-6931  |  kayhamoliveira98@gmail.com', mLeft, 23.5);
+    doc.text('São Paulo - SP  |  kayham98.1@hotmail.com', mLeft, 23.5);
 
     doc.setFontSize(8);
     const c2 = mLeft + 95;
     doc.text('linkedin.com/in/kayhamcristoffer', mLeft, 28.5);
     doc.text('github.com/KayhamCristoffer', c2, 28.5);
     doc.text('kayhamcristoffer.github.io/portfolio', mLeft, 33);
-    doc.text('wa.me/5511994546931', c2, 33);
+    doc.text('+55 (11) 99454-6931', c2, 33);
 
     yPos = 46;
 
