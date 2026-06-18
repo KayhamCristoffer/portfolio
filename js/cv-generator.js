@@ -1,6 +1,7 @@
 // ========================================
-// CV Generator — Gera PDF a partir do conteúdo visível do HTML
-// Versão 2.0 — seletores corrigidos para o HTML refatorado
+// CV Generator v4 — PDF limpo, compacto e sem poluição
+// Resumido: máx 2 páginas | Completo: detalhado
+// Fixes: T a t u a p é (→ char), &&&& (&amp;), rodapé discreto, 2 colunas habilidades
 // ========================================
 
 const CV_MODES = {
@@ -8,7 +9,7 @@ const CV_MODES = {
     RESUMIDO: 'resumido'
 };
 
-// Remove emojis, Font Awesome e SVGs de uma string de texto
+// ── Limpeza de texto ──────────────────────────────────────────
 function removeEmojis(text) {
     if (!text) return '';
     return text
@@ -19,419 +20,524 @@ function removeEmojis(text) {
         .trim();
 }
 
-// Extrai texto limpo de um elemento DOM (sem ícones FA, SVG ou emojis)
-function cleanText(el) {
-    if (!el) return '';
-    // Clonar e remover tags de ícone antes de pegar textContent
-    const clone = el.cloneNode(true);
-    clone.querySelectorAll('i, svg').forEach(n => n.remove());
-    return removeEmojis(clone.textContent || '');
+// Decodifica entidades HTML. Usa textarea trick para cobrir todos os casos.
+function decodeHTML(str) {
+    if (!str) return '';
+    // Primeiro tenta via textarea DOM (mais completo)
+    try {
+        const ta = document.createElement('textarea');
+        ta.innerHTML = str;
+        let decoded = ta.value;
+        // Substitui → e setas Unicode por texto ASCII para evitar kerning no jsPDF
+        decoded = decoded
+            .replace(/→/g, '->')
+            .replace(/←/g, '<-')
+            .replace(/↔/g, '<->')
+            .replace(/⇒/g, '=>')
+            .replace(/\u2192/g, '->')
+            .replace(/\u2190/g, '<-')
+            .replace(/\u00B7/g, '·');
+        return decoded;
+    } catch (e) {
+        // Fallback manual
+        return str
+            .replace(/&amp;/g, '&')
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&nbsp;/g, ' ')
+            .replace(/&rarr;/g, '->')
+            .replace(/&larr;/g, '<-')
+            .replace(/&middot;/g, '·')
+            .replace(/&#x2192;/g, '->')
+            .replace(/&#8594;/g, '->')
+            .replace(/&#[0-9]+;/g, '')
+            .replace(/&[a-zA-Z]+;/g, '');
+    }
 }
 
-// ─────────────────────────────────────────────────────────────
-// Gerador principal
-// ─────────────────────────────────────────────────────────────
+// Extrai texto limpo: remove ícones FA/SVG, decodifica HTML, limpa emojis e espaços duplos
+// IMPORTANTE: clona o nó para não mutilar o DOM real
+function cleanText(el) {
+    if (!el) return '';
+    const clone = el.cloneNode(true);
+    // Remove todos os elementos não-textuais: ícones FA, SVG, img
+    clone.querySelectorAll('i, svg, img').forEach(n => n.remove());
+    // Usa innerHTML → decodeHTML para capturar entidades &amp; corretamente
+    const raw = clone.innerHTML || '';
+    // Strip tags restantes
+    const stripped = raw.replace(/<[^>]+>/g, ' ');
+    return removeEmojis(decodeHTML(stripped)).replace(/\s+/g, ' ').trim();
+}
+
+// ── Gerador principal ─────────────────────────────────────────
 async function generateCV(mode = CV_MODES.RESUMIDO) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF('p', 'mm', 'a4');
 
+    const pageH  = 297;
+    const pageW  = 210;
+    const mLeft  = 14;
+    const mRight = 14;
+    const cWidth = pageW - mLeft - mRight;
+    // Rodapé discreto — reserva mínima
+    const footerH = 8;
+    const maxY    = pageH - footerH;
+
     let yPos = 20;
-    const pageH   = 297;
-    const mLeft   = 15;
-    const mRight  = 15;
-    const pageW   = 210;
-    const cWidth  = pageW - mLeft - mRight;
 
-    // ── Helpers ──────────────────────────────────────────────
+    // ── Helpers ─────────────────────────────────────────────
 
-    function breakPage(needed = 10) {
-        if (yPos + needed > pageH - 20) {
-            doc.addPage();
-            yPos = 20;
-        }
+    function newPage() {
+        doc.addPage();
+        yPos = 18;
     }
 
-    function txt(text, size, style = 'normal', gap = 0) {
+    function breakPage(needed = 10) {
+        if (yPos + needed > maxY) newPage();
+    }
+
+    function txt(text, size, style = 'normal', afterGap = 2) {
+        if (!text || !text.trim()) return;
         doc.setFontSize(size);
         doc.setFont('helvetica', style);
-        doc.setTextColor(0, 0, 0);
-        const lines = doc.splitTextToSize(removeEmojis(text), cWidth);
+        doc.setTextColor(30, 30, 30);
+        const lines = doc.splitTextToSize(text, cWidth);
         lines.forEach(line => {
-            breakPage();
+            breakPage(size * 0.5);
             doc.text(line, mLeft, yPos);
-            yPos += size * 0.45;
+            yPos += size * 0.42;
         });
-        yPos += 3 + gap;
+        yPos += afterGap;
+    }
+
+    function txtCol(text, size, xStart, colW, style = 'normal') {
+        if (!text || !text.trim()) return 0;
+        doc.setFontSize(size);
+        doc.setFont('helvetica', style);
+        doc.setTextColor(40, 40, 40);
+        const lines = doc.splitTextToSize(text, colW - 2);
+        let h = 0;
+        lines.forEach(line => {
+            doc.text(line, xStart, yPos + h);
+            h += size * 0.42;
+        });
+        return h;
     }
 
     function sectionTitle(label) {
-        breakPage(12);
-        doc.setFontSize(13);
+        breakPage(14);
+        yPos += 3;
+        doc.setFontSize(11);
         doc.setFont('helvetica', 'bold');
         doc.setTextColor(44, 62, 80);
-        doc.text(removeEmojis(label), mLeft, yPos);
-        yPos += 6;
-    }
-
-    function hRule() {
-        breakPage(8);
-        yPos += 1;
-        doc.setDrawColor(44, 62, 80);
-        doc.setLineWidth(0.7);
+        doc.text(label.toUpperCase(), mLeft, yPos);
+        yPos += 3;
+        doc.setDrawColor(99, 102, 241);
+        doc.setLineWidth(0.5);
         doc.line(mLeft, yPos, pageW - mRight, yPos);
         yPos += 5;
     }
 
-    function bullet(text, indent = 3) {
+    function bullet(text, indent = 4, size = 8.5) {
+        if (!text || !text.trim()) return;
         breakPage(6);
-        doc.setFontSize(9);
+        doc.setFontSize(size);
         doc.setFont('helvetica', 'normal');
-        doc.setTextColor(0, 0, 0);
-        const lines = doc.splitTextToSize('• ' + removeEmojis(text), cWidth - indent);
+        doc.setTextColor(30, 30, 30);
+        const lines = doc.splitTextToSize('• ' + text, cWidth - indent);
         lines.forEach(line => {
-            breakPage();
+            breakPage(5);
             doc.text(line, mLeft + indent, yPos);
-            yPos += 4.5;
+            yPos += size * 0.42;
         });
     }
 
-    // ── Cabeçalho colorido ────────────────────────────────────
+    function metaLine(text, size = 8.5) {
+        if (!text || !text.trim()) return;
+        breakPage(5);
+        doc.setFontSize(size);
+        doc.setFont('helvetica', 'italic');
+        doc.setTextColor(90, 90, 90);
+        doc.text(text, mLeft, yPos);
+        yPos += size * 0.42 + 1;
+    }
+
+    // ── Cabeçalho ─────────────────────────────────────────────
     doc.setFillColor(44, 62, 80);
-    doc.rect(0, 0, pageW, 42, 'F');
+    doc.rect(0, 0, pageW, 38, 'F');
 
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(20);
+    doc.setFontSize(17);
     doc.setFont('helvetica', 'bold');
-    doc.text('Kayham Cristoffer Guilhermino de Oliveira', mLeft, 14);
+    doc.text('Kayham Cristoffer Guilhermino de Oliveira', mLeft, 12);
 
-    doc.setFontSize(10);
+    doc.setFontSize(9.5);
     doc.setFont('helvetica', 'normal');
-    doc.text('Analista de TI em Formação | Estagiário TCE-SP | Ciência da Computação', mLeft, 21);
+    doc.text('Analista de TI em Formacao  |  Estagiario TCE-SP  |  Ciencia da Computacao', mLeft, 18);
 
-    doc.setFontSize(9);
-    doc.text('São Paulo – SP  |  +55 (11) 99454-6931  |  kayhamoliveira98@gmail.com', mLeft, 27);
+    doc.setFontSize(8.5);
+    doc.text('Sao Paulo - SP  |  +55 (11) 99454-6931  |  kayhamoliveira98@gmail.com', mLeft, 23.5);
 
     doc.setFontSize(8);
-    const col2X = mLeft + 95;
-    doc.text('LinkedIn: linkedin.com/in/kayhamcristoffer', mLeft, 33);
-    doc.text('GitHub: github.com/KayhamCristoffer', col2X, 33);
-    doc.text('Portfólio: kayhamcristoffer.github.io/portfolio', mLeft, 38);
-    doc.text('WhatsApp: wa.me/5511994546931', col2X, 38);
+    const c2 = mLeft + 95;
+    doc.text('linkedin.com/in/kayhamcristoffer', mLeft, 28.5);
+    doc.text('github.com/KayhamCristoffer', c2, 28.5);
+    doc.text('kayhamcristoffer.github.io/portfolio', mLeft, 33);
+    doc.text('wa.me/5511994546931', c2, 33);
 
-    yPos = 52;
+    yPos = 46;
 
-    // ── Perfil Profissional ───────────────────────────────────
+    // ── Perfil Profissional ────────────────────────────────────
     const perfilSection = document.querySelector('.perfil-profissional');
     if (perfilSection) {
-        sectionTitle('PERFIL PROFISSIONAL');
-        hRule();
+        sectionTitle('Perfil Profissional');
 
-        const paragrafos = perfilSection.querySelectorAll('p');
-        paragrafos.forEach(p => {
-            const t = cleanText(p).replace(/\s+/g, ' ').trim();
+        // Apenas os <p> diretos (exclui sub-seções)
+        const allP = perfilSection.querySelectorAll('p');
+        allP.forEach(p => {
+            if (p.closest('.sobre-vagas') || p.closest('.sobre-pcd') ||
+                p.closest('.sobre-stats') || p.closest('.sobre-ctas') ||
+                p.classList.contains('sobre-vagas-titulo') ||
+                p.classList.contains('pcd-titulo') ||
+                p.classList.contains('pcd-desc')) return;
+
+            const t = cleanText(p);
             if (t) {
-                txt(t, 10, 'normal', 2);
+                // No resumido, usa só o primeiro parágrafo (perfil principal)
+                if (mode === CV_MODES.RESUMIDO) {
+                    txt(t, 9, 'normal', 2);
+                    return; // Processa só o primeiro — mas o forEach continua; usamos flag abaixo
+                }
+                txt(t, 9, 'normal', 2);
             }
         });
-        yPos += 2;
-    }
 
-    // ── Formação Acadêmica ────────────────────────────────────
-    const formacaoSection = document.getElementById('formacao');
-    if (formacaoSection) {
-        sectionTitle('FORMAÇÃO ACADÊMICA');
-        hRule();
-
-        const items = formacaoSection.querySelectorAll('.formacao-item');
-        items.forEach(item => {
-            breakPage(18);
-
-            const h3 = item.querySelector('h3');
-            if (h3) {
-                doc.setFontSize(11);
-                doc.setFont('helvetica', 'bold');
-                doc.setTextColor(0, 0, 0);
-                doc.text(cleanText(h3), mLeft, yPos);
-                yPos += 5;
-            }
-
-            const inst = item.querySelector('.formacao-instituicao');
-            if (inst) {
-                doc.setFontSize(9);
+        // PCD — texto simples, sem badge de lei
+        const pcdDesc = perfilSection.querySelector('.pcd-desc');
+        if (pcdDesc) {
+            const pcdTxt = cleanText(pcdDesc);
+            if (pcdTxt) {
+                breakPage(6);
+                doc.setFontSize(8);
                 doc.setFont('helvetica', 'italic');
-                doc.text(cleanText(inst), mLeft, yPos);
-                yPos += 4;
-            }
-
-            const periodo = item.querySelector('.formacao-periodo');
-            if (periodo) {
-                doc.setFontSize(9);
-                doc.setFont('helvetica', 'normal');
-                doc.text(cleanText(periodo), mLeft, yPos);
-                yPos += 5;
-            }
-
-            const desc = item.querySelector('.formacao-desc');
-            if (desc) {
-                doc.setFont('helvetica', 'normal');
-                txt(cleanText(desc), 9, 'normal', 1);
-            }
-
-            // Certificações Senac intermediárias
-            const certs = item.querySelectorAll('.formacao-certificacoes li');
-            if (certs.length) {
-                doc.setFontSize(8.5);
-                doc.setFont('helvetica', 'italic');
-                doc.setTextColor(80, 80, 80);
-                doc.text('Certificações intermediárias:', mLeft + 2, yPos);
-                yPos += 4;
-                certs.forEach(cert => {
-                    bullet(cleanText(cert), 5);
+                doc.setTextColor(90, 90, 90);
+                const pcdLine = 'PCD: ' + pcdTxt;
+                const lines = doc.splitTextToSize(pcdLine, cWidth);
+                lines.forEach(line => {
+                    breakPage(4);
+                    doc.text(line, mLeft, yPos);
+                    yPos += 3.5;
                 });
-            }
-
-            yPos += 3;
-        });
-    }
-
-    // ── Experiências Profissionais ────────────────────────────
-    const expSection = document.getElementById('experiencias');
-    if (expSection) {
-        sectionTitle('EXPERIÊNCIAS PROFISSIONAIS');
-        hRule();
-
-        if (mode === CV_MODES.COMPLETO) {
-            // --- COMPLETO: Cards de competências resumidos ---
-            const resumoCards = expSection.querySelectorAll('.experiencias-resumo .card');
-            if (resumoCards.length) {
-                doc.setFontSize(10);
-                doc.setFont('helvetica', 'bold');
-                doc.setTextColor(44, 62, 80);
-                doc.text('Áreas de Atuação', mLeft, yPos);
-                yPos += 5;
-
-                resumoCards.forEach(card => {
-                    breakPage(14);
-                    const titulo = card.querySelector('h3');
-                    const periodo = card.querySelector('.periodo');
-                    const desc = card.querySelector('p:not(.periodo)');
-
-                    if (titulo) {
-                        doc.setFontSize(10);
-                        doc.setFont('helvetica', 'bold');
-                        doc.setTextColor(0, 0, 0);
-                        doc.text(cleanText(titulo), mLeft, yPos);
-                        yPos += 4;
-                    }
-                    if (periodo) {
-                        doc.setFontSize(8.5);
-                        doc.setFont('helvetica', 'italic');
-                        doc.text(cleanText(periodo), mLeft, yPos);
-                        yPos += 4;
-                    }
-                    if (desc) {
-                        txt(cleanText(desc), 9, 'normal', 1);
-                    }
-                    yPos += 1;
-                });
-                yPos += 3;
+                yPos += 2;
             }
         }
+    }
 
-        // --- Histórico profissional detalhado ---
-        const trabalhos = expSection.querySelectorAll('.trabalho-item');
-        trabalhos.forEach(t => {
-            breakPage(22);
+    // Vagas desejadas — apenas modo completo
+    if (mode === CV_MODES.COMPLETO) {
+        const tags = document.querySelectorAll('.vaga-tag');
+        if (tags.length) {
+            const tagTexts = Array.from(tags).map(t => cleanText(t)).filter(Boolean);
+            if (tagTexts.length) {
+                breakPage(8);
+                doc.setFontSize(8.5);
+                doc.setFont('helvetica', 'italic');
+                doc.setTextColor(99, 102, 241);
+                doc.text('Aberto a: ' + tagTexts.join('  |  '), mLeft, yPos);
+                yPos += 6;
+            }
+        }
+    }
+
+    // ── Experiências Profissionais ─────────────────────────────
+    const expSection = document.getElementById('experiencias');
+    if (expSection) {
+        sectionTitle('Experiencias Profissionais');
+
+        const allTrabalhos = expSection.querySelectorAll('.trabalho-item');
+
+        allTrabalhos.forEach(t => {
+            // Detecta se é voluntário
+            const sectionParent = t.closest('.trabalhos-detalhados');
+            const subtitleEl = sectionParent && sectionParent.querySelector('.section-subtitle');
+            const subtitleTxt = subtitleEl ? cleanText(subtitleEl) : '';
+            const isVoluntario = subtitleTxt.toLowerCase().includes('voluntario') ||
+                                 subtitleTxt.toLowerCase().includes('voluntário') ||
+                                 subtitleTxt.toLowerCase().includes('lideranca') ||
+                                 subtitleTxt.toLowerCase().includes('liderança');
+
+            // No resumido, pula voluntário
+            if (mode === CV_MODES.RESUMIDO && isVoluntario) return;
+
+            breakPage(20);
 
             const h4 = t.querySelector('h4');
             if (h4) {
-                doc.setFontSize(11);
+                doc.setFontSize(10.5);
                 doc.setFont('helvetica', 'bold');
-                doc.setTextColor(0, 0, 0);
+                doc.setTextColor(44, 62, 80);
                 doc.text(cleanText(h4), mLeft, yPos);
                 yPos += 5;
             }
 
             const cargo = t.querySelector('.cargo');
             if (cargo) {
-                doc.setFontSize(10);
-                doc.setFont('helvetica', 'italic');
+                doc.setFontSize(9.5);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(30, 30, 30);
                 doc.text(cleanText(cargo), mLeft, yPos);
                 yPos += 4;
             }
 
             const dept = t.querySelector('.departamento');
-            if (dept) {
-                doc.setFontSize(9);
-                doc.setFont('helvetica', 'normal');
-                doc.text(cleanText(dept), mLeft, yPos);
-                yPos += 4;
-            }
+            if (dept) metaLine(cleanText(dept));
 
-            // Badges: badge-local e badge-periodo
-            const local   = t.querySelector('.badge-local');
-            const periodo = t.querySelector('.badge-periodo');
-            const badgeParts = [];
-            if (local)   badgeParts.push(cleanText(local));
-            if (periodo) badgeParts.push(cleanText(periodo));
-            if (badgeParts.length) {
-                doc.setFontSize(9);
-                doc.setFont('helvetica', 'normal');
-                doc.text(badgeParts.join('  ·  '), mLeft, yPos);
-                yPos += 5;
-            }
+            // badges localizacao e periodo
+            const localEl   = t.querySelector('.badge-local');
+            const periodoEl = t.querySelector('.badge-periodo');
+            const parts     = [];
+            if (localEl)   parts.push(cleanText(localEl));
+            if (periodoEl) parts.push(cleanText(periodoEl));
+            if (parts.length) metaLine(parts.join('  |  '));
 
-            // Descrição principal (.trabalho-descricao)
-            const descP = t.querySelector('.trabalho-descricao');
-            if (descP) {
-                txt(cleanText(descP), 9, 'normal', 1);
-            }
+            yPos += 1;
 
-            // Atividades (.trabalho-atividades li)
-            const atividades = t.querySelectorAll('.trabalho-atividades li');
+            // Descrição — no resumido, pula para economizar espaço
             if (mode === CV_MODES.COMPLETO) {
-                atividades.forEach(li => bullet(cleanText(li), 4));
-            } else {
-                // Resumido: primeiros 5 itens
-                const max = Math.min(5, atividades.length);
-                for (let i = 0; i < max; i++) {
-                    bullet(cleanText(atividades[i]), 4);
-                }
+                const descP = t.querySelector('.trabalho-descricao');
+                if (descP) txt(cleanText(descP), 9, 'normal', 1);
             }
 
-            yPos += 4;
+            const atividades = t.querySelectorAll('.trabalho-atividades li');
+            const maxItems = mode === CV_MODES.RESUMIDO ? Math.min(4, atividades.length) : atividades.length;
+            for (let i = 0; i < maxItems; i++) {
+                bullet(cleanText(atividades[i]), 4, 8.5);
+            }
+            yPos += 3;
         });
-    }
 
-    // ── Projetos ──────────────────────────────────────────────
-    const projSection = document.getElementById('projetos');
-    if (projSection) {
-        breakPage(20);
-        sectionTitle('PROJETOS DESTACADOS');
-        hRule();
+        // Voluntário — no modo completo, como subseção separada
+        if (mode === CV_MODES.COMPLETO) {
+            let hasVol = false;
+            allTrabalhos.forEach(t => {
+                const sp = t.closest('.trabalhos-detalhados');
+                const subtitleEl = sp && sp.querySelector('.section-subtitle');
+                const subtitleTxt = subtitleEl ? cleanText(subtitleEl) : '';
+                const isVol = subtitleTxt.toLowerCase().includes('voluntario') ||
+                              subtitleTxt.toLowerCase().includes('voluntário') ||
+                              subtitleTxt.toLowerCase().includes('lideranca') ||
+                              subtitleTxt.toLowerCase().includes('liderança');
+                if (!isVol) return;
 
-        const projetos = projSection.querySelectorAll('.projeto-item');
-        const maxProj  = mode === CV_MODES.COMPLETO ? projetos.length : Math.min(5, projetos.length);
-
-        for (let i = 0; i < maxProj; i++) {
-            const proj = projetos[i];
-            breakPage(20);
-
-            // Título (botão toggle ou h3)
-            const toggleBtn = proj.querySelector('.toggle');
-            const tituloEl  = proj.querySelector('h3');
-            const tituloTxt = toggleBtn
-                ? cleanText(toggleBtn).replace(/[🔽▼▸]/g, '').trim()
-                : (tituloEl ? cleanText(tituloEl) : '');
-
-            if (tituloTxt) {
-                doc.setFontSize(11);
-                doc.setFont('helvetica', 'bold');
-                doc.setTextColor(0, 0, 0);
-                doc.text(tituloTxt, mLeft, yPos);
-                yPos += 5;
-            }
-
-            // Meta info (strong / span pares)
-            const projetoInfo = proj.querySelector('.projeto-info');
-            if (projetoInfo) {
-                const strongs = projetoInfo.querySelectorAll('strong');
-                const spans   = projetoInfo.querySelectorAll('span');
-                doc.setFontSize(9);
-                doc.setFont('helvetica', 'italic');
-                strongs.forEach((s, idx) => {
-                    const val = spans[idx] ? cleanText(spans[idx]) : '';
-                    if (val) {
-                        breakPage();
-                        doc.text(`${cleanText(s)} ${val}`, mLeft, yPos);
-                        yPos += 4;
-                    }
-                });
-                yPos += 1;
-            }
-
-            // Descrição principal
-            const content = proj.querySelector('.content');
-            if (content) {
-                const descP = content.querySelector('p[data-descricao], p:not(.projeto-info)');
-                if (descP) {
-                    txt(cleanText(descP), 9, 'normal', 1);
+                if (!hasVol) {
+                    breakPage(12);
+                    doc.setFontSize(10);
+                    doc.setFont('helvetica', 'bold');
+                    doc.setTextColor(99, 102, 241);
+                    doc.text('Voluntario & Lideranca', mLeft, yPos);
+                    yPos += 5;
+                    hasVol = true;
                 }
 
-                if (mode === CV_MODES.COMPLETO) {
-                    // Realizações
-                    content.querySelectorAll('.realizacoes-list p, ul[data-realizacoes] li').forEach(el => {
-                        bullet(cleanText(el), 3);
-                    });
-
-                    // Tecnologias
-                    const tecDiv = content.querySelector('.tecnologias-list');
-                    if (tecDiv) {
-                        txt(cleanText(tecDiv), 9, 'italic', 1);
-                    }
-                    content.querySelectorAll('ul[data-tecnologias] li').forEach(el => {
-                        bullet(cleanText(el), 3);
-                    });
-
-                    // Sub-projetos h4
-                    content.querySelectorAll('h4').forEach(h4 => {
-                        if (h4.textContent.includes('Projeto')) {
-                            breakPage(10);
-                            doc.setFontSize(10);
-                            doc.setFont('helvetica', 'bold');
-                            doc.setTextColor(0, 0, 0);
-                            doc.text(cleanText(h4), mLeft + 3, yPos);
-                            yPos += 5;
-                            const nextUl = h4.nextElementSibling;
-                            if (nextUl && nextUl.tagName === 'UL') {
-                                nextUl.querySelectorAll('li').forEach(li => bullet(cleanText(li), 6));
-                            }
-                        }
-                    });
+                const h4 = t.querySelector('h4');
+                if (h4) {
+                    doc.setFontSize(10);
+                    doc.setFont('helvetica', 'bold');
+                    doc.setTextColor(44, 62, 80);
+                    doc.text(cleanText(h4), mLeft, yPos);
+                    yPos += 4;
                 }
-            }
-            yPos += 4;
+
+                const cargo = t.querySelector('.cargo');
+                if (cargo) metaLine(cleanText(cargo), 9);
+
+                const deptEl = t.querySelector('.departamento');
+                if (deptEl) metaLine(cleanText(deptEl), 8.5);
+
+                const localEl   = t.querySelector('.badge-local');
+                const periodoEl = t.querySelector('.badge-periodo');
+                const parts     = [];
+                if (localEl)   parts.push(cleanText(localEl));
+                if (periodoEl) parts.push(cleanText(periodoEl));
+                if (parts.length) metaLine(parts.join('  |  '));
+
+                const atividades = t.querySelectorAll('.trabalho-atividades li');
+                atividades.forEach(li => bullet(cleanText(li), 4, 8.5));
+                yPos += 3;
+            });
         }
     }
 
-    // ── Habilidades ───────────────────────────────────────────
-    const habSection = document.getElementById('habilidades');
-    if (habSection) {
-        breakPage(20);
-        sectionTitle('HABILIDADES E COMPETÊNCIAS');
-        hRule();
+    // ── Formação Acadêmica ─────────────────────────────────────
+    const formacaoSection = document.getElementById('formacao');
+    if (formacaoSection) {
+        sectionTitle('Formacao Academica');
 
-        const cards = habSection.querySelectorAll('.card');
-        cards.forEach(card => {
-            breakPage(10);
+        const items = formacaoSection.querySelectorAll('.formacao-item');
 
-            const h3 = card.querySelector('h3');
-            if (h3) {
-                doc.setFontSize(10);
-                doc.setFont('helvetica', 'bold');
-                doc.setTextColor(0, 0, 0);
-                doc.text(cleanText(h3), mLeft, yPos);
-                yPos += 5;
+        // Resumido: pula formações básicas / não-técnicas
+        const skipInResumo = ['Cadista', 'Audiovisual', 'Contrarregra', 'Ensino Fundamental', 'Ensino Medio', 'Ensino Médio'];
+
+        items.forEach(item => {
+            const h3 = item.querySelector('h3');
+            const h3txt = h3 ? cleanText(h3) : '';
+
+            if (mode === CV_MODES.RESUMIDO) {
+                if (skipInResumo.some(s => h3txt.toLowerCase().includes(s.toLowerCase()))) return;
             }
 
-            card.querySelectorAll('li').forEach(li => {
-                bullet(cleanText(li), 3);
-            });
-            yPos += 2;
+            breakPage(12);
+
+            if (h3) {
+                doc.setFontSize(9.5);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(44, 62, 80);
+                doc.text(h3txt, mLeft, yPos);
+                yPos += 4;
+            }
+
+            const inst    = item.querySelector('.formacao-instituicao');
+            const periodo = item.querySelector('.formacao-periodo');
+            const instTxt = inst    ? cleanText(inst)    : '';
+            const perTxt  = periodo ? cleanText(periodo) : '';
+            const meta    = [instTxt, perTxt].filter(Boolean).join('  |  ');
+            if (meta) metaLine(meta, 8.5);
+
+            // Certificações — apenas modo completo
+            if (mode === CV_MODES.COMPLETO) {
+                const certs = item.querySelectorAll('.formacao-certificacoes li');
+                if (certs.length) {
+                    metaLine('Certs: ' + Array.from(certs).map(c => cleanText(c)).join('; '), 7.5);
+                }
+            }
+            yPos += 1;
         });
     }
 
-    // ── Rodapé em todas as páginas ────────────────────────────
+    // ── Habilidades em 2 colunas ───────────────────────────────
+    const habSection = document.getElementById('habilidades');
+    if (habSection) {
+        sectionTitle('Habilidades & Competencias');
+
+        const cards = habSection.querySelectorAll('.card');
+        const gap   = 6;
+        const colW  = (cWidth - gap) / 2;
+        const col1X = mLeft;
+        const col2X = mLeft + colW + gap;
+
+        let colYLeft  = yPos;
+        let colYRight = yPos;
+
+        cards.forEach(card => {
+            const h3      = card.querySelector('h3');
+            const liItems = card.querySelectorAll('li');
+            if (!h3 && !liItems.length) return;
+
+            // Estima altura do bloco
+            const cardH = 5 + liItems.length * 4.0 + 3;
+
+            // Coluna mais baixa (menor Y = mais espaço disponível)
+            const useLeft = colYLeft <= colYRight;
+            const xStart  = useLeft ? col1X : col2X;
+            let   cY      = useLeft ? colYLeft : colYRight;
+
+            // Nova página se necessário
+            if (cY + cardH > maxY) {
+                newPage();
+                colYLeft  = yPos;
+                colYRight = yPos;
+                cY        = yPos;
+            }
+
+            // Título da categoria
+            if (h3) {
+                doc.setFontSize(8.5);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(44, 62, 80);
+                doc.text(cleanText(h3), xStart, cY);
+                cY += 4.5;
+            }
+
+            // Itens em lista
+            liItems.forEach(li => {
+                const t = cleanText(li);
+                if (!t) return;
+                doc.setFontSize(7.5);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(40, 40, 40);
+                const lines = doc.splitTextToSize('• ' + t, colW - 2);
+                lines.forEach(line => {
+                    if (cY > maxY) {
+                        newPage();
+                        colYLeft  = yPos;
+                        colYRight = yPos;
+                        cY        = yPos;
+                    }
+                    doc.text(line, xStart + 1, cY);
+                    cY += 3.6;
+                });
+            });
+
+            cY += 3;
+
+            if (useLeft) colYLeft  = cY;
+            else         colYRight = cY;
+        });
+
+        // Avança yPos para além das duas colunas
+        yPos = Math.max(colYLeft, colYRight) + 2;
+    }
+
+    // ── Projetos (apenas no completo) ──────────────────────────
+    if (mode === CV_MODES.COMPLETO) {
+        const projSection = document.getElementById('projetos');
+        if (projSection) {
+            sectionTitle('Projetos Destacados');
+
+            const projetos = projSection.querySelectorAll('.projeto-item');
+
+            projetos.forEach(proj => {
+                breakPage(16);
+
+                const toggleBtn = proj.querySelector('.toggle');
+                const tituloEl  = proj.querySelector('h3');
+                const tituloTxt = toggleBtn
+                    ? cleanText(toggleBtn).replace(/[🔽▼▸]/g, '').trim()
+                    : (tituloEl ? cleanText(tituloEl) : '');
+
+                if (tituloTxt) {
+                    doc.setFontSize(9.5);
+                    doc.setFont('helvetica', 'bold');
+                    doc.setTextColor(44, 62, 80);
+                    doc.text(tituloTxt, mLeft, yPos);
+                    yPos += 4;
+                }
+
+                const content = proj.querySelector('.content');
+                if (content) {
+                    const descP = content.querySelector('p[data-descricao], p:not(.projeto-info)');
+                    if (descP) txt(cleanText(descP), 8.5, 'normal', 1);
+                }
+                yPos += 2;
+            });
+        }
+    }
+
+    // ── Idiomas & Soft Skills (no resumido — linha compacta) ───
+    if (mode === CV_MODES.RESUMIDO) {
+        breakPage(12);
+        sectionTitle('Idiomas & Soft Skills');
+        const idiomasTxt = 'Portugues (Nativo)  |  Ingles Tecnico Intermediario (Wise Up)  |  Proatividade  |  Lideranca  |  Trabalho em equipe  |  Resiliencia';
+        txt(idiomasTxt, 8.5, 'normal', 1);
+    }
+
+    // ── Rodapé: apenas número de página, discreto ──────────────
     const totalPgs = doc.internal.getNumberOfPages();
     for (let p = 1; p <= totalPgs; p++) {
         doc.setPage(p);
-        doc.setFontSize(7.5);
-        doc.setTextColor(140, 140, 140);
-        const label = mode === CV_MODES.COMPLETO ? 'Completo' : 'Resumido';
-        doc.text(
-            `Currículo ${label} · Kayham Cristoffer · gerado em ${new Date().toLocaleDateString('pt-BR')} · Pág ${p}/${totalPgs}`,
-            mLeft, pageH - 8
-        );
+        doc.setFontSize(7);
+        doc.setTextColor(180, 180, 180);
+        doc.text(`${p} / ${totalPgs}`, pageW - mRight, pageH - 4, { align: 'right' });
     }
 
     // ── Salvar ────────────────────────────────────────────────
@@ -441,9 +547,7 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
     return fileName;
 }
 
-// ─────────────────────────────────────────────────────────────
-// Setup dos botões
-// ─────────────────────────────────────────────────────────────
+// ── Setup dos botões ──────────────────────────────────────────
 function setupCVButton(buttonId, mode = CV_MODES.RESUMIDO) {
     const button = document.getElementById(buttonId);
     if (!button) return;
@@ -471,9 +575,7 @@ function setupCVButton(buttonId, mode = CV_MODES.RESUMIDO) {
     });
 }
 
-// ─────────────────────────────────────────────────────────────
-// Inicialização
-// ─────────────────────────────────────────────────────────────
+// ── Inicialização ─────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
     setupCVButton('generateCV',         CV_MODES.RESUMIDO);
     setupCVButton('generateCVCompleto', CV_MODES.COMPLETO);
