@@ -28,7 +28,7 @@
 
 - 🏛️ **Estagiário em TI** no **Tribunal de Contas do Estado de São Paulo (TCE-SP)** desde ago/2024
 - 🎓 **Bacharelado em Ciência da Computação** — UniDrummond, 6º semestre (previsão 2027)
-- 🌐 **8+ anos** de experiência prática em TI: redes, infra, desenvolvimento web e segurança
+- 🌐 **2+ anos** de experiência prática em TI: suporte, gestão, redes, infra e desenvolvimento web
 - 🏆 **Representante de turma** desde o 1º semestre do curso (voluntário, eleito consecutivamente)
 - 🌍 Aprimorando inglês técnico — **Wise Up Online** (2025 – presente)
 - ♿ **Candidato PCD** — CID H54.4 · Deficiência visual monocular (olho direito)
