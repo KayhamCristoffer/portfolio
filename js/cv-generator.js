@@ -266,8 +266,8 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
                                  subtitleTxt.toLowerCase().includes('lideranca') ||
                                  subtitleTxt.toLowerCase().includes('liderança');
 
-            // No resumido, pula voluntário
-            if (mode === CV_MODES.RESUMIDO && isVoluntario) return;
+            // Sempre pula voluntário no loop principal — tratado separadamente abaixo
+            if (isVoluntario) return;
 
             breakPage(20);
 
@@ -430,8 +430,22 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
 
         cards.forEach(card => {
             const h3      = card.querySelector('h3');
-            const liItems = card.querySelectorAll('li');
-            if (!h3 && !liItems.length) return;
+            const allLi   = card.querySelectorAll('li');
+            if (!h3 && !allLi.length) return;
+
+            // No resumido, pula card de Certificações (muito longo) e Competências (41 itens)
+            const isCompetencias = card.classList.contains('card-competencias');
+            const isFormTecnica  = card.classList.contains('card-highlight');
+            const isIdiomas      = (card.dataset.categoria || '').toLowerCase().includes('idioma');
+            if (mode === CV_MODES.RESUMIDO && (isCompetencias || isFormTecnica)) return;
+
+            // Limita itens do card de competências no completo (apenas 20 mais relevantes para caber)
+            let liItems;
+            if (isCompetencias && mode === CV_MODES.COMPLETO) {
+                liItems = Array.from(allLi).slice(0, 20);
+            } else {
+                liItems = Array.from(allLi);
+            }
 
             // Estima altura do bloco
             const cardH = 5 + liItems.length * 4.0 + 3;

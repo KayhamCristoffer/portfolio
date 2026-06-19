@@ -712,6 +712,50 @@ ul li::before {
     border-color: rgba(102, 126, 234, 0.3);
 }
 
+/* Competências Profissionais card — lista em 2 colunas */
+.card-competencias {
+    grid-column: span 2;
+}
+
+.competencias-list {
+    columns: 2;
+    column-gap: 24px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.competencias-list li {
+    break-inside: avoid;
+    padding: 5px 0 5px 18px;
+    position: relative;
+    font-size: 0.875rem;
+    color: var(--text-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.competencias-list li:last-child {
+    border-bottom: none;
+}
+
+.competencias-list li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: var(--secondary-color);
+    font-size: 0.75rem;
+    top: 6px;
+}
+
+@media (max-width: 768px) {
+    .card-competencias {
+        grid-column: span 1;
+    }
+    .competencias-list {
+        columns: 1;
+    }
+}
+
 .card h3 {
     color: var(--primary-color);
     font-size: 1.05rem;
@@ -1079,6 +1123,15 @@ body.dark-mode .badge-concluido {
 
 .cv-download-full {
     background: var(--gradient-primary);
+}
+
+/* Word export button — azul Microsoft Word */
+.cv-download-word {
+    background: linear-gradient(135deg, #2b579a 0%, #1e3f7a 100%);
+}
+
+.cv-download-word:hover:not(:disabled) {
+    background: linear-gradient(135deg, #1e3f7a 0%, #152d5a 100%);
 }
 
 .cv-download:hover:not(:disabled) {
