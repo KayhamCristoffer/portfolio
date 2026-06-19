@@ -1,6 +1,6 @@
 # Portfólio — Kayham Cristoffer
 
-Portfólio pessoal desenvolvido com HTML5, CSS3 e JavaScript puro — sem frameworks, sem bundler.  
+Portfólio pessoal desenvolvido com HTML, CSS e JavaScript — sem frameworks, sem bundler.  
 Hospedado via **GitHub Pages**: [kayhamcristoffer.github.io/portfolio](https://kayhamcristoffer.github.io/portfolio/)
 
 ---
@@ -11,7 +11,7 @@ Analista de TI em formação, estagiário no **Tribunal de Contas do Estado de S
 
 Aberto a oportunidades em: **Análise de Dados · Infraestrutura de TI · Redes de Computadores · Desenvolvimento Web**
 
-> 🟢 **Candidato PCD** — CID H54.4 (Perda não qualificada da visão em um olho · Monocular). Apto para vagas inclusivas conforme Lei nº 8.213/91.
+> 🟢 **Candidato PCD** — CID H54.4 (Perda não qualificada da visão em um olho · Monocular). Apto para vagas inclusivas a PCD.
 
 ---
 
@@ -91,7 +91,7 @@ portfolio/
 | E-mail | kayhamoliveira98@gmail.com |
 | LinkedIn | [linkedin.com/in/kayhamcristoffer](https://www.linkedin.com/in/kayhamcristoffer) |
 | GitHub | [github.com/KayhamCristoffer](https://github.com/KayhamCristoffer) |
-| WhatsApp | [wa.me/5511994546931](https://wa.me/5511994546931) |
+| WhatsApp | [+55 (11) 99454-6931](https://wa.me/5511994546931) |
 | Portfólio | [kayhamcristoffer.github.io/portfolio](https://kayhamcristoffer.github.io/portfolio/) |
 </content>
 </invoke>
