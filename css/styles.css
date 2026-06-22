@@ -922,6 +922,17 @@ body.dark-mode .badge-status {
     color: #a78bfa;
 }
 
+/* Badge que indica encerramento próximo do contrato */
+.badge-encerra {
+    background: rgba(245, 158, 11, 0.15);
+    color: #d97706;
+    font-weight: 700;
+}
+
+body.dark-mode .badge-encerra {
+    color: #fbbf24;
+}
+
 .badge-concluido {
     background: rgba(16, 185, 129, 0.15);
     color: #059669;
