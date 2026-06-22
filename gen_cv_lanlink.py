@@ -157,7 +157,7 @@ story += section('Experiência Profissional')
 # TCE-SP
 story.append(Paragraph('Tribunal de Contas do Estado de São Paulo — TCE-SP', ST['job_title']))
 story.append(Paragraph('Estagiário em Tecnologia da Informação', ST['job_sub']))
-story.append(Paragraph('São Paulo, SP  ·  Ago 2024 – Jul 2026  ·  GDTEC / DTEC-1 / DTEC-3', ST['meta']))
+story.append(Paragraph('São Paulo, SP  ·  Ago 2024 – 31 Jul 2026  ·  GDTEC / DTEC-1 / DTEC-3', ST['meta']))
 for item in [
     'Elaboração de editais e termos de referência para licitações de TI via PNCP',
     'Análise técnica de equipamentos (computadores, notebooks, servidores, impressoras)',

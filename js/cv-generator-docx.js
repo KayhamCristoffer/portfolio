@@ -1,93 +1,100 @@
 // ========================================
-// CV Generator DOCX — Exportação Word editável
-// Usa docx.js (window.docx) carregado via CDN
-// Resumido e Completo — mesma estrutura do cv-generator.js
+// CV Generator DOCX v2 — Exportação Word editável
+// docx.umd.js carregado localmente (sem CDN race condition)
 // ========================================
 
 async function generateCVDocx(mode = 'resumido') {
-    if (!window.docx) {
-        alert('Biblioteca Word ainda carregando. Tente novamente em 2 segundos.');
+    // docx.umd.js é carregado de forma síncrona (sem defer) — sempre disponível
+    if (typeof window.docx === 'undefined') {
+        alert('Módulo Word não carregado. Recarregue a página e tente novamente.');
         return;
     }
 
     const {
-        Document, Packer, Paragraph, TextRun, HeadingLevel,
+        Document, Packer, Paragraph, TextRun,
         AlignmentType, BorderStyle, Table, TableRow, TableCell,
-        WidthType, ShadingType, TabStopType, TabStopPosition,
-        Header, Footer, PageNumber, NumberFormat,
-        convertInchesToTwip, convertMillimetersToTwip
+        WidthType, ShadingType, Header, Footer,
+        PageNumber, convertInchesToTwip, convertMillimetersToTwip
     } = window.docx;
 
-    // ── Helpers de limpeza (reusa cleanText do cv-generator.js se disponível) ──
+    // ── Helpers de texto ──────────────────────────────────────
     function clean(el) {
         if (!el) return '';
         if (typeof cleanText === 'function') return cleanText(el);
         const clone = el.cloneNode(true);
         clone.querySelectorAll('i, svg, img').forEach(n => n.remove());
-        return clone.textContent.replace(/\s+/g, ' ').trim();
+        const raw = clone.innerHTML || '';
+        const stripped = raw.replace(/<[^>]+>/g, ' ');
+        try {
+            const ta = document.createElement('textarea');
+            ta.innerHTML = stripped;
+            return ta.value.replace(/\s+/g, ' ').trim();
+        } catch (e) {
+            return stripped.replace(/\s+/g, ' ').trim();
+        }
     }
 
-    function str(s) {
-        return (s || '').replace(/\s+/g, ' ').trim();
-    }
+    function s(str) { return (str || '').replace(/\s+/g, ' ').trim(); }
 
-    // ── Paleta de cores ──
-    const COR_TITULO  = '2C3E50'; // azul escuro cabeçalho
-    const COR_ACCENT  = '6366F1'; // violeta destaque
-    const COR_CINZA   = '888888'; // metadados
-    const COR_BRANCO  = 'FFFFFF';
-    const COR_FUNDO   = 'F4F6FA'; // fundo suave
-    const COR_BORDA   = 'CBD5E1';
+    // ── Paleta ───────────────────────────────────────────────
+    const C_HEADER  = '2C3E50';
+    const C_ACCENT  = '6366F1';
+    const C_GRAY    = '888888';
+    const C_WHITE   = 'FFFFFF';
+    const C_DARK    = '1E1E2E';
+    const C_TEXT    = '333333';
 
-    // ── Builders de parágrafo ──
+    // ── Fábrica de parágrafos ────────────────────────────────
 
-    function paraHeading(text, color = COR_TITULO) {
+    function para(runs, opts = {}) {
         return new Paragraph({
-            children: [new TextRun({ text: str(text), bold: true, size: 28, color, font: 'Calibri' })],
-            spacing: { before: 240, after: 80 },
+            children: Array.isArray(runs) ? runs : [runs],
+            spacing: { before: opts.before ?? 60, after: opts.after ?? 60 },
+            alignment: opts.align,
+            border: opts.border,
+            indent: opts.indent,
+            bullet: opts.bullet,
         });
     }
 
-    function sectionHeader(label) {
-        return [
-            new Paragraph({
-                children: [
-                    new TextRun({ text: label.toUpperCase(), bold: true, size: 22, color: COR_TITULO, font: 'Calibri' })
-                ],
-                spacing: { before: 280, after: 60 },
-                border: {
-                    bottom: { style: BorderStyle.SINGLE, size: 6, color: COR_ACCENT, space: 4 }
-                }
-            })
-        ];
+    function run(text, opts = {}) {
+        return new TextRun({
+            text: s(text),
+            bold:    opts.bold    ?? false,
+            italics: opts.italic  ?? false,
+            size:    opts.size    ?? 20,
+            color:   opts.color   ?? C_TEXT,
+            font:    'Calibri',
+        });
+    }
+
+    function sectionDivider(label) {
+        return para(
+            run(label.toUpperCase(), { bold: true, size: 22, color: C_HEADER }),
+            {
+                before: 240, after: 80,
+                border: { bottom: { style: BorderStyle.SINGLE, size: 8, color: C_ACCENT, space: 4 } }
+            }
+        );
     }
 
     function jobTitle(text) {
-        return new Paragraph({
-            children: [new TextRun({ text: str(text), bold: true, size: 22, color: COR_TITULO, font: 'Calibri' })],
-            spacing: { before: 180, after: 40 },
-        });
+        return para(run(text, { bold: true, size: 21, color: C_HEADER }), { before: 160, after: 40 });
     }
 
     function jobMeta(text) {
-        return new Paragraph({
-            children: [new TextRun({ text: str(text), italics: true, size: 18, color: COR_CINZA, font: 'Calibri' })],
-            spacing: { before: 20, after: 20 },
-        });
+        return para(run(text, { italic: true, size: 18, color: C_GRAY }), { before: 20, after: 20 });
     }
 
-    function bodyText(text, bold = false) {
-        return new Paragraph({
-            children: [new TextRun({ text: str(text), size: 20, bold, font: 'Calibri', color: '1E1E1E' })],
-            spacing: { before: 30, after: 30 },
-        });
+    function bodyPara(text, bold = false) {
+        return para(run(text, { size: 19, bold, color: C_DARK }), { before: 30, after: 30 });
     }
 
-    function bulletPara(text) {
+    function bulletItem(text) {
         return new Paragraph({
-            children: [new TextRun({ text: str(text), size: 19, font: 'Calibri', color: '333333' })],
+            children: [run(text, { size: 18, color: C_TEXT })],
             bullet: { level: 0 },
-            spacing: { before: 30, after: 30 },
+            spacing: { before: 24, after: 24 },
             indent: { left: convertInchesToTwip(0.25) },
         });
     }
@@ -96,296 +103,262 @@ async function generateCVDocx(mode = 'resumido') {
         return new Paragraph({ children: [new TextRun('')], spacing: { before: 0, after: pts } });
     }
 
-    // ── Cabeçalho colorido (tabela de 1 linha) ──
-    function buildHeader() {
-        return new Table({
-            width: { size: 100, type: WidthType.PERCENTAGE },
-            rows: [
-                new TableRow({
-                    children: [
-                        new TableCell({
-                            shading: { type: ShadingType.SOLID, color: COR_TITULO, fill: COR_TITULO },
-                            margins: { top: 200, bottom: 200, left: 300, right: 300 },
-                            borders: {
-                                top:    { style: BorderStyle.NONE },
-                                bottom: { style: BorderStyle.NONE },
-                                left:   { style: BorderStyle.NONE },
-                                right:  { style: BorderStyle.NONE },
-                            },
-                            children: [
-                                new Paragraph({
-                                    children: [new TextRun({ text: 'Kayham Cristoffer Guilhermino de Oliveira', bold: true, size: 34, color: COR_BRANCO, font: 'Calibri' })],
-                                    spacing: { after: 60 },
-                                }),
-                                new Paragraph({
-                                    children: [new TextRun({ text: 'Analista de TI em Formacao  |  Estagiario TCE-SP  |  Ciencia da Computacao', size: 20, color: 'D0D8E8', font: 'Calibri' })],
-                                    spacing: { after: 40 },
-                                }),
-                                new Paragraph({
-                                    children: [new TextRun({ text: 'Sao Paulo - SP  |  +55 (11) 99454-6931  |  kayhamoliveira98@gmail.com', size: 18, color: 'B0BDD0', font: 'Calibri' })],
-                                    spacing: { after: 40 },
-                                }),
-                                new Paragraph({
-                                    children: [new TextRun({ text: 'linkedin.com/in/kayhamcristoffer  |  github.com/KayhamCristoffer  |  wa.me/5511994546931', size: 17, color: '8FA3C0', font: 'Calibri' })],
-                                    spacing: { after: 0 },
-                                }),
-                            ]
-                        })
-                    ]
-                })
-            ],
-        });
-    }
+    // ── Cabeçalho colorido ───────────────────────────────────
+    const headerTable = new Table({
+        width: { size: 100, type: WidthType.PERCENTAGE },
+        rows: [new TableRow({
+            children: [new TableCell({
+                shading: { type: ShadingType.SOLID, color: C_HEADER, fill: C_HEADER },
+                margins: { top: 200, bottom: 200, left: 280, right: 280 },
+                borders: {
+                    top:    { style: BorderStyle.NONE },
+                    bottom: { style: BorderStyle.NONE },
+                    left:   { style: BorderStyle.NONE },
+                    right:  { style: BorderStyle.NONE },
+                },
+                children: [
+                    para(run('Kayham Cristoffer Guilhermino de Oliveira',
+                        { bold: true, size: 34, color: C_WHITE }), { before: 0, after: 60 }),
+                    para(run(mode === 'resumido'
+                        ? 'Analista de TI | Estagiario TCE-SP (ate Jul 2026) | Universitario em C. Computacao'
+                        : 'Analista de TI em Formacao | Estagiario TCE-SP (ate Jul 2026) | Ciencia da Computacao',
+                        { size: 19, color: 'C8D8F0' }), { before: 0, after: 40 }),
+                    para(run('Sao Paulo - SP  |  kayhamoliveira98@gmail.com  |  +55 (11) 99454-6931',
+                        { size: 17, color: 'A0B8D8' }), { before: 0, after: 40 }),
+                    para(run('linkedin.com/in/kayhamcristoffer  |  github.com/KayhamCristoffer  |  kayhamcristoffer.github.io/portfolio',
+                        { size: 16, color: '8090A8' }), { before: 0, after: 0 }),
+                ]
+            })]
+        })],
+    });
 
-    // ── Corpo do documento ──
-    const children = [];
+    // ── Corpo ────────────────────────────────────────────────
+    const body = [];
+    body.push(headerTable);
+    body.push(spacer(100));
 
-    // Cabeçalho
-    children.push(buildHeader());
-    children.push(spacer(100));
-
-    // ── Perfil Profissional ──
+    // ── Perfil Profissional ──────────────────────────────────
     const perfilSection = document.querySelector('.perfil-profissional');
     if (perfilSection) {
-        children.push(...sectionHeader('Perfil Profissional'));
+        body.push(sectionDivider('Perfil Profissional'));
+
         const allP = perfilSection.querySelectorAll('p');
-        let count = 0;
+        let paraCount = 0;
         allP.forEach(p => {
             if (p.closest('.sobre-vagas') || p.closest('.sobre-pcd') ||
                 p.closest('.sobre-stats') || p.closest('.sobre-ctas') ||
                 p.classList.contains('pcd-titulo') || p.classList.contains('pcd-desc')) return;
             const t = clean(p);
             if (!t) return;
-            if (mode === 'resumido' && count >= 1) return; // só 1 parágrafo no resumido
-            children.push(bodyText(t));
-            count++;
+            if (mode === 'resumido' && paraCount >= 2) return;
+            body.push(bodyPara(t));
+            paraCount++;
         });
 
-        // PCD — breve linha
+        // PCD linha discreta
         const pcdDesc = perfilSection.querySelector('.pcd-desc');
         if (pcdDesc) {
-            const pcdTxt = clean(pcdDesc);
-            if (pcdTxt) children.push(bodyText('PCD: ' + pcdTxt, false));
+            const t = clean(pcdDesc);
+            if (t) body.push(para(run('PCD: ' + t, { size: 17, italic: true, color: C_GRAY }), { before: 20, after: 20 }));
         }
 
-        // Vagas — só completo
+        // Vagas — completo only
         if (mode === 'completo') {
-            const tags = document.querySelectorAll('.vaga-tag');
+            const tags = Array.from(document.querySelectorAll('.vaga-tag')).map(t => clean(t)).filter(Boolean);
             if (tags.length) {
-                const tagTexts = Array.from(tags).map(t => clean(t)).filter(Boolean);
-                if (tagTexts.length) {
-                    children.push(new Paragraph({
-                        children: [new TextRun({ text: 'Aberto a: ' + tagTexts.join('  |  '), italics: true, size: 19, color: COR_ACCENT, font: 'Calibri' })],
-                        spacing: { before: 60, after: 60 },
-                    }));
-                }
+                body.push(para(run('Aberto a: ' + tags.join('  |  '), { size: 18, italic: true, color: C_ACCENT }), { before: 60, after: 60 }));
             }
         }
     }
 
-    // ── Experiências Profissionais ──
+    // ── Experiências Profissionais ───────────────────────────
     const expSection = document.getElementById('experiencias');
     if (expSection) {
-        children.push(...sectionHeader('Experiencias Profissionais'));
+        body.push(sectionDivider('Experiencias Profissionais'));
 
         const allTrabalhos = expSection.querySelectorAll('.trabalho-item');
 
-        // Loop profissional (não voluntário)
+        // Trabalhos remunerados
         allTrabalhos.forEach(t => {
-            const sectionParent = t.closest('.trabalhos-detalhados');
-            const subtitleEl = sectionParent && sectionParent.querySelector('.section-subtitle');
-            const subtitleTxt = subtitleEl ? clean(subtitleEl) : '';
-            const isVol = subtitleTxt.toLowerCase().includes('voluntario') ||
-                          subtitleTxt.toLowerCase().includes('voluntário') ||
-                          subtitleTxt.toLowerCase().includes('lideranca') ||
-                          subtitleTxt.toLowerCase().includes('liderança');
-            if (isVol) return; // separado abaixo
+            const sp = t.closest('.trabalhos-detalhados');
+            const stEl = sp && sp.querySelector('.section-subtitle');
+            const stTxt = stEl ? clean(stEl) : '';
+            const isVol = stTxt.toLowerCase().includes('voluntario') ||
+                          stTxt.toLowerCase().includes('voluntário') ||
+                          stTxt.toLowerCase().includes('lideranca') ||
+                          stTxt.toLowerCase().includes('liderança');
+            if (isVol) return;
 
             const h4 = t.querySelector('h4');
-            if (h4) children.push(jobTitle(clean(h4)));
+            if (h4) body.push(jobTitle(clean(h4)));
 
             const cargo = t.querySelector('.cargo');
-            if (cargo) children.push(bodyText(clean(cargo), true));
+            if (cargo) body.push(bodyPara(clean(cargo), true));
 
             const dept = t.querySelector('.departamento');
-            if (dept) children.push(jobMeta(clean(dept)));
+            if (dept) body.push(jobMeta(clean(dept)));
 
             const localEl   = t.querySelector('.badge-local');
             const periodoEl = t.querySelector('.badge-periodo');
             const parts     = [];
             if (localEl)   parts.push(clean(localEl));
             if (periodoEl) parts.push(clean(periodoEl));
-            if (parts.length) children.push(jobMeta(parts.join('  |  ')));
+            if (parts.length) body.push(jobMeta(parts.join('  |  ')));
 
             if (mode === 'completo') {
                 const descP = t.querySelector('.trabalho-descricao');
-                if (descP) children.push(bodyText(clean(descP)));
+                if (descP) body.push(bodyPara(clean(descP)));
             }
 
             const atividades = t.querySelectorAll('.trabalho-atividades li');
             const maxItems = mode === 'resumido' ? Math.min(4, atividades.length) : atividades.length;
-            for (let i = 0; i < maxItems; i++) {
-                children.push(bulletPara(clean(atividades[i])));
-            }
-            children.push(spacer(40));
+            for (let i = 0; i < maxItems; i++) body.push(bulletItem(clean(atividades[i])));
+            body.push(spacer(40));
         });
 
-        // Voluntário — apenas no completo
+        // Voluntário — completo only
         if (mode === 'completo') {
             let hasVol = false;
             allTrabalhos.forEach(t => {
                 const sp = t.closest('.trabalhos-detalhados');
-                const subtitleEl = sp && sp.querySelector('.section-subtitle');
-                const subtitleTxt = subtitleEl ? clean(subtitleEl) : '';
-                const isVol = subtitleTxt.toLowerCase().includes('voluntario') ||
-                              subtitleTxt.toLowerCase().includes('voluntário') ||
-                              subtitleTxt.toLowerCase().includes('lideranca') ||
-                              subtitleTxt.toLowerCase().includes('liderança');
+                const stEl = sp && sp.querySelector('.section-subtitle');
+                const stTxt = stEl ? clean(stEl) : '';
+                const isVol = stTxt.toLowerCase().includes('voluntario') ||
+                              stTxt.toLowerCase().includes('voluntário') ||
+                              stTxt.toLowerCase().includes('lideranca') ||
+                              stTxt.toLowerCase().includes('liderança');
                 if (!isVol) return;
 
                 if (!hasVol) {
-                    children.push(new Paragraph({
-                        children: [new TextRun({ text: 'Voluntario & Lideranca', bold: true, size: 22, color: COR_ACCENT, font: 'Calibri' })],
-                        spacing: { before: 200, after: 60 },
-                    }));
+                    body.push(para(run('Voluntario & Lideranca', { bold: true, size: 21, color: C_ACCENT }), { before: 180, after: 60 }));
                     hasVol = true;
                 }
 
                 const h4 = t.querySelector('h4');
-                if (h4) children.push(jobTitle(clean(h4)));
+                if (h4) body.push(jobTitle(clean(h4)));
 
                 const cargo = t.querySelector('.cargo');
-                if (cargo) children.push(jobMeta(clean(cargo)));
+                if (cargo) body.push(jobMeta(clean(cargo)));
 
                 const deptEl = t.querySelector('.departamento');
-                if (deptEl) children.push(jobMeta(clean(deptEl)));
+                if (deptEl) body.push(jobMeta(clean(deptEl)));
 
                 const localEl   = t.querySelector('.badge-local');
                 const periodoEl = t.querySelector('.badge-periodo');
                 const parts     = [];
                 if (localEl)   parts.push(clean(localEl));
                 if (periodoEl) parts.push(clean(periodoEl));
-                if (parts.length) children.push(jobMeta(parts.join('  |  ')));
+                if (parts.length) body.push(jobMeta(parts.join('  |  ')));
 
-                const atividades = t.querySelectorAll('.trabalho-atividades li');
-                atividades.forEach(li => children.push(bulletPara(clean(li))));
-                children.push(spacer(40));
+                t.querySelectorAll('.trabalho-atividades li').forEach(li => body.push(bulletItem(clean(li))));
+                body.push(spacer(40));
             });
         }
     }
 
-    // ── Formação Acadêmica ──
-    const formacaoSection = document.getElementById('formacao');
-    if (formacaoSection) {
-        children.push(...sectionHeader('Formacao Academica'));
+    // ── Formação Acadêmica ───────────────────────────────────
+    const formSection = document.getElementById('formacao');
+    if (formSection) {
+        body.push(sectionDivider('Formacao Academica'));
 
-        const skipInResumo = ['Cadista', 'Audiovisual', 'Contrarregra', 'Ensino Fundamental', 'Ensino Medio', 'Ensino Médio'];
-        const items = formacaoSection.querySelectorAll('.formacao-item');
+        const skip = ['Cadista', 'Audiovisual', 'Contrarregra', 'Ensino Fundamental', 'Ensino Medio', 'Ensino Médio'];
 
-        items.forEach(item => {
+        formSection.querySelectorAll('.formacao-item').forEach(item => {
             const h3 = item.querySelector('h3');
             const h3txt = h3 ? clean(h3) : '';
+            if (mode === 'resumido' && skip.some(s => h3txt.toLowerCase().includes(s.toLowerCase()))) return;
 
-            if (mode === 'resumido') {
-                if (skipInResumo.some(s => h3txt.toLowerCase().includes(s.toLowerCase()))) return;
-            }
+            body.push(jobTitle(h3txt));
 
-            children.push(jobTitle(h3txt));
-
-            const inst    = item.querySelector('.formacao-instituicao');
-            const periodo = item.querySelector('.formacao-periodo');
-            const instTxt = inst    ? clean(inst)    : '';
-            const perTxt  = periodo ? clean(periodo) : '';
-            const meta    = [instTxt, perTxt].filter(Boolean).join('  |  ');
-            if (meta) children.push(jobMeta(meta));
+            const inst = item.querySelector('.formacao-instituicao');
+            const per  = item.querySelector('.formacao-periodo');
+            const meta = [inst ? clean(inst) : '', per ? clean(per) : ''].filter(Boolean).join('  |  ');
+            if (meta) body.push(jobMeta(meta));
 
             if (mode === 'completo') {
                 const certs = item.querySelectorAll('.formacao-certificacoes li');
-                if (certs.length) {
-                    children.push(bodyText('Certificacoes: ' + Array.from(certs).map(c => clean(c)).join('; ')));
-                }
+                if (certs.length) body.push(bodyPara('Certs: ' + Array.from(certs).map(c => clean(c)).join('; ')));
             }
-            children.push(spacer(30));
+            body.push(spacer(30));
         });
     }
 
-    // ── Habilidades & Competências ──
+    // ── Habilidades & Competências ───────────────────────────
     const habSection = document.getElementById('habilidades');
     if (habSection) {
-        children.push(...sectionHeader('Habilidades & Competencias'));
+        body.push(sectionDivider('Habilidades & Competencias'));
 
-        const cards = habSection.querySelectorAll('.card');
-        cards.forEach(card => {
+        habSection.querySelectorAll('.card').forEach(card => {
+            const isComp    = card.classList.contains('card-competencias');
+            const isDestaq  = card.classList.contains('card-highlight');
+            if (mode === 'resumido' && (isComp || isDestaq)) return;
+
             const h3 = card.querySelector('h3');
             if (h3) {
-                children.push(new Paragraph({
-                    children: [new TextRun({ text: clean(h3), bold: true, size: 20, color: COR_TITULO, font: 'Calibri' })],
-                    spacing: { before: 120, after: 30 },
-                }));
+                body.push(para(run(clean(h3), { bold: true, size: 19, color: C_HEADER }), { before: 120, after: 30 }));
             }
-            const liItems = card.querySelectorAll('li');
-            liItems.forEach(li => {
+
+            const lis = isComp && mode === 'completo'
+                ? Array.from(card.querySelectorAll('li')).slice(0, 25)
+                : Array.from(card.querySelectorAll('li'));
+
+            lis.forEach(li => {
                 const t = clean(li);
-                if (t) children.push(bulletPara(t));
+                if (t) body.push(bulletItem(t));
             });
         });
     }
 
-    // ── Projetos — apenas completo ──
+    // ── Projetos — completo only ─────────────────────────────
     if (mode === 'completo') {
         const projSection = document.getElementById('projetos');
         if (projSection) {
-            children.push(...sectionHeader('Projetos Destacados'));
-            const projetos = projSection.querySelectorAll('.projeto-item');
-            projetos.forEach(proj => {
-                const toggleBtn = proj.querySelector('.toggle');
-                const tituloEl  = proj.querySelector('h3');
-                const tituloTxt = toggleBtn
-                    ? clean(toggleBtn).replace(/[🔽▼▸]/g, '').trim()
-                    : (tituloEl ? clean(tituloEl) : '');
-                if (tituloTxt) children.push(jobTitle(tituloTxt));
+            body.push(sectionDivider('Projetos Destacados'));
+            projSection.querySelectorAll('.projeto-item').forEach(proj => {
+                const btn    = proj.querySelector('.toggle');
+                const h3     = proj.querySelector('h3');
+                const titulo = btn ? clean(btn).replace(/[🔽▼▸]/g, '').trim() : (h3 ? clean(h3) : '');
+                if (titulo) body.push(jobTitle(titulo));
 
                 const content = proj.querySelector('.content');
                 if (content) {
                     const descP = content.querySelector('p[data-descricao], p:not(.projeto-info)');
-                    if (descP) children.push(bodyText(clean(descP)));
+                    if (descP) body.push(bodyPara(clean(descP)));
                 }
-                children.push(spacer(30));
+                body.push(spacer(30));
             });
         }
     }
 
-    // ── Idiomas & Soft Skills / Competências ──
+    // ── Idiomas (resumido) ───────────────────────────────────
     if (mode === 'resumido') {
-        children.push(...sectionHeader('Idiomas & Competencias'));
-        children.push(bulletPara('Portugues (Nativo)  |  Ingles Tecnico Intermediario (Wise Up)'));
-        children.push(bulletPara('Proatividade, Lideranca, Comunicacao, Resolucao de problemas, Trabalho em equipe'));
+        body.push(sectionDivider('Idiomas & Competencias-chave'));
+        body.push(bulletItem('Portugues (Nativo)  |  Ingles Tecnico Intermediario (Wise Up)'));
+        body.push(bulletItem('Lideranca, Proatividade, Comunicacao, Resolucao de problemas, Trabalho em equipe'));
     }
 
-    // ── Rodapé de página ──
-    const footer = new Footer({
-        children: [
-            new Paragraph({
-                alignment: AlignmentType.RIGHT,
-                children: [
-                    new TextRun({ text: 'Kayham Cristoffer  |  ', size: 16, color: COR_CINZA, font: 'Calibri' }),
-                    new TextRun({ children: [PageNumber.CURRENT], size: 16, color: COR_CINZA, font: 'Calibri' }),
-                    new TextRun({ text: ' / ', size: 16, color: COR_CINZA, font: 'Calibri' }),
-                    new TextRun({ children: [PageNumber.TOTAL_PAGES], size: 16, color: COR_CINZA, font: 'Calibri' }),
-                ],
-            }),
-        ],
+    // ── Rodapé de página ─────────────────────────────────────
+    const footerEl = new Footer({
+        children: [new Paragraph({
+            alignment: AlignmentType.RIGHT,
+            children: [
+                new TextRun({ text: 'Kayham Cristoffer  |  ', size: 16, color: C_GRAY, font: 'Calibri' }),
+                new TextRun({ children: [PageNumber.CURRENT], size: 16, color: C_GRAY, font: 'Calibri' }),
+                new TextRun({ text: ' / ', size: 16, color: C_GRAY, font: 'Calibri' }),
+                new TextRun({ children: [PageNumber.TOTAL_PAGES], size: 16, color: C_GRAY, font: 'Calibri' }),
+            ],
+        })],
     });
 
-    // ── Criar documento ──
+    // ── Montar documento ─────────────────────────────────────
     const doc = new Document({
         creator: 'Kayham Cristoffer',
-        title: 'Curriculo Kayham Cristoffer',
+        title:   'Curriculo Kayham Cristoffer ' + (mode === 'completo' ? 'Completo' : 'Resumido'),
         description: 'Curriculo gerado automaticamente pelo portfolio',
         styles: {
             default: {
                 document: {
-                    run: { font: 'Calibri', size: 20 },
+                    run:       { font: 'Calibri', size: 20 },
                     paragraph: { spacing: { line: 276 } }
                 }
             }
@@ -401,12 +374,12 @@ async function generateCVDocx(mode = 'resumido') {
                     }
                 }
             },
-            footers: { default: footer },
-            children,
+            footers: { default: footerEl },
+            children: body,
         }]
     });
 
-    // ── Salvar ──
+    // ── Salvar ────────────────────────────────────────────────
     const label    = mode === 'completo' ? 'Completo' : 'Resumido';
     const fileName = `Kayham_Cristoffer_CV_${label}_${new Date().toISOString().split('T')[0]}.docx`;
 
@@ -423,7 +396,7 @@ async function generateCVDocx(mode = 'resumido') {
     return fileName;
 }
 
-// ── Setup dos botões Word ──────────────────────────────────────
+// ── Setup botões Word ─────────────────────────────────────────
 function setupWordButton(buttonId, mode = 'resumido') {
     const button = document.getElementById(buttonId);
     if (!button) return;
@@ -435,14 +408,14 @@ function setupWordButton(buttonId, mode = 'resumido') {
         button.disabled    = true;
 
         try {
-            await new Promise(r => setTimeout(r, 400));
+            await new Promise(r => setTimeout(r, 300));
             const fileName = await generateCVDocx(mode);
             button.innerHTML = '✅ Word Gerado!';
-            console.log('Word gerado:', fileName);
+            console.log('[DOCX] Gerado:', fileName);
         } catch (err) {
-            console.error('Erro ao gerar Word:', err);
+            console.error('[DOCX] Erro:', err);
             button.innerHTML = '❌ Erro ao gerar';
-            alert('Erro ao gerar Word: ' + err.message + '\nVerifique se o carregamento da página foi concluído.');
+            alert('Erro ao gerar Word:\n' + err.message);
         } finally {
             setTimeout(() => {
                 button.innerHTML = originalHTML;

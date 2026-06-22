@@ -3,7 +3,7 @@
 </h1>
 
 <p align="center">
-  <b>Analista de TI em formação · Estagiário TCE-SP · Ciência da Computação</b><br/>
+  <b>Analista de TI em formação · Buscando nova oportunidade em TI · Ciência da Computação</b><br/>
   São Paulo, SP — Brasil
 </p>
 
@@ -26,7 +26,7 @@
 
 ## 🧑‍💻 Sobre mim
 
-- 🏛️ **Estagiário em TI** no **Tribunal de Contas do Estado de São Paulo (TCE-SP)** desde ago/2024
+- 🏛️ **Estagiário em TI** no **Tribunal de Contas do Estado de São Paulo (TCE-SP)** · ago/2024 – jul/2026 (encerramento previsto)
 - 🎓 **Bacharelado em Ciência da Computação** — UniDrummond, 6º semestre (previsão 2027)
 - 🌐 **2+ anos** de experiência prática em TI: suporte, gestão, redes, infra e desenvolvimento web
 - 🏆 **Representante de turma** desde o 1º semestre do curso (voluntário, eleito consecutivamente)
