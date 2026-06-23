@@ -667,7 +667,7 @@ ul li::before {
 /* ===== GRID ===== */
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     padding: 4px 0;
 }
@@ -747,7 +747,16 @@ ul li::before {
     top: 6px;
 }
 
+@media (max-width: 900px) {
+    .grid-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
 @media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
     .card-competencias {
         grid-column: span 1;
     }
@@ -1503,10 +1512,6 @@ footer a:hover {
     .cv-text { display: inline; }
 
     h2 { font-size: 1.6rem; }
-
-    .grid-container {
-        grid-template-columns: 1fr;
-    }
 
     .sobre-stats {
         justify-content: center;
