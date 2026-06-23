@@ -173,10 +173,10 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
 
     doc.setFontSize(9.5);
     doc.setFont('helvetica', 'normal');
-    doc.text('Analista de TI em Formacao  |  Estagiario TCE-SP (ate Jul 2026)  |  Ciencia da Computacao', mLeft, 18);
+    doc.text('Analista de TI em Formacao  |  Estagiario  |  Universitario', mLeft, 18);
 
     doc.setFontSize(8.5);
-    doc.text('Sao Paulo - SP  |  kayhamoliveira98@gmail.com  |  +55 (11) 99454-6931', mLeft, 23.5);
+    doc.text('Sao Paulo - SP  |  kayham98.1@hotmail.com  |  +55 (11) 994546931', mLeft, 23.5);
 
     doc.setFontSize(8);
     const c2 = mLeft + 95;
@@ -502,39 +502,28 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
         yPos = Math.max(colYLeft, colYRight) + 2;
     }
 
-    // ── Projetos (apenas no completo) ──────────────────────────
+    // ── Portfólio Profissional (apenas no completo) ──────────────────────────
     if (mode === CV_MODES.COMPLETO) {
-        const projSection = document.getElementById('projetos');
-        if (projSection) {
-            sectionTitle('Projetos Destacados');
+        sectionTitle('Portfolio Profissional');
+        breakPage(20);
 
-            const projetos = projSection.querySelectorAll('.projeto-item');
+        doc.setFontSize(9.5);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(44, 62, 80);
+        doc.text('Portfolio Profissional — kayhamcristoffer.github.io/portfolio', mLeft, yPos);
+        yPos += 4;
 
-            projetos.forEach(proj => {
-                breakPage(16);
+        txt('Portfolio desenvolvido com HTML5, CSS3 e JavaScript puro, apresentando experiencias, habilidades, formacao e projetos de forma interativa. Inclui geradores de CV em PDF (jsPDF) e Word (docx.js), modo dark, design responsivo e deploy no GitHub Pages.', 8.5, 'normal', 2);
 
-                const toggleBtn = proj.querySelector('.toggle');
-                const tituloEl  = proj.querySelector('h3');
-                const tituloTxt = toggleBtn
-                    ? cleanText(toggleBtn).replace(/[🔽▼▸]/g, '').trim()
-                    : (tituloEl ? cleanText(tituloEl) : '');
-
-                if (tituloTxt) {
-                    doc.setFontSize(9.5);
-                    doc.setFont('helvetica', 'bold');
-                    doc.setTextColor(44, 62, 80);
-                    doc.text(tituloTxt, mLeft, yPos);
-                    yPos += 4;
-                }
-
-                const content = proj.querySelector('.content');
-                if (content) {
-                    const descP = content.querySelector('p[data-descricao], p:not(.projeto-info)');
-                    if (descP) txt(cleanText(descP), 8.5, 'normal', 1);
-                }
-                yPos += 2;
-            });
-        }
+        const portBullets = [
+            'Interface responsiva com dark mode e animacoes CSS3',
+            'Gerador de CV em PDF (jsPDF) e Word (docx.js v8.5) — Resumido e Completo',
+            'Secoes carregadas dinamicamente via fetch() e section-loader.js',
+            'Acessibilidade: ARIA labels, contraste e navegacao por teclado',
+            'Deploy automatizado via GitHub Pages'
+        ];
+        portBullets.forEach(b => bullet(b, 4, 8.5));
+        yPos += 3;
     }
 
     // ── Idiomas & Soft Skills (no resumido — linha compacta) ───

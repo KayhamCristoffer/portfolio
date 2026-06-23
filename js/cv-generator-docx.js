@@ -119,11 +119,9 @@ async function generateCVDocx(mode = 'resumido') {
                 children: [
                     para(run('Kayham Cristoffer Guilhermino de Oliveira',
                         { bold: true, size: 34, color: C_WHITE }), { before: 0, after: 60 }),
-                    para(run(mode === 'resumido'
-                        ? 'Analista de TI | Estagiario TCE-SP (ate Jul 2026) | Universitario em C. Computacao'
-                        : 'Analista de TI em Formacao | Estagiario TCE-SP (ate Jul 2026) | Ciencia da Computacao',
+                    para(run('Analista de TI em Formacao  |  Estagiario  |  Universitario',
                         { size: 19, color: 'C8D8F0' }), { before: 0, after: 40 }),
-                    para(run('Sao Paulo - SP  |  kayhamoliveira98@gmail.com  |  +55 (11) 99454-6931',
+                    para(run('Sao Paulo - SP  |  kayham98.1@hotmail.com  |  +55 (11) 994546931',
                         { size: 17, color: 'A0B8D8' }), { before: 0, after: 40 }),
                     para(run('linkedin.com/in/kayhamcristoffer  |  github.com/KayhamCristoffer  |  kayhamcristoffer.github.io/portfolio',
                         { size: 16, color: '8090A8' }), { before: 0, after: 0 }),
@@ -283,53 +281,90 @@ async function generateCVDocx(mode = 'resumido') {
         });
     }
 
-    // ── Habilidades & Competências ───────────────────────────
+    // ── Habilidades & Competências (tabela 2 colunas) ───────────────────────
     const habSection = document.getElementById('habilidades');
     if (habSection) {
         body.push(sectionDivider('Habilidades & Competencias'));
 
-        habSection.querySelectorAll('.card').forEach(card => {
-            const isComp    = card.classList.contains('card-competencias');
-            const isDestaq  = card.classList.contains('card-highlight');
-            if (mode === 'resumido' && (isComp || isDestaq)) return;
+        const allCards = Array.from(habSection.querySelectorAll('.card'));
+        // Filtrar cards para o modo
+        const visibleCards = allCards.filter(card => {
+            const isComp   = card.classList.contains('card-competencias');
+            const isDestaq = card.classList.contains('card-highlight');
+            if (mode === 'resumido' && (isComp || isDestaq)) return false;
+            return true;
+        });
 
-            const h3 = card.querySelector('h3');
-            if (h3) {
-                body.push(para(run(clean(h3), { bold: true, size: 19, color: C_HEADER }), { before: 120, after: 30 }));
+        // Agrupa em pares para tabela de 2 colunas
+        for (let i = 0; i < visibleCards.length; i += 2) {
+            const left  = visibleCards[i];
+            const right = visibleCards[i + 1] || null;
+
+            function cardCellChildren(card) {
+                if (!card) return [new Paragraph({ children: [new TextRun('')] })];
+                const h3 = card.querySelector('h3');
+                const children = [];
+                if (h3) {
+                    children.push(para(run(clean(h3), { bold: true, size: 19, color: C_HEADER }), { before: 40, after: 30 }));
+                }
+                const isComp = card.classList.contains('card-competencias');
+                const lis = isComp && mode === 'completo'
+                    ? Array.from(card.querySelectorAll('li')).slice(0, 25)
+                    : Array.from(card.querySelectorAll('li'));
+                lis.forEach(li => {
+                    const t = clean(li);
+                    if (t) children.push(bulletItem(t));
+                });
+                return children.length ? children : [new Paragraph({ children: [new TextRun('')] })];
             }
 
-            const lis = isComp && mode === 'completo'
-                ? Array.from(card.querySelectorAll('li')).slice(0, 25)
-                : Array.from(card.querySelectorAll('li'));
-
-            lis.forEach(li => {
-                const t = clean(li);
-                if (t) body.push(bulletItem(t));
-            });
-        });
-    }
-
-    // ── Projetos — completo only ─────────────────────────────
-    if (mode === 'completo') {
-        const projSection = document.getElementById('projetos');
-        if (projSection) {
-            body.push(sectionDivider('Projetos Destacados'));
-            projSection.querySelectorAll('.projeto-item').forEach(proj => {
-                const btn    = proj.querySelector('.toggle');
-                const h3     = proj.querySelector('h3');
-                const titulo = btn ? clean(btn).replace(/[🔽▼▸]/g, '').trim() : (h3 ? clean(h3) : '');
-                if (titulo) body.push(jobTitle(titulo));
-
-                const content = proj.querySelector('.content');
-                if (content) {
-                    const descP = content.querySelector('p[data-descricao], p:not(.projeto-info)');
-                    if (descP) body.push(bodyPara(clean(descP)));
-                }
-                body.push(spacer(30));
-            });
+            body.push(new Table({
+                width: { size: 100, type: WidthType.PERCENTAGE },
+                rows: [new TableRow({
+                    children: [
+                        new TableCell({
+                            width: { size: 50, type: WidthType.PERCENTAGE },
+                            borders: {
+                                top:    { style: BorderStyle.NONE },
+                                bottom: { style: BorderStyle.NONE },
+                                left:   { style: BorderStyle.NONE },
+                                right:  { style: BorderStyle.SINGLE, size: 4, color: 'DDDDDD' },
+                            },
+                            margins: { top: 60, bottom: 60, left: 0, right: 120 },
+                            children: cardCellChildren(left),
+                        }),
+                        new TableCell({
+                            width: { size: 50, type: WidthType.PERCENTAGE },
+                            borders: {
+                                top:    { style: BorderStyle.NONE },
+                                bottom: { style: BorderStyle.NONE },
+                                left:   { style: BorderStyle.NONE },
+                                right:  { style: BorderStyle.NONE },
+                            },
+                            margins: { top: 60, bottom: 60, left: 120, right: 0 },
+                            children: cardCellChildren(right),
+                        }),
+                    ]
+                })],
+            }));
+            body.push(spacer(20));
         }
     }
 
+    // ── Portfólio Profissional ──────────────────────────────────────────────
+    if (mode === 'completo') {
+        body.push(sectionDivider('Portfolio Profissional'));
+        body.push(jobTitle('Portfolio Profissional — kayhamcristoffer.github.io/portfolio'));
+        body.push(bodyPara('Portfolio desenvolvido com HTML5, CSS3 e JavaScript puro, apresentando experiencias, habilidades, formacao e projetos de forma interativa. Inclui geradores de CV em PDF (jsPDF) e Word (docx.js), modo dark, design responsivo e deploy no GitHub Pages.'));
+        [
+            'Interface responsiva com dark mode e animacoes CSS3',
+            'Gerador de CV em PDF (jsPDF) e Word (docx.js v8.5) — Resumido e Completo',
+            'Secoes carregadas dinamicamente via fetch() e section-loader.js',
+            'Acessibilidade: ARIA labels, contraste e navegacao por teclado',
+            'Deploy automatizado via GitHub Pages'
+        ].forEach(b => body.push(bulletItem(b)));
+        body.push(spacer(40));
+    }
     // ── Idiomas (resumido) ───────────────────────────────────
     if (mode === 'resumido') {
         body.push(sectionDivider('Idiomas & Competencias-chave'));
