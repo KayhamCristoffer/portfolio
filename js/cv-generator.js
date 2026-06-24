@@ -194,6 +194,7 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
 
         // Apenas os <p> diretos (exclui sub-seções)
         const allP = perfilSection.querySelectorAll('p');
+        let perfilParaCount = 0;
         allP.forEach(p => {
             if (p.closest('.sobre-vagas') || p.closest('.sobre-pcd') ||
                 p.closest('.sobre-stats') || p.closest('.sobre-ctas') ||
@@ -201,14 +202,13 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
                 p.classList.contains('pcd-titulo') ||
                 p.classList.contains('pcd-desc')) return;
 
+            // No resumido, usa só o primeiro parágrafo (perfil principal)
+            if (mode === CV_MODES.RESUMIDO && perfilParaCount >= 1) return;
+
             const t = cleanText(p);
             if (t) {
-                // No resumido, usa só o primeiro parágrafo (perfil principal)
-                if (mode === CV_MODES.RESUMIDO) {
-                    txt(t, 9, 'normal', 2);
-                    return; // Processa só o primeiro — mas o forEach continua; usamos flag abaixo
-                }
                 txt(t, 9, 'normal', 2);
+                perfilParaCount++;
             }
         });
 
@@ -239,12 +239,19 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
         if (tags.length) {
             const tagTexts = Array.from(tags).map(t => cleanText(t)).filter(Boolean);
             if (tagTexts.length) {
-                breakPage(8);
+                breakPage(10);
                 doc.setFontSize(8.5);
                 doc.setFont('helvetica', 'italic');
                 doc.setTextColor(99, 102, 241);
-                doc.text('Aberto a: ' + tagTexts.join('  |  '), mLeft, yPos);
-                yPos += 6;
+                // Usa splitTextToSize para quebrar linha automaticamente se houver muitas tags
+                const tagLine = 'Aberto a: ' + tagTexts.join('  |  ');
+                const tagLines = doc.splitTextToSize(tagLine, cWidth);
+                tagLines.forEach(line => {
+                    breakPage(5);
+                    doc.text(line, mLeft, yPos);
+                    yPos += 4.5;
+                });
+                yPos += 2;
             }
         }
     }
@@ -439,10 +446,10 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
             const isIdiomas      = (card.dataset.categoria || '').toLowerCase().includes('idioma');
             if (mode === CV_MODES.RESUMIDO && (isCompetencias || isFormTecnica)) return;
 
-            // Limita itens do card de competências no completo (apenas 20 mais relevantes para caber)
+            // Limita itens do card de competências no completo para caber bem
             let liItems;
             if (isCompetencias && mode === CV_MODES.COMPLETO) {
-                liItems = Array.from(allLi).slice(0, 20);
+                liItems = Array.from(allLi).slice(0, 24);
             } else {
                 liItems = Array.from(allLi);
             }
@@ -530,7 +537,7 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
     if (mode === CV_MODES.RESUMIDO) {
         breakPage(12);
         sectionTitle('Idiomas & Soft Skills');
-        const idiomasTxt = 'Portugues (Nativo)  |  Ingles Tecnico Intermediario (Wise Up)  |  Proatividade  |  Lideranca  |  Trabalho em equipe  |  Resiliencia';
+        const idiomasTxt = 'Portugues (Nativo)  |  Ingles Tecnico Intermediario (Wise Up)  |  Proatividade  |  Autonomia  |  Resiliencia  |  Trabalho em equipe  |  Comunicacao';
         txt(idiomasTxt, 8.5, 'normal', 1);
     }
 

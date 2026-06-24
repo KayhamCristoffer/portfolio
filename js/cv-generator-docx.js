@@ -148,7 +148,7 @@ async function generateCVDocx(mode = 'resumido') {
                 p.classList.contains('pcd-titulo') || p.classList.contains('pcd-desc')) return;
             const t = clean(p);
             if (!t) return;
-            if (mode === 'resumido' && paraCount >= 2) return;
+            if (mode === 'resumido' && paraCount >= 1) return;
             body.push(bodyPara(t));
             paraCount++;
         });
@@ -160,11 +160,17 @@ async function generateCVDocx(mode = 'resumido') {
             if (t) body.push(para(run('PCD: ' + t, { size: 17, italic: true, color: C_GRAY }), { before: 20, after: 20 }));
         }
 
-        // Vagas — completo only
+        // Vagas — completo only; divide em grupos de 4 para não criar linha muito longa
         if (mode === 'completo') {
             const tags = Array.from(document.querySelectorAll('.vaga-tag')).map(t => clean(t)).filter(Boolean);
             if (tags.length) {
-                body.push(para(run('Aberto a: ' + tags.join('  |  '), { size: 18, italic: true, color: C_ACCENT }), { before: 60, after: 60 }));
+                // Primeira linha: "Aberto a:" + até 4 tags
+                const line1 = tags.slice(0, 4);
+                const line2 = tags.slice(4);
+                body.push(para(run('Aberto a: ' + line1.join('  |  '), { size: 18, italic: true, color: C_ACCENT }), { before: 60, after: line2.length ? 20 : 60 }));
+                if (line2.length) {
+                    body.push(para(run(line2.join('  |  '), { size: 18, italic: true, color: C_ACCENT }), { before: 0, after: 60 }));
+                }
             }
         }
     }
@@ -309,7 +315,7 @@ async function generateCVDocx(mode = 'resumido') {
                 }
                 const isComp = card.classList.contains('card-competencias');
                 const lis = isComp && mode === 'completo'
-                    ? Array.from(card.querySelectorAll('li')).slice(0, 25)
+                    ? Array.from(card.querySelectorAll('li')).slice(0, 24)
                     : Array.from(card.querySelectorAll('li'));
                 lis.forEach(li => {
                     const t = clean(li);
@@ -369,7 +375,7 @@ async function generateCVDocx(mode = 'resumido') {
     if (mode === 'resumido') {
         body.push(sectionDivider('Idiomas & Competencias-chave'));
         body.push(bulletItem('Portugues (Nativo)  |  Ingles Tecnico Intermediario (Wise Up)'));
-        body.push(bulletItem('Lideranca, Proatividade, Comunicacao, Resolucao de problemas, Trabalho em equipe'));
+        body.push(bulletItem('Proatividade, Autonomia, Resiliencia, Comunicacao, Resolucao de problemas, Trabalho em equipe'));
     }
 
     // ── Rodapé de página ─────────────────────────────────────
