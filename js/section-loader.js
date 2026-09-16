@@ -5,6 +5,7 @@
 const sections = [
     { id: 'header', file: 'sections/header.html', target: 'header-section' },
     { id: 'sobre', file: 'sections/sobre.html', target: 'sobre-section' },
+    { id: 'quem-sou-eu', file: 'sections/quem-sou-eu.html', target: 'quem-sou-eu-section' },
     { id: 'formacao', file: 'sections/formacao.html', target: 'formacao-section' },
     { id: 'experiencias', file: 'sections/experiencias.html', target: 'experiencias-section' },
     { id: 'projetos', file: 'sections/projetos.html', target: 'projetos-section' },
