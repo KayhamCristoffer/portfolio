@@ -1950,3 +1950,23 @@ body.dark-mode .ferramentas-list li:hover {
         grid-template-columns: 1fr;
     }
 }
+
+/* ========================================
+   QSE — ícones e estilos adicionais
+   ======================================== */
+.qse-icone-pcd {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.qse-icone-tce {
+    background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
+}
+
+.qse-bloco-pcd .qse-bloco-conteudo {
+    border-left: 3px solid #f59e0b;
+    padding-left: 14px;
+}
+
+.qse-p-mt {
+    margin-top: 10px;
+}
