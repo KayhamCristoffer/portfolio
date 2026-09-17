@@ -119,7 +119,7 @@ async function generateCVDocx(mode = 'resumido') {
                 children: [
                     para(run('Kayham Cristoffer Guilhermino de Oliveira',
                         { bold: true, size: 34, color: C_WHITE }), { before: 0, after: 60 }),
-                    para(run('Analista de TI em Formacao  |  Estagiario  |  Universitario',
+                    para(run('Analista de TI em Formacao  |  Ex-Estagiario TCE-SP  |  Universitario (7 Sem - TCC)',
                         { size: 19, color: 'C8D8F0' }), { before: 0, after: 40 }),
                     para(run('Sao Paulo - SP  |  kayham98.1@hotmail.com  |  +55 (11) 994546931',
                         { size: 17, color: 'A0B8D8' }), { before: 0, after: 40 }),

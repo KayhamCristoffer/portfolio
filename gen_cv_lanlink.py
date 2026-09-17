@@ -112,7 +112,7 @@ header_data = [[
     Paragraph('Kayham Cristoffer Guilhermino de Oliveira', ST['name']),
 ]]
 header_sub = [[
-    Paragraph('Analista de TI em Formação  ·  Estagiário TCE-SP  ·  Ciência da Computação — UniDrummond', ST['sub']),
+    Paragraph('Analista de TI em Formação  ·  Ex-Estagiário TCE-SP  ·  Ciência da Computação 7º Sem (TCC) — UniDrummond', ST['sub']),
 ]]
 header_contact = [[
     Paragraph(
@@ -143,11 +143,11 @@ story += section('Perfil Profissional')
 story.append(Paragraph(
     'Analista de TI em formação com <b>2+ anos de experiência profissional</b> (TCE-SP e projetos '
     'freelancer) e <b>6+ anos de aprendizagem contínua</b> em redes, infraestrutura e desenvolvimento. '
-    'Estagiário no <b>Tribunal de Contas do Estado de São Paulo</b> desde ago/2024, atuando com '
+    'Ex-estagiário no <b>Tribunal de Contas do Estado de São Paulo</b> (ago/2024 – jul/2026), atuando com '
     'infraestrutura, automação (VBA, PowerShell) e gestão de contratos de TI. Cursando <b>Bacharelado '
-    'em Ciência da Computação</b> na UniDrummond (6º sem.). Perfil transversal: une redes Cisco, '
+    'em Ciência da Computação</b> na UniDrummond (7º sem. — TCC). Representante de turma desde o 1º semestre. Perfil transversal: une redes Cisco, '
     'servidores Linux/Windows, desenvolvimento web (HTML/CSS/JS/Python) e análise de dados. '
-    'Candidato PCD — deficiência visual monocular (CID H54.4), apto a todas as funções.',
+    'Candidato PCD — deficiência visual monocular (CID H54.4), apto a todas as funções.',,
     ST['body']
 ))
 
@@ -156,7 +156,7 @@ story += section('Experiência Profissional')
 
 # TCE-SP
 story.append(Paragraph('Tribunal de Contas do Estado de São Paulo — TCE-SP', ST['job_title']))
-story.append(Paragraph('Estagiário em Tecnologia da Informação', ST['job_sub']))
+story.append(Paragraph('Estagiário em Tecnologia da Informação (Encerrado)', ST['job_sub']))
 story.append(Paragraph('São Paulo, SP  ·  Ago 2024 – 31 Jul 2026  ·  GDTEC / DTEC-1 / DTEC-3', ST['meta']))
 for item in [
     'Elaboração de editais e termos de referência para licitações de TI via PNCP',

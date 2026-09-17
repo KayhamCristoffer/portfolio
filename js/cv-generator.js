@@ -173,7 +173,7 @@ async function generateCV(mode = CV_MODES.RESUMIDO) {
 
     doc.setFontSize(9.5);
     doc.setFont('helvetica', 'normal');
-    doc.text('Analista de TI em Formacao  |  Estagiario  |  Universitario', mLeft, 18);
+    doc.text('Analista de TI em Formacao  |  Ex-Estagiario TCE-SP  |  Universitario (7 Sem - TCC)', mLeft, 18);
 
     doc.setFontSize(8.5);
     doc.text('Sao Paulo - SP  |  kayham98.1@hotmail.com  |  +55 (11) 994546931', mLeft, 23.5);
