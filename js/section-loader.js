@@ -11,6 +11,7 @@ const sections = [
     { id: 'projetos', file: 'sections/projetos.html', target: 'projetos-section' },
     { id: 'habilidades', file: 'sections/habilidades.html', target: 'habilidades-section' },
     { id: 'certificados', file: 'sections/certificados.html', target: 'certificados-section' },
+    { id: 'faq',          file: 'sections/faq.html',          target: 'faq-section'          },
     { id: 'footer', file: 'sections/footer.html', target: 'footer-section' }
 ];
 

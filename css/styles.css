@@ -1970,3 +1970,613 @@ body.dark-mode .ferramentas-list li:hover {
 .qse-p-mt {
     margin-top: 10px;
 }
+
+/* ========================================
+   TEMA DARK — Blue/Purple (SustAmbiTechBI art)
+   ======================================== */
+
+/* ── Design Tokens Dark ── */
+:root {
+  --blue-primary:  #4f8ef7;
+  --blue-bright:   #60a5fa;
+  --purple-accent: #a78bfa;
+  --purple-dim:    #7c3aed;
+  --bg-dark:       #040b18;
+  --bg-dark2:      #080f1f;
+  --bg-dark3:      #0d1526;
+  --bg-dark4:      #111c30;
+  --card-dark:     #0c1422;
+  --border-dark:   rgba(79,142,247,.15);
+  --border-dark2:  rgba(167,139,250,.12);
+  --text-dark:     #cdd9ef;
+  --muted-dark:    #6b82a8;
+  --dim-dark:      #9db3cc;
+  --glow-blue:     0 0 28px rgba(79,142,247,.22);
+  --glow-purple:   0 0 28px rgba(167,139,250,.18);
+  --grad-bp:       linear-gradient(135deg, #4f8ef7 0%, #a78bfa 100%);
+  --grad-bp-h:     linear-gradient(135deg, #60a5fa 0%, #c4b5fd 100%);
+}
+
+/* ── Force dark mode always ── */
+body {
+  background: var(--bg-dark) !important;
+  color: var(--text-dark) !important;
+}
+
+/* grid background pattern */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(79,142,247,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79,142,247,.035) 1px, transparent 1px);
+  background-size: 44px 44px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+main, section, footer, nav { position: relative; z-index: 1; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-dark2); }
+::-webkit-scrollbar-thumb { background: var(--purple-dim); border-radius: 3px; }
+
+/* ── NAV dark overrides ── */
+.sticky-nav {
+  background: rgba(4,11,24,.94) !important;
+  border-bottom: 1px solid var(--border-dark) !important;
+  backdrop-filter: blur(20px) !important;
+}
+.nav-logo-text {
+  background: var(--grad-bp) !important;
+}
+.sticky-nav ul li a {
+  color: var(--dim-dark) !important;
+}
+.sticky-nav ul li a:hover,
+.sticky-nav ul li a.active-nav {
+  color: var(--blue-primary) !important;
+  background: rgba(79,142,247,.09) !important;
+}
+.nav-cv-btn {
+  background: var(--grad-bp) !important;
+  color: #fff !important;
+}
+.hamburger span { background: var(--dim-dark) !important; }
+
+/* ── SECTION dark ── */
+section {
+  background: var(--card-dark) !important;
+  border-color: var(--border-dark) !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,.55) !important;
+  transition: box-shadow .3s ease, transform .3s ease !important;
+}
+section:hover {
+  box-shadow: var(--glow-blue) !important;
+}
+
+/* ── H2 dark ── */
+h2 {
+  color: #fff !important;
+}
+h2::after {
+  background: var(--grad-bp) !important;
+}
+.section-subtitle {
+  color: var(--blue-bright) !important;
+  border-left-color: var(--blue-primary) !important;
+}
+
+/* ── CARD dark ── */
+.card {
+  background: var(--bg-dark3) !important;
+  border-color: var(--border-dark) !important;
+  box-shadow: none !important;
+}
+.card:hover {
+  border-color: rgba(79,142,247,.3) !important;
+  box-shadow: var(--glow-blue) !important;
+  transform: translateY(-4px) !important;
+}
+.card::before {
+  background: var(--grad-bp) !important;
+}
+.card h3 { color: #fff !important; }
+.card h3 i { color: var(--blue-primary) !important; }
+.card h4 { color: var(--text-dark) !important; }
+.card ul li {
+  border-bottom-color: var(--border-dark) !important;
+  color: var(--text-dark) !important;
+}
+.card ul li::before { color: var(--blue-primary) !important; }
+.card-highlight {
+  background: linear-gradient(135deg,rgba(79,142,247,.07),rgba(167,139,250,.07)) !important;
+  border-color: rgba(79,142,247,.3) !important;
+}
+.content { border-top-color: var(--border-dark) !important; }
+
+/* ── TOGGLE dark ── */
+.toggle { color: var(--text-dark) !important; }
+.toggle:hover { color: var(--blue-primary) !important; }
+.toggle i { color: var(--blue-primary) !important; }
+
+/* ── competencias-list dark ── */
+.competencias-list li {
+  color: var(--text-dark) !important;
+  border-bottom-color: var(--border-dark) !important;
+}
+.competencias-list li::before { color: var(--blue-primary) !important; }
+
+/* ── SOBRE dark ── */
+.sobre-container { background: var(--card-dark) !important; }
+.texto-sobre h2 { color: #fff !important; }
+.texto-sobre p  { color: var(--text-dark) !important; }
+#typing-text    { color: var(--blue-primary) !important; }
+.stat-number    { background: var(--grad-bp) !important; -webkit-background-clip: text !important; background-clip: text !important; }
+.stat-label     { color: var(--muted-dark) !important; }
+.stat-divider   { background: linear-gradient(to bottom,transparent,var(--border-dark),transparent) !important; }
+
+.sobre-vagas {
+  background: rgba(79,142,247,.06) !important;
+  border-left-color: var(--blue-primary) !important;
+}
+.sobre-vagas-titulo { color: var(--muted-dark) !important; }
+.sobre-vagas-titulo i { color: var(--blue-primary) !important; }
+.vaga-tag { background: var(--grad-bp) !important; }
+
+.sobre-dados-interesse {
+  background: rgba(79,142,247,.05) !important;
+  border-left-color: var(--purple-accent) !important;
+}
+.sobre-dados-titulo { color: var(--muted-dark) !important; }
+.sobre-dados-titulo i { color: var(--purple-accent) !important; }
+.sobre-dados-interesse p:last-child { color: var(--text-dark) !important; }
+
+.sobre-pcd {
+  background: rgba(167,139,250,.07) !important;
+  border-color: rgba(167,139,250,.25) !important;
+}
+.pcd-icon { background: linear-gradient(135deg,#7c3aed,#a78bfa) !important; }
+.pcd-titulo { color: #fff !important; }
+.badge-pcd { background: rgba(167,139,250,.15) !important; color: var(--purple-accent) !important; }
+.pcd-desc { color: var(--muted-dark) !important; }
+.pcd-desc strong { color: var(--text-dark) !important; }
+
+/* ── QSE dark ── */
+.qse-preview-card, .qse-historia {
+  background: var(--bg-dark3) !important;
+  border-color: var(--border-dark) !important;
+}
+.qse-nome { color: #fff !important; }
+.qse-descricao-rapida { color: var(--muted-dark) !important; }
+.qse-badge { background: rgba(79,142,247,.1) !important; color: var(--blue-primary) !important; border-color: rgba(79,142,247,.2) !important; }
+.qse-badge-pcd { background: rgba(167,139,250,.1) !important; color: var(--purple-accent) !important; border-color: rgba(167,139,250,.3) !important; }
+.qse-avatar-ring { background: var(--grad-bp) !important; }
+.qse-timeline::before { background: var(--border-dark) !important; }
+.qse-bloco-icone { background: var(--grad-bp) !important; }
+.qse-icone-senac { background: linear-gradient(135deg,#4f8ef7,#7c3aed) !important; }
+.qse-icone-atual { background: linear-gradient(135deg,#4f8ef7,#a78bfa) !important; }
+.qse-icone-pandemia { background: linear-gradient(135deg,#6b82a8,#4b5a72) !important; }
+.qse-bloco-atual .qse-bloco-conteudo { border-left-color: var(--blue-primary) !important; }
+.qse-bloco-conteudo h4 { color: #fff !important; }
+.qse-periodo { color: var(--muted-dark) !important; }
+.qse-bloco-conteudo p { color: var(--text-dark) !important; }
+
+/* ── FORMAÇÃO dark ── */
+.formacao-item {
+  background: var(--bg-dark3) !important;
+  border-color: var(--border-dark) !important;
+}
+.formacao-item::before { background: var(--grad-bp) !important; }
+.formacao-item:hover {
+  border-color: rgba(79,142,247,.3) !important;
+  box-shadow: var(--glow-blue) !important;
+}
+.formacao-destaque {
+  background: linear-gradient(135deg,rgba(79,142,247,.07),rgba(167,139,250,.07)) !important;
+  border-color: rgba(79,142,247,.3) !important;
+}
+.formacao-icon { background: var(--grad-bp) !important; }
+.formacao-info h3 { color: #fff !important; }
+.formacao-instituicao { color: var(--blue-primary) !important; }
+.formacao-periodo { color: var(--muted-dark) !important; }
+.formacao-desc {
+  color: var(--text-dark) !important;
+  background: rgba(79,142,247,.04) !important;
+  border-left-color: var(--blue-primary) !important;
+}
+.formacao-certificacoes li { color: var(--muted-dark) !important; }
+
+/* ── EXPERIÊNCIAS dark ── */
+.trabalho-header h4 { color: #fff !important; }
+.cargo { color: var(--blue-primary) !important; }
+.departamento, .periodo, .periodo-trabalho { color: var(--muted-dark) !important; }
+.trabalho-descricao {
+  color: var(--text-dark) !important;
+  background: rgba(79,142,247,.04) !important;
+  border-left-color: var(--blue-primary) !important;
+}
+.trabalho-atividades li {
+  color: var(--text-dark) !important;
+  border-bottom-color: var(--border-dark) !important;
+}
+.trabalho-atividades li::before { color: var(--blue-primary) !important; }
+.badge-local    { background: rgba(79,142,247,.1) !important;  color: var(--blue-primary) !important; }
+.badge-periodo  { background: rgba(167,139,250,.1) !important; color: var(--purple-accent) !important; }
+.badge-status   { background: rgba(79,142,247,.12) !important; color: var(--blue-bright) !important; }
+.badge-encerra  { background: rgba(251,191,36,.12) !important; color: #fbbf24 !important; }
+.badge-concluido{ background: rgba(79,142,247,.12) !important; color: var(--blue-bright) !important; }
+.experiencias-resumo .card p { color: var(--text-dark) !important; }
+.experiencias-resumo .card .periodo { color: var(--muted-dark) !important; }
+.section-subtitle { color: var(--blue-primary) !important; }
+
+/* ── HABILIDADES dark ── */
+.ferramentas-list li {
+  background: rgba(79,142,247,.05) !important;
+  border-left-color: var(--blue-primary) !important;
+}
+.ferramentas-list li:hover {
+  background: rgba(79,142,247,.1) !important;
+}
+.ferr-nome { color: #fff !important; }
+.ferr-nome i { color: var(--blue-primary) !important; }
+.ferr-onde { color: var(--muted-dark) !important; }
+
+/* ── CV DOWNLOAD dark ── */
+.cv-download { background: linear-gradient(135deg,#f093fb,#f5576c) !important; }
+.cv-download-full { background: var(--grad-bp) !important; }
+.cv-download-word { background: linear-gradient(135deg,#2b579a,#1e3f7a) !important; }
+.cv-download-container {
+  background: linear-gradient(135deg,rgba(79,142,247,.06),rgba(167,139,250,.06)) !important;
+  border-color: rgba(79,142,247,.25) !important;
+}
+.cv-hint { color: var(--muted-dark) !important; }
+.cv-section h2 { color: #fff !important; }
+
+/* ── VIEW-CERT dark ── */
+.view-cert { background: var(--grad-bp) !important; }
+
+/* ── BUTTONS dark ── */
+.btn-primary  { background: linear-gradient(135deg,#0077b5,#005580) !important; }
+.btn-secondary{ background: linear-gradient(135deg,#24292e,#444d56) !important; }
+.btn-outline  { border-color: var(--blue-primary) !important; color: var(--blue-primary) !important; }
+.btn-outline:hover { background: var(--blue-primary) !important; color: #fff !important; }
+
+/* ── FOOTER dark ── */
+footer {
+  background: var(--bg-dark2) !important;
+  border-top-color: var(--border-dark) !important;
+}
+footer h2 { color: #fff !important; }
+.footer-subtitle { color: var(--muted-dark) !important; }
+.footer-column h4 { color: #fff !important; }
+.footer-column p  { color: var(--text-dark) !important; }
+footer a { color: var(--blue-primary) !important; }
+footer a:hover { color: var(--purple-accent) !important; }
+.footer-bottom, .footer-tech { color: var(--muted-dark) !important; }
+.footer-bottom { border-top-color: var(--border-dark) !important; }
+
+/* ── BACK TO TOP dark ── */
+#backToTop { background: var(--grad-bp) !important; }
+
+/* ── PROGRESS BAR dark ── */
+#progressBar { background: var(--grad-bp) !important; }
+
+/* ── CERT MODAL dark ── */
+.cert-semester-title {
+  color: #fff !important;
+  border-bottom-color: var(--border-dark) !important;
+}
+
+/* ── ANIMATIONS extra ── */
+@keyframes pulse-glow {
+  0%,100% { box-shadow: 0 0 0 rgba(79,142,247,0); }
+  50%      { box-shadow: 0 0 20px rgba(79,142,247,.35); }
+}
+
+/* ── Typing cursor color ── */
+#typing-text::after { color: var(--blue-primary); }
+
+/* ========================================
+   FAQ — Perguntas & Respostas para Candidaturas
+   ======================================== */
+
+#faq {
+  scroll-margin-top: 80px;
+}
+
+/* Section header pill */
+.faq-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  background: rgba(79,142,247,.09);
+  border: 1px solid var(--border-dark);
+  border-radius: 20px;
+  padding: .3rem 1rem;
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--blue-primary);
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.faq-pill .dot {
+  width: 6px; height: 6px;
+  background: var(--blue-primary);
+  border-radius: 50%;
+  animation: blink 2s ease-in-out infinite;
+}
+.faq-subtitle {
+  font-size: .92rem;
+  color: var(--muted-dark);
+  margin-bottom: 2rem;
+  line-height: 1.7;
+  max-width: 650px;
+}
+
+/* Category filter tabs */
+.faq-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-bottom: 2rem;
+}
+.faq-tab-btn {
+  padding: .38rem 1rem;
+  border-radius: 8px;
+  font-size: .78rem;
+  font-weight: 600;
+  border: 1px solid var(--border-dark);
+  background: transparent;
+  color: var(--muted-dark);
+  cursor: pointer;
+  transition: all .2s;
+  font-family: inherit;
+}
+.faq-tab-btn:hover,
+.faq-tab-btn.active {
+  background: rgba(79,142,247,.12);
+  border-color: var(--blue-primary);
+  color: var(--blue-primary);
+}
+.faq-tab-btn.active-purple {
+  background: rgba(167,139,250,.12);
+  border-color: var(--purple-accent);
+  color: var(--purple-accent);
+}
+
+/* FAQ cards grid */
+.faq-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Individual FAQ card */
+.faq-card {
+  background: var(--bg-dark3);
+  border: 1px solid var(--border-dark);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: all .25s;
+  position: relative;
+}
+.faq-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: var(--grad-bp);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .3s ease;
+}
+.faq-card:hover::before { transform: scaleX(1); }
+.faq-card:hover {
+  border-color: rgba(79,142,247,.3);
+  box-shadow: var(--glow-blue);
+}
+.faq-card.open {
+  border-color: rgba(79,142,247,.35);
+  box-shadow: var(--glow-blue);
+}
+.faq-card.open::before { transform: scaleX(1); }
+
+/* Question header row */
+.faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 1.3rem;
+  cursor: pointer;
+  user-select: none;
+}
+.faq-q-left {
+  display: flex;
+  align-items: flex-start;
+  gap: .85rem;
+  flex: 1;
+  min-width: 0;
+}
+.faq-q-icon {
+  width: 34px; height: 34px;
+  border-radius: 8px;
+  display: grid; place-items: center;
+  font-size: .88rem;
+  flex-shrink: 0;
+  background: rgba(79,142,247,.12);
+  color: var(--blue-primary);
+}
+.faq-q-icon.purple {
+  background: rgba(167,139,250,.12);
+  color: var(--purple-accent);
+}
+.faq-q-text {
+  flex: 1;
+}
+.faq-q-label {
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted-dark);
+  margin-bottom: .22rem;
+}
+.faq-q-title {
+  font-size: .93rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.3;
+}
+.faq-q-actions {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  flex-shrink: 0;
+}
+.faq-chevron {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  background: rgba(79,142,247,.08);
+  border: 1px solid var(--border-dark);
+  display: grid; place-items: center;
+  color: var(--blue-primary);
+  font-size: .75rem;
+  transition: transform .25s ease, background .2s;
+}
+.faq-card.open .faq-chevron {
+  transform: rotate(180deg);
+  background: rgba(79,142,247,.16);
+}
+
+/* Answer body */
+.faq-answer {
+  display: none;
+  padding: 0 1.3rem 1.3rem;
+  border-top: 1px solid var(--border-dark);
+  animation: slideDown .22s ease;
+}
+.faq-card.open .faq-answer { display: block; }
+
+.faq-answer-text {
+  font-size: .875rem;
+  color: var(--text-dark);
+  line-height: 1.8;
+  margin-top: 1rem;
+  white-space: pre-line;
+}
+.faq-answer-text strong { color: #fff; }
+.faq-answer-text em { color: var(--blue-primary); font-style: normal; }
+
+/* Copy button */
+.faq-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  margin-top: .9rem;
+  padding: .38rem .9rem;
+  border-radius: 7px;
+  font-size: .75rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  background: rgba(79,142,247,.1);
+  border: 1px solid rgba(79,142,247,.3);
+  color: var(--blue-primary);
+  transition: all .2s;
+}
+.faq-copy-btn:hover {
+  background: rgba(79,142,247,.2);
+  border-color: var(--blue-primary);
+}
+.faq-copy-btn.copied {
+  background: rgba(52,211,153,.12);
+  border-color: rgba(52,211,153,.35);
+  color: #34d399;
+}
+
+/* Category badge on card */
+.faq-category-badge {
+  font-size: .65rem;
+  font-weight: 700;
+  padding: .15rem .55rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.cat-suporte  { background: rgba(79,142,247,.12); color: var(--blue-primary); }
+.cat-dados    { background: rgba(167,139,250,.12); color: var(--purple-accent); }
+.cat-pessoal  { background: rgba(251,191,36,.1);  color: #fbbf24; }
+.cat-tecnico  { background: rgba(52,211,153,.1);  color: #34d399; }
+.cat-geral    { background: rgba(156,163,175,.1); color: #9ca3af; }
+
+/* N2/N3 highlight box inside answer */
+.faq-nivel-box {
+  margin-top: .85rem;
+  padding: .8rem 1rem;
+  border-radius: 9px;
+  background: rgba(79,142,247,.06);
+  border-left: 3px solid var(--blue-primary);
+  font-size: .83rem;
+  color: var(--text-dark);
+  line-height: 1.7;
+}
+.faq-nivel-box strong { color: #fff; }
+.faq-nivel-box.purple-box {
+  background: rgba(167,139,250,.06);
+  border-left-color: var(--purple-accent);
+}
+
+@media (max-width: 640px) {
+  .faq-question { padding: .9rem 1rem; }
+  .faq-answer   { padding: 0 1rem 1rem; }
+  .faq-q-title  { font-size: .85rem; }
+  .faq-tabs { gap: .35rem; }
+  .faq-tab-btn { font-size: .72rem; padding: .32rem .75rem; }
+}
+
+/* FAQ — missing layout helpers */
+.faq-header {
+  margin-bottom: 2rem;
+}
+.faq-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 700;
+  background: var(--grad-bp);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: .5rem 0 .7rem;
+  line-height: 1.2;
+}
+.faq-q-top {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-bottom: .4rem;
+}
+.faq-question {
+  flex-direction: column;
+  align-items: flex-start;
+}
+.faq-chevron {
+  align-self: flex-start;
+  font-size: .85rem;
+  color: var(--blue-primary);
+  transition: transform .25s;
+  margin-left: auto;
+  position: absolute;
+  right: 1.3rem;
+  top: 1.1rem;
+}
+.faq-question { position: relative; padding-right: 2.5rem; }
+.faq-card.open .faq-chevron { transform: rotate(180deg); }
+
+/* Fade-in animation for tab switching */
+@keyframes faq-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

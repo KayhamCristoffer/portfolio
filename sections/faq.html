@@ -1,0 +1,613 @@
+<section id="faq" aria-label="FAQ — Perguntas Frequentes em Candidaturas">
+
+  <!-- ── HEADER ─────────────────────────────────────────────── -->
+  <div class="faq-header">
+    <div class="faq-pill"><span class="dot"></span> Candidaturas</div>
+    <h2 class="faq-title">Perguntas &amp; Respostas</h2>
+    <p class="faq-subtitle">
+      Respostas prontas, baseadas em experiência real, para usar nos formulários do
+      <strong>InfoJobs</strong>, <strong>Indeed</strong> e <strong>Gupy</strong>.
+      Clique em qualquer resposta para expandir e copie com um clique.
+    </p>
+  </div>
+
+  <!-- ── CATEGORY TABS ──────────────────────────────────────── -->
+  <div class="faq-tabs" role="tablist" aria-label="Filtrar perguntas por categoria">
+    <button class="faq-tab-btn active" data-cat="all"       role="tab" aria-selected="true">Todas</button>
+    <button class="faq-tab-btn"        data-cat="suporte"   role="tab" aria-selected="false">Suporte N2/N3</button>
+    <button class="faq-tab-btn"        data-cat="dados"     role="tab" aria-selected="false">Dados &amp; Análise</button>
+    <button class="faq-tab-btn"        data-cat="tecnico"   role="tab" aria-selected="false">Técnico</button>
+    <button class="faq-tab-btn"        data-cat="pessoal"   role="tab" aria-selected="false">Pessoal</button>
+    <button class="faq-tab-btn"        data-cat="geral"     role="tab" aria-selected="false">Geral</button>
+  </div>
+
+  <!-- ── FAQ GRID ───────────────────────────────────────────── -->
+  <div class="faq-grid" id="faqGrid">
+
+    <!-- ════════════════════════════════════════════════════════
+         SUPORTE N2 / N3
+    ════════════════════════════════════════════════════════ -->
+
+    <!-- 1 -->
+    <div class="faq-card" data-cat="suporte">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-q-top">
+          <span class="faq-category-badge cat-suporte">Suporte N2/N3</span>
+        </div>
+        <p class="faq-q-title">Descreva sua experiência com suporte técnico N2 e N3.</p>
+        <span class="faq-chevron" aria-hidden="true">▾</span>
+      </div>
+      <div class="faq-answer">
+        <p>
+          Durante minha atuação no <strong>TCE-SP</strong> — passando pela DTEC-1 (Operações e Infraestrutura) e pela DTEC-3 (Seção de Suporte em Tecnologia) — prestei suporte técnico a mais de 1.000 servidores públicos, cobrindo desde atendimentos de primeiro nível até escaladas complexas de N3.
+        </p>
+        <div class="faq-nivel-box">
+          <strong>N2 — O que eu resolvia:</strong> falhas em impressoras de rede e workstations, configuração de VPN e acesso remoto, reset de credenciais no Active Directory, instalação e licenciamento de software, problemas de conectividade em switches Cisco, tickets do GLPI com diagnóstico e resolução documentada.
+        </div>
+        <div class="faq-nivel-box purple-box">
+          <strong>N3 — Escaladas que tratei ou apoiei:</strong> falhas em servidores Windows Server / Linux em ambiente virtualizado (VMware), análise de logs de eventos críticos, troubleshooting de firewall e regras de ACL, suporte a sistemas internos do tribunal (SIGEPE, SEI), análise de pacotes com Wireshark para identificar gargalos de rede, e monitoramento de segurança via Wazuh SIEM.
+        </div>
+        <p style="margin-top:.9rem">
+          Todo atendimento era registrado no <strong>GLPI</strong> com descrição técnica da causa-raiz e solução aplicada, contribuindo para a base de conhecimento do setor.
+        </p>
+        <button class="faq-copy-btn" data-copy-target="ans-suporte-1">
+          <i class="fa-regular fa-copy" aria-hidden="true"></i> Copiar resposta
+        </button>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="faq-card" data-cat="suporte">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-q-top">
+          <span class="faq-category-badge cat-suporte">Suporte N2/N3</span>
+        </div>
+        <p class="faq-q-title">Conte sobre um problema técnico difícil que você resolveu.</p>
+        <span class="faq-chevron" aria-hidden="true">▾</span>
+      </div>
+      <div class="faq-answer">
+        <p>
+          No TCE-SP, uma ala inteira de impressoras de rede parou de imprimir sem nenhuma mensagem de erro clara. O chamado chegou como "impressora offline" — diagnóstico inicial simples. Mas ao investigar, percebi que o problema não estava nas impressoras: o servidor de impressão havia acumulado filas corrompidas que travavam novos jobs silenciosamente.
+        </p>
+        <div class="faq-nivel-box">
+          <strong>Processo de diagnóstico:</strong><br>
+          1. Confirmei conectividade de rede com ping e análise de ARP — todas as impressoras respondiam.<br>
+          2. Acessei o servidor de impressão via RDP e identifiquei ~200 jobs presos na fila do spooler.<br>
+          3. Parei o serviço de spooler, limpei manualmente o diretório de spool em <code>System32\spool\PRINTERS</code> e reiniciei o serviço.<br>
+          4. Documentei no GLPI a causa-raiz e criei um procedimento preventivo para limpeza semanal agendada.
+        </div>
+        <p style="margin-top:.9rem">
+          Resultado: serviço restaurado em 35 minutos, sem troca de hardware. A solução foi replicada para outros andares com configuração similar, evitando a recorrência.
+        </p>
+        <button class="faq-copy-btn">
+          <i class="fa-regular fa-copy" aria-hidden="true"></i> Copiar resposta
+        </button>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="faq-card" data-cat="suporte">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-q-top">
+          <span class="faq-category-badge cat-suporte">Suporte N2/N3</span>
+        </div>
+        <p class="faq-q-title">Como você lida com chamados de alta prioridade e usuários estressados?</p>
+        <span class="faq-chevron" aria-hidden="true">▾</span>
+      </div>
+      <div class="faq-answer">
+        <p>
+          Minha abordagem é <strong>separar a emoção do problema técnico</strong>. Quando o usuário está estressado, a primeira coisa que faço é reconhecer o impacto: "Entendo que isso está parando sua atividade — vou resolver o mais rápido possível e te mantenho informado a cada passo."
+        </p>
+        <p style="margin-top:.7rem">
+          Na prática do TCE-SP, tivemos situações de auditores com prazo de processo para o dia que perderam acesso ao sistema SEI por mudança de senha expirada. O protocolo era:
+        </p>
+        <div class="faq-nivel-box">
+          <strong>Alta prioridade — SLA curto:</strong><br>
+          1. Classificar como P1 no GLPI imediatamente.<br>
+          2. Acionar diretamente o técnico responsável pela conta no AD, sem aguardar fila.<br>
+          3. Acompanhar a restauração em tempo real com o usuário na linha.<br>
+          4. Confirmar resolução e registrar o fechamento com RCA (causa-raiz).
+        </div>
+        <p style="margin-top:.9rem">
+          Aprendi que comunicação clara e status em tempo real diminui o estresse do usuário mesmo quando a solução demora — o silêncio é o que mais frustra.
+        </p>
+        <button class="faq-copy-btn">
+          <i class="fa-regular fa-copy" aria-hidden="true"></i> Copiar resposta
+        </button>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="faq-card" data-cat="suporte">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-q-top">
+          <span class="faq-category-badge cat-suporte">Suporte N2/N3</span>
+        </div>
+        <p class="faq-q-title">Você já precisou escalar um chamado para N3 / fornecedor? Como foi?</p>
+        <span class="faq-chevron" aria-hidden="true">▾</span>
+      </div>
+      <div class="faq-answer">
+        <p>
+          Sim. Um dos casos mais marcantes foi uma falha intermitente de autenticação no sistema interno do tribunal — usuários conseguiam logar pela manhã, mas sessões caíam aleatoriamente após alguns minutos.
+        </p>
+        <div class="faq-nivel-box">
+          <strong>O que fiz antes de escalar:</strong><br>
+          — Descartei problemas de hardware (testes de RAM, HD S.M.A.R.T) e conectividade local.<br>
+          — Coletei logs de eventos do Windows (Event Viewer) e identifiquei erros Kerberos de renovação de ticket.<br>
+          — Correlacionei os horários das quedas com o log de sincronização do NTP — o relógio do servidor estava desviando +7 minutos.
+        </div>
+        <div class="faq-nivel-box purple-box">
+          <strong>Escalada para N3 com contexto:</strong><br>
+          Ao escalonar, entreguei: descrição cronológica do problema, logs filtrados com os Event IDs relevantes, hipótese técnica (desvio NTP causando falha de Kerberos) e o impacto de usuários. O analista N3 confirmou a hipótese e aplicou a correção em 20 minutos. A escalada bem documentada reduziu o MTTR de horas para minutos.
+        </div>
+        <button class="faq-copy-btn">
+          <i class="fa-regular fa-copy" aria-hidden="true"></i> Copiar resposta
+        </button>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="faq-card" data-cat="suporte">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-q-top">
+          <span class="faq-category-badge cat-suporte">Suporte N2/N3</span>
+        </div>
+        <p class="faq-q-title">Quais ferramentas de ITSM e monitoramento você utilizou?</p>
+        <span class="faq-chevron" aria-hidden="true">▾</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-nivel-box">
+          <strong>ITSM / Help Desk:</strong> GLPI — abertura, categorização, atribuição, registro de solução e fechamento de chamados. Utilizado diariamente no TCE-SP.
+        </div>
+        <div class="faq-nivel-box purple-box">
+          <strong>Monitoramento e Segurança:</strong><br>
+          — <strong>Wazuh SIEM</strong>: correlação de eventos de segurança, alertas de intrusão e análise de logs em laboratório (UniDrummond + Senac Redes).<br>
+          — <strong>Wireshark</strong>: captura e análise de pacotes para troubleshooting de rede — usado tanto no TCE-SP quanto em projetos acadêmicos e no Senac.<br>
+          — <strong>Zabbix / Nagios</strong>: conceitos de monitoramento de infraestrutura abordados em disciplinas de redes.
+        </div>
+        <div class="faq-nivel-box">
+          <strong>Produtividade e colaboração:</strong> Microsoft Teams, SharePoint, Outlook, Teams + forms internos do tribunal. Power BI para dashboards de indicadores do setor.
+        </div>
+        <button class="faq-copy-btn">
+          <i class="fa-regular fa-copy" aria-hidden="true"></i> Copiar resposta
+        </button>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════
+         DADOS & ANÁLISE
+    ════════════════════════════════════════════════════════ -->
+
+    <!-- 6 -->
+    <div class="faq-card" data-cat="dados">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-q-top">
+          <span class="faq-category-badge cat-dados">Dados &amp; Análise</span>
+        </div>
+        <p class="faq-q-title">Qual sua experiência com análise de dados e Business Intelligence?</p>
+        <span class="faq-chevron" aria-hidden="true">▾</span>
+      </div>
+      <div class="faq-answer">
+        <p>
+          No TCE-SP, integrei o <strong>GDTEC</strong> (Gabinete da Diretoria de Tecnologia), onde trabalhei diretamente com análise de dados operacionais do setor. As principais entregas foram:
+        </p>
+        <div class="faq-nivel-box">
+          <strong>Projetos práticos:</strong><br>
+          — Dashboards em <strong>Power BI</strong> para acompanhamento de chamados abertos/fechados por período, SLA e categoria — utilizados pela gestão para tomada de decisão.<br>
+          — Planilhas avançadas em <strong>Excel</strong> (PROCV, tabelas dinâmicas, Power Query) para controle de inventário de hardware e licenças de software.<br>
+          — Consultas <strong>SQL</strong> para extração e cruzamento de dados de sistemas internos, identificando padrões de falha recorrentes.
+        </div>
+        <div class="faq-nivel-box purple-box">
+          <strong>Acadêmico e pessoal:</strong><br>
+          — <strong>Python</strong> (pandas, matplotlib) para análise exploratória em projetos de TCC.<br>
+          — Projeto <strong>SustAmbiTechBI.io</strong>: plataforma web completa de BI ambiental com dashboards interativos, API REST e banco de dados relacional (Supabase/PostgreSQL).<br>
+          — Firebase Realtime Database com Node.js para projetos de automação com dados em tempo real.
+        </div>
+        <button class="faq-copy-btn">
+          <i class="fa-regular fa-copy" aria-hidden="true"></i> Copiar resposta
+        </button>
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="faq-card" data-cat="dados">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-q-top">
+          <span class="faq-category-badge cat-dados">Dados &amp; Análise</span>
+        </div>
+        <p class="faq-q-title">Você tem experiência com SQL e bancos de dados?</p>
+        <span class="faq-chevron" aria-hidden="true">▾</span>
+      </div>
+      <div class="faq-answer">
+        <p>
+          Sim. Trabalho com SQL tanto em contexto acadêmico quanto profissional. Tenho domínio de consultas intermediárias-avançadas:
+        </p>
+        <div class="faq-nivel-box">
+          <strong>O que sei fazer:</strong><br>
+          — <code>SELECT</code> com <code>JOIN</code> (INNER, LEFT, RIGHT), <code>GROUP BY</code>, <code>HAVING</code>, <code>ORDER BY</code><br>
+          — Subconsultas correlacionadas e <code>WITH</code> (CTEs)<br>
+          — <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code> com cuidado de integridade referencial<br>
+          — Criação e manutenção de tabelas, índices e views<br>
+          — Exportação e importação de dados para integração com Python e Power BI
+        </div>
+        <div class="faq-nivel-box purple-box">
+          <strong>Bancos utilizados:</strong> PostgreSQL (Supabase), MySQL, SQLite. Familiaridade com conceitos de NoSQL via Firebase Firestore e Realtime Database.
+        </div>
+        <button class="faq-copy-btn">
+          <i class="fa-regular fa-copy" aria-hidden="true"></i> Copiar resposta
+        </button>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════
+         TÉCNICO
+    ════════════════════════════════════════════════════════ -->
+
+    <!-- 8 -->
+    <div class="faq-card" data-cat="tecnico">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-q-top">
+          <span class="faq-category-badge cat-tecnico">Técnico</span>
+        </div>
+        <p class="faq-q-title">Qual sua experiência com redes e infraestrutura?</p>
+        <span class="faq-chevron" aria-hidden="true">▾</span>
+      </div>
+      <div class="faq-answer">
+        <p>
+          Tenho base sólida em redes construída em três frentes: prática no TCE-SP, certificação no Senac e formação na UniDrummond.
+        </p>
+        <div class="faq-nivel-box">
+          <strong>TCE-SP — prática real:</strong><br>
+          — Configuração e manutenção de switches <strong>Cisco</strong> (VLANs, trunking, STP).<br>
+          — Troubleshooting de conectividade em ambiente corporativo com 1.000+ dispositivos.<br>
+          — Configuração de VPN (SSL e IPSec) e suporte a acesso remoto seguro.<br>
+          — Análise de tráfego com <strong>Wireshark</strong> para diagnóstico de latência e perdas de pacote.
+        </div>
+        <div class="faq-nivel-box purple-box">
+          <strong>Certificações e cursos:</strong><br>
+          — <strong>CCNAv7</strong> (72h) — roteamento, switching, protocolos de roteamento dinâmico (OSPF, EIGRP).<br>
+          — <strong>IPv6 NIC.br</strong> (36h) — endereçamento, DHCPv6, transição IPv4/IPv6.<br>
+          — Disciplinas de Redes no Senac: segurança, pentest com Kali Linux e Metasploit, análise de vulnerabilidades.
+        </div>
+        <button class="faq-copy-btn">
+          <i class="fa-regular fa-copy" aria-hidden="true"></i> Copiar resposta
+        </button>
+      </div>
+    </div>
+
+    <!-- 9 -->
+    <div class="faq-card" data-cat="tecnico">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-q-top">
+          <span class="faq-category-badge cat-tecnico">Técnico</span>
+        </div>
+        <p class="faq-q-title">Você tem experiência com Linux? Windows Server?</p>
+        <span class="faq-chevron" aria-hidden="true">▾</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-nivel-box">
+          <strong>Linux:</strong><br>
+          — Uso diário de <strong>Ubuntu / Debian</strong> para desenvolvimento e laboratório.<br>
+          — Administração básica: gerenciamento de usuários e permissões (<code>chmod</code>, <code>chown</code>), serviços (<code>systemctl</code>), rede (<code>ip</code>, <code>netstat</code>, <code>ss</code>), logs (<code>journalctl</code>).<br>
+          — Automação com <strong>Shell Script</strong> e Python para tarefas repetitivas.<br>
+          — Kali Linux em laboratórios de segurança (pentest, análise de vulnerabilidades).
+        </div>
+        <div class="faq-nivel-box purple-box">
+          <strong>Windows Server:</strong><br>
+          — Active Directory: criação e gerenciamento de usuários, grupos, GPOs, reset de senha, desbloqueio de conta.<br>
+          — Servidor de impressão: configuração, compartilhamento e solução de problemas de spooler.<br>
+          — Remote Desktop Services e VPN para acesso remoto corporativo.<br>
+          — Event Viewer para análise de logs de sistema, segurança e aplicação.
+        </div>
+        <button class="faq-copy-btn">
+          <i class="fa-regular fa-copy" aria-hidden="true"></i> Copiar resposta
+        </button>
+      </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="faq-card" data-cat="tecnico">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-q-top">
+          <span class="faq-category-badge cat-tecnico">Técnico</span>
+        </div>
+        <p class="faq-q-title">Quais linguagens de programação você domina?</p>
+        <span class="faq-chevron" aria-hidden="true">▾</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-nivel-box">
+          <strong>Nível profissional / projetos reais:</strong><br>
+          — <strong>Python</strong>: automação, análise de dados (pandas, matplotlib), APIs REST (Flask), scripts de manutenção.<br>
+          — <strong>JavaScript / TypeScript</strong>: desenvolvimento web front e back-end (Node.js), integração com Firebase e Supabase.<br>
+          — <strong>HTML5 + CSS3</strong>: interfaces responsivas, acessibilidade (WCAG), animações CSS.
+        </div>
+        <div class="faq-nivel-box purple-box">
+          <strong>Nível intermediário / acadêmico:</strong><br>
+          — <strong>SQL</strong>: consultas complexas, PostgreSQL, MySQL, SQLite.<br>
+          — <strong>C / C++</strong>: algoritmos, estruturas de dados, disciplinas de computação.<br>
+          — <strong>Java</strong>: POO, conceitos de design patterns em disciplinas.<br>
+          — <strong>Shell Script</strong>: automação de tarefas em Linux.
+        </div>
+        <button class="faq-copy-btn">
+          <i class="fa-regular fa-copy" aria-hidden="true"></i> Copiar resposta
+        </button>
+      </div>
+    </div>
+
+    <!-- 11 -->
+    <div class="faq-card" data-cat="tecnico">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-q-top">
+          <span class="faq-category-badge cat-tecnico">Técnico</span>
+        </div>
+        <p class="faq-q-title">Fale sobre sua experiência com segurança da informação.</p>
+        <span class="faq-chevron" aria-hidden="true">▾</span>
+      </div>
+      <div class="faq-answer">
+        <p>
+          Segurança da informação é um tema transversal na minha formação, abordado tanto de forma ofensiva (pentest) quanto defensiva (monitoramento e resposta a incidentes).
+        </p>
+        <div class="faq-nivel-box">
+          <strong>Defensivo / Blue Team:</strong><br>
+          — <strong>Wazuh SIEM</strong>: configuração de agentes, criação de regras de alerta, correlação de eventos e análise de tentativas de acesso não autorizado (laboratório Senac + UniDrummond).<br>
+          — Análise de logs de sistema (Windows Event Log, syslog Linux) para detecção de anomalias.<br>
+          — Noções de hardening de servidores Windows e Linux.
+        </div>
+        <div class="faq-nivel-box purple-box">
+          <strong>Ofensivo / Red Team (laboratório):</strong><br>
+          — <strong>Kali Linux</strong> + <strong>Metasploit</strong>: exploração de vulnerabilidades em ambientes controlados (Senac Redes / UniDrummond).<br>
+          — Testes de penetração básicos: varredura com Nmap, enumeração de serviços, exploração de CVEs em máquinas virtuais.<br>
+          — Certificação <strong>AI Cybersecurity Foundation</strong> — conceitos de segurança com IA aplicada.
+        </div>
+        <p style="margin-top:.9rem">Participei das conferências <strong>BSidesSP 2025 e 2026</strong>, mantendo-me atualizado com as tendências da comunidade de segurança brasileira.</p>
+        <button class="faq-copy-btn">
+          <i class="fa-regular fa-copy" aria-hidden="true"></i> Copiar resposta
+        </button>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════
+         PESSOAL
+    ════════════════════════════════════════════════════════ -->
+
+    <!-- 12 -->
+    <div class="faq-card" data-cat="pessoal">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-q-top">
+          <span class="faq-category-badge cat-pessoal">Pessoal</span>
+        </div>
+        <p class="faq-q-title">Fale sobre você. (Tell me about yourself.)</p>
+        <span class="faq-chevron" aria-hidden="true">▾</span>
+      </div>
+      <div class="faq-answer">
+        <p>
+          Sou Kayham Cristoffer, 28 anos, analista de TI em formação com dois anos de experiência prática no Tribunal de Contas do Estado de São Paulo, onde atuei pelo GDTEC, pela DTEC-1 (Operações e Infraestrutura) e pela DTEC-3 (Suporte em Tecnologia). Meu estágio foi encerrado em 31 de julho de 2026 e estou em busca de uma nova oportunidade onde possa continuar crescendo.
+        </p>
+        <p style="margin-top:.7rem">
+          Meu diferencial é ser um <strong>perfil transversal</strong>: consigo atuar tanto na camada de infraestrutura e suporte quanto no desenvolvimento de software e análise de dados — o que me permite contribuir de ponta a ponta em times de TI e resolver problemas com visão sistêmica.
+        </p>
+        <p style="margin-top:.7rem">
+          Sou bacharelando em Ciência da Computação na UniDrummond (7º semestre, fase de TCC), eleito representante de turma desde o 1º semestre, e aprimoramento meu inglês na Wise Up. Tenho uma condição monocular desde a infância — o que moldou minha resiliência e minha determinação para superar desafios fora do padrão.
+        </p>
+        <button class="faq-copy-btn">
+          <i class="fa-regular fa-copy" aria-hidden="true"></i> Copiar resposta
+        </button>
+      </div>
+    </div>
+
+    <!-- 13 -->
+    <div class="faq-card" data-cat="pessoal">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-q-top">
+          <span class="faq-category-badge cat-pessoal">Pessoal</span>
+        </div>
+        <p class="faq-q-title">Quais são seus pontos fortes e pontos de melhoria?</p>
+        <span class="faq-chevron" aria-hidden="true">▾</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-nivel-box">
+          <strong>Pontos fortes:</strong><br>
+          — <strong>Resolução de problemas</strong>: gosto genuíno de diagnóstico técnico, de ir além do sintoma e encontrar a causa-raiz.<br>
+          — <strong>Comunicação técnica</strong>: consigo traduzir conceitos complexos para usuários não-técnicos, o que facilitou muito o atendimento no tribunal.<br>
+          — <strong>Perfil transversal</strong>: infraestrutura + desenvolvimento + dados em um mesmo profissional.<br>
+          — <strong>Documentação</strong>: todo chamado, todo projeto — entrego com registro claro para quem vier depois.
+        </div>
+        <div class="faq-nivel-box purple-box">
+          <strong>Pontos em desenvolvimento:</strong><br>
+          — <strong>Inglês técnico avançado</strong>: estou em curso na Wise Up; já leio documentação fluentemente, a parte oral está em evolução.<br>
+          — <strong>Liderança formal de equipes</strong>: tive experiência como representante e em coordenação informal de projetos, mas quero aprofundar gestão de times em contexto profissional.
+        </div>
+        <button class="faq-copy-btn">
+          <i class="fa-regular fa-copy" aria-hidden="true"></i> Copiar resposta
+        </button>
+      </div>
+    </div>
+
+    <!-- 14 -->
+    <div class="faq-card" data-cat="pessoal">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-q-top">
+          <span class="faq-category-badge cat-pessoal">Pessoal</span>
+        </div>
+        <p class="faq-q-title">Por que você saiu do TCE-SP? Por que está em busca de emprego?</p>
+        <span class="faq-chevron" aria-hidden="true">▾</span>
+      </div>
+      <div class="faq-answer">
+        <p>
+          Meu contrato de estágio no TCE-SP foi encerrado em <strong>31 de julho de 2026</strong>, após dois anos de atuação. A saída foi por término natural de contrato — não por desligamento ou problema de performance.
+        </p>
+        <p style="margin-top:.7rem">
+          O período no tribunal foi extremamente enriquecedor: sai com experiência real em infraestrutura corporativa, suporte técnico em escala, análise de dados e ferramentas de segurança. Agora busco uma posição efetiva onde possa aplicar todo esse aprendizado e crescer de forma contínua em uma equipe de TI.
+        </p>
+        <div class="faq-nivel-box">
+          O que procuro na próxima oportunidade: ambiente técnico desafiador, possibilidade de evolução de carreira e um time que valorize documentação e boas práticas.
+        </div>
+        <button class="faq-copy-btn">
+          <i class="fa-regular fa-copy" aria-hidden="true"></i> Copiar resposta
+        </button>
+      </div>
+    </div>
+
+    <!-- 15 -->
+    <div class="faq-card" data-cat="pessoal">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-q-top">
+          <span class="faq-category-badge cat-pessoal">Pessoal</span>
+        </div>
+        <p class="faq-q-title">Como você se candidata a vagas PCD? Qual é a sua deficiência?</p>
+        <span class="faq-chevron" aria-hidden="true">▾</span>
+      </div>
+      <div class="faq-answer">
+        <p>
+          Sou <strong>PCD Monocular</strong> — CID H54.4 (perda não qualificada da visão em um olho). Tenho visão normal no olho esquerdo e sou legalmente elegível para vagas PCD pela lei nº 8.213/91.
+        </p>
+        <p style="margin-top:.7rem">
+          Quando era criança, meu irmão acidentalmente jogou uma estrela fluorescente de quarto e ela atingiu meu olho direito, causando perfuração da retina. Passei por múltiplas cirurgias ao longo dos anos — correção de estrabismo, tratamento de catarata e transplante de córnea. Sou acompanhado regularmente no CEMA (Centro de Estudo e Pesquisa em Oftalmologia).
+        </p>
+        <div class="faq-nivel-box">
+          <strong>No dia a dia profissional:</strong> a condição não impacta minha produtividade em nenhuma das funções que exerço — suporte técnico, análise de dados, desenvolvimento, uso de computadores e servidores. Atuo plenamente e me candidato tanto a vagas gerais quanto a vagas inclusivas (PCD).
+        </div>
+        <button class="faq-copy-btn">
+          <i class="fa-regular fa-copy" aria-hidden="true"></i> Copiar resposta
+        </button>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════
+         GERAL / COMPORTAMENTAL
+    ════════════════════════════════════════════════════════ -->
+
+    <!-- 16 -->
+    <div class="faq-card" data-cat="geral">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-q-top">
+          <span class="faq-category-badge cat-geral">Geral</span>
+        </div>
+        <p class="faq-q-title">Onde você se vê em 5 anos?</p>
+        <span class="faq-chevron" aria-hidden="true">▾</span>
+      </div>
+      <div class="faq-answer">
+        <p>
+          Meu objetivo de médio prazo é me consolidar como um <strong>analista de TI sênior</strong> com especialidade em uma das três frentes que já desenvolvo: infraestrutura e redes, análise de dados / BI, ou segurança da informação — dependendo do ambiente onde eu crescer.
+        </p>
+        <p style="margin-top:.7rem">
+          Em 5 anos quero ter concluído pelo menos uma certificação de nível profissional (CCNA, AWS Solutions Architect ou equivalente), contribuído para projetos com impacto mensurável na organização e, eventualmente, mentorear outros profissionais em início de carreira — assim como fui orientado no TCE-SP.
+        </p>
+        <div class="faq-nivel-box">
+          Valorizo empresas que invistam em treinamento e crescimento interno, pois me comprometerei da mesma forma com o crescimento delas.
+        </div>
+        <button class="faq-copy-btn">
+          <i class="fa-regular fa-copy" aria-hidden="true"></i> Copiar resposta
+        </button>
+      </div>
+    </div>
+
+    <!-- 17 -->
+    <div class="faq-card" data-cat="geral">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-q-top">
+          <span class="faq-category-badge cat-geral">Geral</span>
+        </div>
+        <p class="faq-q-title">Você trabalha bem em equipe? Dê um exemplo.</p>
+        <span class="faq-chevron" aria-hidden="true">▾</span>
+      </div>
+      <div class="faq-answer">
+        <p>
+          Sim. Meu histórico de representante de turma desde o 1º semestre na UniDrummond já exige constante mediação entre colegas e professores — ouvir os dois lados, propor soluções e manter o grupo coeso.
+        </p>
+        <p style="margin-top:.7rem">
+          No TCE-SP, o trabalho era sempre colaborativo: o atendimento ao usuário final dependia de comunicação clara com analistas N3, gestores de sistemas e o time de redes. Um exemplo prático foi durante uma migração de servidores em que precisei coordenar com três áreas diferentes (redes, desenvolvimento e suporte) para manter a continuidade dos serviços durante o horário de menor impacto.
+        </p>
+        <div class="faq-nivel-box">
+          Prefiro equipes onde cada um documenta o que faz — isso facilita a colaboração assíncrona e evita dependência de pessoas específicas para resolver problemas.
+        </div>
+        <button class="faq-copy-btn">
+          <i class="fa-regular fa-copy" aria-hidden="true"></i> Copiar resposta
+        </button>
+      </div>
+    </div>
+
+    <!-- 18 -->
+    <div class="faq-card" data-cat="geral">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-q-top">
+          <span class="faq-category-badge cat-geral">Geral</span>
+        </div>
+        <p class="faq-q-title">Qual é sua pretensão salarial? Você aceita regime CLT / PJ?</p>
+        <span class="faq-chevron" aria-hidden="true">▾</span>
+      </div>
+      <div class="faq-answer">
+        <p>
+          Minha pretensão salarial é <strong>a combinar</strong>, de acordo com o pacote completo da vaga (benefícios, modelo de trabalho, plano de carreira). Aceito discutir abertamente durante o processo seletivo.
+        </p>
+        <div class="faq-nivel-box">
+          <strong>Modelos aceitos:</strong><br>
+          — <strong>CLT</strong>: preferência pessoal por estabilidade e benefícios.<br>
+          — <strong>PJ / Pessoa Jurídica</strong>: aceito, desde que a remuneração reflita a ausência dos benefícios trabalhistas.<br>
+          — <strong>Remoto / Híbrido / Presencial</strong>: disponível para todos os modelos. Tenho setup home office completo.
+        </div>
+        <button class="faq-copy-btn">
+          <i class="fa-regular fa-copy" aria-hidden="true"></i> Copiar resposta
+        </button>
+      </div>
+    </div>
+
+    <!-- 19 -->
+    <div class="faq-card" data-cat="geral">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-q-top">
+          <span class="faq-category-badge cat-geral">Geral</span>
+        </div>
+        <p class="faq-q-title">Por que devemos te contratar? O que te diferencia dos outros candidatos?</p>
+        <span class="faq-chevron" aria-hidden="true">▾</span>
+      </div>
+      <div class="faq-answer">
+        <p>
+          A maioria dos candidatos de TI é especialista em uma camada: só infra, só dev, ou só dados. Meu diferencial é ser <strong>transversal com experiência real em cada frente</strong> — não apenas teórico.
+        </p>
+        <div class="faq-nivel-box">
+          <strong>O que entrego de imediato:</strong><br>
+          — Suporte técnico N2/N3 com bagagem de ambiente corporativo real (1.000+ usuários, GLPI, AD, Cisco).<br>
+          — Automação de processos repetitivos com Python e JS — reduzindo trabalho manual da equipe.<br>
+          — Dashboards e análise de dados que transformam volume de chamados/incidentes em visão gerencial.<br>
+          — Documentação clara — todo o que faço fica registrado para o próximo analista.
+        </div>
+        <p style="margin-top:.9rem">
+          Além disso, tenho histórico comprovado de liderança (representante desde o 1º semestre), resiliência pessoal documentada e comprometimento com evolução contínua — certificações ativas, projetos públicos no GitHub e formação em andamento.
+        </p>
+        <button class="faq-copy-btn">
+          <i class="fa-regular fa-copy" aria-hidden="true"></i> Copiar resposta
+        </button>
+      </div>
+    </div>
+
+    <!-- 20 -->
+    <div class="faq-card" data-cat="geral">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-q-top">
+          <span class="faq-category-badge cat-geral">Geral</span>
+        </div>
+        <p class="faq-q-title">Como você se mantém atualizado na área de TI?</p>
+        <span class="faq-chevron" aria-hidden="true">▾</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-nivel-box">
+          <strong>Comunidade e eventos:</strong><br>
+          — Participação nas conferências <strong>BSidesSP 2025 e 2026</strong> — comunidade de segurança da informação.<br>
+          — Acompanho newsletters como <strong>The Hacker News</strong>, <strong>Krebs on Security</strong> e canais técnicos no YouTube/GitHub.
+        </div>
+        <div class="faq-nivel-box purple-box">
+          <strong>Prática constante:</strong><br>
+          — Projetos pessoais no GitHub como forma de aprender tecnologias novas (Firebase, Supabase, APIs REST, Power BI).<br>
+          — Certificações contínuas: IA Conquer, AI Cybersecurity Foundation, ANIA.juris, Nova Lei de Licitações — cada uma com aplicação prática no contexto do tribunal.<br>
+          — Formação na UniDrummond (TCC em andamento) e inglês técnico na Wise Up.
+        </div>
+        <button class="faq-copy-btn">
+          <i class="fa-regular fa-copy" aria-hidden="true"></i> Copiar resposta
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /faq-grid -->
+
+</section>

@@ -427,5 +427,119 @@ document.addEventListener('DOMContentLoaded', () => {
         initTypingEffect();
         initLazyImages();
         initScrollSpy();
+        initFAQ();
     }, { once: true });
 });
+
+/* ===== FAQ — ACCORDION + COPY + TAB FILTER ===== */
+function initFAQ() {
+    /* ── ACCORDION ─────────────────────────────── */
+    const cards = document.querySelectorAll('.faq-card');
+    if (!cards.length) return;
+
+    cards.forEach(card => {
+        const trigger = card.querySelector('.faq-question');
+        if (!trigger) return;
+
+        trigger.addEventListener('click', () => toggleFAQCard(card));
+        trigger.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleFAQCard(card);
+            }
+        });
+    });
+
+    function toggleFAQCard(card) {
+        const isOpen = card.classList.contains('open');
+        const trigger = card.querySelector('.faq-question');
+
+        // Close all others
+        cards.forEach(c => {
+            c.classList.remove('open');
+            const t = c.querySelector('.faq-question');
+            if (t) t.setAttribute('aria-expanded', 'false');
+        });
+
+        // Toggle current
+        if (!isOpen) {
+            card.classList.add('open');
+            if (trigger) trigger.setAttribute('aria-expanded', 'true');
+        }
+    }
+
+    /* ── COPY TO CLIPBOARD ─────────────────────── */
+    document.querySelectorAll('.faq-copy-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+            e.stopPropagation(); // don't collapse card
+
+            // Gather text from the answer block
+            const answer = btn.closest('.faq-answer');
+            if (!answer) return;
+
+            // Build plain text (exclude the button itself)
+            const cloned = answer.cloneNode(true);
+            cloned.querySelectorAll('.faq-copy-btn').forEach(b => b.remove());
+            const text = cloned.innerText
+                .replace(/\n{3,}/g, '\n\n')
+                .trim();
+
+            navigator.clipboard.writeText(text)
+                .then(() => {
+                    btn.classList.add('copied');
+                    btn.innerHTML = '<i class="fa-solid fa-check" aria-hidden="true"></i> Copiado!';
+                    setTimeout(() => {
+                        btn.classList.remove('copied');
+                        btn.innerHTML = '<i class="fa-regular fa-copy" aria-hidden="true"></i> Copiar resposta';
+                    }, 2200);
+                })
+                .catch(() => {
+                    // Fallback for older browsers
+                    const ta = document.createElement('textarea');
+                    ta.value = text;
+                    ta.style.position = 'fixed';
+                    ta.style.opacity  = '0';
+                    document.body.appendChild(ta);
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
+                    btn.classList.add('copied');
+                    btn.innerHTML = '<i class="fa-solid fa-check" aria-hidden="true"></i> Copiado!';
+                    setTimeout(() => {
+                        btn.classList.remove('copied');
+                        btn.innerHTML = '<i class="fa-regular fa-copy" aria-hidden="true"></i> Copiar resposta';
+                    }, 2200);
+                });
+        });
+    });
+
+    /* ── CATEGORY TAB FILTER ───────────────────── */
+    const tabBtns = document.querySelectorAll('.faq-tab-btn');
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Update active tab
+            tabBtns.forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-selected', 'false');
+            });
+            btn.classList.add('active');
+            btn.setAttribute('aria-selected', 'true');
+
+            const cat = btn.dataset.cat;
+
+            // Show/hide cards
+            cards.forEach(card => {
+                if (cat === 'all' || card.dataset.cat === cat) {
+                    card.style.display = '';
+                    card.style.animation = 'faq-fade-in .3s ease';
+                } else {
+                    card.style.display = 'none';
+                }
+                // Close any open card when switching tabs
+                card.classList.remove('open');
+                const t = card.querySelector('.faq-question');
+                if (t) t.setAttribute('aria-expanded', 'false');
+            });
+        });
+    });
+}
