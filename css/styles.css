@@ -2765,3 +2765,153 @@ body.dark-mode .cisco-badge-link:hover {
     .cisco-badges-grid { grid-template-columns: 1fr; }
     .cisco-badge-card { flex-direction: column; align-items: flex-start; }
 }
+
+/* ══════════════════════════════════════════════════════════
+   ROUND 14 — Novos estilos: vaga-tag-atual, qse-badge-atual,
+   qse-bloco-lanlink, cert-tabela, nav fixed desktop
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Vaga tag "trabalhando agora" ────────────────────────── */
+.vaga-tag-atual {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, rgba(16,185,129,0.15) 0%, rgba(5,150,105,0.15) 100%);
+    color: #059669;
+    border: 1.5px solid rgba(16,185,129,0.40);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 0.84rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+body.dark-mode .vaga-tag-atual {
+    background: linear-gradient(135deg, rgba(16,185,129,0.18) 0%, rgba(5,150,105,0.18) 100%);
+    color: #34d399;
+    border-color: rgba(52,211,153,0.35);
+}
+
+/* ── Badge "Atual" no preview quem-sou-eu ───────────────── */
+.qse-badge-atual {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #fff;
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(16,185,129,0.30);
+}
+
+/* ── Timeline bloco Lanlink (verde/teal) ─────────────────── */
+.qse-bloco-lanlink {
+    border-left: 3px solid #10b981;
+}
+.qse-bloco-lanlink:hover {
+    border-left-color: #059669;
+}
+.qse-icone-lanlink {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    box-shadow: 0 4px 12px rgba(16,185,129,0.35) !important;
+}
+
+/* ── Tabela de Certificados ──────────────────────────────── */
+.cert-tabela-section {
+    margin: 0 0 2.5rem 0;
+}
+.cert-tabela-section .section-subtitle {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cert-tabela-wrapper {
+    overflow-x: auto;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.cert-tabela {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.87rem;
+    background: var(--card-bg, #fff);
+}
+body.dark-mode .cert-tabela {
+    background: var(--card-bg-dark, #1e2535);
+}
+
+.cert-tabela thead tr {
+    background: linear-gradient(135deg, #4f8ef7 0%, #6366f1 100%);
+    color: #fff;
+}
+.cert-tabela thead th {
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 0.82rem;
+    white-space: nowrap;
+    border: none;
+}
+.cert-tabela thead th.col-id    { width: 36px; text-align: center; }
+.cert-tabela thead th.col-horas { width: 64px; text-align: center; }
+.cert-tabela thead th.col-data  { width: 80px; text-align: center; }
+
+.cert-tabela tbody tr {
+    border-bottom: 1px solid var(--border-color);
+    transition: background 0.15s;
+}
+.cert-tabela tbody tr:hover {
+    background: rgba(79,142,247,0.06);
+}
+body.dark-mode .cert-tabela tbody tr:hover {
+    background: rgba(79,142,247,0.10);
+}
+.cert-tabela tbody td {
+    padding: 8px 12px;
+    vertical-align: middle;
+    color: var(--text-color);
+}
+.cert-tabela tbody td:first-child { text-align: center; color: var(--text-muted); font-size: 0.78rem; }
+.cert-tabela tbody td:nth-child(3) { text-align: center; font-weight: 600; color: #4f8ef7; }
+.cert-tabela tbody td:nth-child(5) { text-align: center; color: var(--text-muted); font-size: 0.82rem; }
+
+.cert-total-row td {
+    background: linear-gradient(135deg, rgba(79,142,247,0.12) 0%, rgba(99,102,241,0.12) 100%);
+    padding: 10px 12px;
+    font-size: 0.92rem;
+    border-top: 2px solid rgba(79,142,247,0.30);
+}
+.cert-total-row td:nth-child(2) { text-align: center; color: #4f8ef7; font-size: 1rem; }
+body.dark-mode .cert-total-row td {
+    background: rgba(79,142,247,0.15);
+}
+
+.cert-tabela-nota {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+
+/* ── Nav FIXED em desktop ────────────────────────────────── */
+@media (min-width: 769px) {
+    .sticky-nav {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        z-index: 1100;
+    }
+    /* Compensar a altura do nav fixo para o conteúdo não ficar atrás */
+    body {
+        padding-top: 64px;
+    }
+}
