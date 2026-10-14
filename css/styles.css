@@ -2787,7 +2787,7 @@ body.dark-mode .cisco-badge-link:hover {
 }
 body.dark-mode .vaga-tag-atual {
     background: linear-gradient(135deg, rgba(16,185,129,0.18) 0%, rgba(5,150,105,0.18) 100%);
-    color: #34d399;
+    
     border-color: rgba(52,211,153,0.35);
 }
 
