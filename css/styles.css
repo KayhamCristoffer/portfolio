@@ -2777,7 +2777,7 @@ body.dark-mode .cisco-badge-link:hover {
     align-items: center;
     gap: 6px;
     background: linear-gradient(135deg, rgba(16,185,129,0.15) 0%, rgba(5,150,105,0.15) 100%);
-    color: #059669;
+    
     border: 1.5px solid rgba(16,185,129,0.40);
     border-radius: 20px;
     padding: 5px 14px;
